@@ -14,5 +14,7 @@ namespace Wizard.Model
 
         public string InstallerName { get; set; }
         public string DownloadUrl { get; set; }
+
+        public string Arguments { get; set; }
     }
 }

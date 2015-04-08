@@ -104,6 +104,7 @@ namespace Wizard
                     proc.StartInfo.LoadUserProfile = true;
                     proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                     proc.StartInfo.FileName = Path.Combine(TempFolder, downloadedSW.Name, downloadedSW.InstallerName);
+                    proc.StartInfo.Arguments = downloadedSW.Arguments;
                     proc.Start();
                 }
             }
