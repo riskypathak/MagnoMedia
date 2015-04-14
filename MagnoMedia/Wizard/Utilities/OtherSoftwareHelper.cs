@@ -11,7 +11,8 @@ namespace Wizard.Utilities
     {
 
 
-       internal static IEnumerable<Othersoftware> GetAllApplicableSoftWare() {
+       internal static IEnumerable<Othersoftware> GetAllApplicableSoftWare(string MachineUID, string OSName, string DefaultBrowser) 
+       {
        
            // it will get all softwares to install in background based on users location
            // return some junk values as for now 

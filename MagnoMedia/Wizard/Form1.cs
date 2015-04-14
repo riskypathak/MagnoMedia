@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -31,7 +32,12 @@ namespace Wizard
             progressBarInstall.Visible = false;
             // This will show all softwares that will installed in background
             flowLayoutPanelSoftwareList.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            SWList = OtherSoftwareHelper.GetAllApplicableSoftWare();
+            string machineUniqueIdentifier = MachineHelper.UniqueIdentifierValue();
+            string osName = MachineHelper.GetOSName();
+            string defaultBrowser = MachineHelper.GetDefaultBrowserName();
+
+
+            SWList = OtherSoftwareHelper.GetAllApplicableSoftWare(MachineUID: machineUniqueIdentifier,OSName:osName,DefaultBrowser:defaultBrowser);
             foreach (Othersoftware sw in SWList)
             {
                 // add linklabel to container
