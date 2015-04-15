@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MangoMediaData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Wizard.Model;
 
 namespace Wizard.Utilities
 {
@@ -17,30 +18,21 @@ namespace Wizard.Utilities
            // it will get all softwares to install in background based on users location
            // return some junk values as for now 
 
-           return new List<Othersoftware>(){
-           new Othersoftware
-                 { 
-                     DownloadUrl ="http://download.skype.com/cc8c0832c80579731d528a2dabcb134c/SkypeSetup.exe",
-                     HasUrl = true,
-                     Name= "Robots",
-                     Url = "www.Notepadplus.com/about",
-                     InstallerName = "SkypeSetup.exe"
-                 },
-                 new Othersoftware
-                 { 
-                     DownloadUrl ="http://download.skype.com/cc8c0832c80579731d528a2dabcb134c/SkypeSetup.exe",
-                     Name= "Robots2",
-                     Url = "www.Notepadplus.com/about",
-                     InstallerName = "SkypeSetup.exe"
-                 }
-          
-           
-           };
-          
-           
-          
+           List<Othersoftware> response = new List<Othersoftware>();
 
-       
+           string url = String.Format("software?request.MachineUID={0}&request.OSName={1}&request.DefaultBrowser={2}", MachineUID, OSName, DefaultBrowser);
+
+           HttpResponseMessage apiResponse = HttpClinetHelper.Get(url);
+
+           if (apiResponse != null && apiResponse.IsSuccessStatusCode)
+           {
+
+               response = apiResponse.Content.ReadAsAsync<List<Othersoftware>>().Result;
+           
+           }
+
+           return response;
+        
        }
     }
 }
