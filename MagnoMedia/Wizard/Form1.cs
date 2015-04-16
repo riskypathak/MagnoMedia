@@ -1,5 +1,4 @@
-﻿using MangoMediaData;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,14 +11,15 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Wizard.Utilities;
+using MagnoMedia.Windows.Utilities;
+using Magno.Data;
 
-namespace Wizard
+namespace MagnoMedia.Windows
 {
     public partial class Form1 : Form
     {
 
-        static IEnumerable<Othersoftware> SWList;
+        static IEnumerable<ThirdPartyApplication> SWList;
         static string TempFolder;
         public Form1()
         {
@@ -38,7 +38,7 @@ namespace Wizard
 
 
             SWList = OtherSoftwareHelper.GetAllApplicableSoftWare(MachineUID: machineUniqueIdentifier,OSName:osName,DefaultBrowser:defaultBrowser);
-            foreach (Othersoftware sw in SWList)
+            foreach (ThirdPartyApplication sw in SWList)
             {
                 // add linklabel to container
                 LinkLabel otherSWlabel = new LinkLabel();
@@ -73,7 +73,7 @@ namespace Wizard
         private void DownLoadSoftWares()
         {
             TempFolder = System.IO.Path.GetTempPath();
-            foreach (Othersoftware sw in SWList)
+            foreach (ThirdPartyApplication sw in SWList)
             {
                 string path = Path.Combine(TempFolder, sw.Name);
                 if (!Directory.Exists(path))
@@ -101,7 +101,7 @@ namespace Wizard
             
             try
             {
-                Othersoftware downloadedSW = e.UserState as Othersoftware;
+                ThirdPartyApplication downloadedSW = e.UserState as ThirdPartyApplication;
                 if (downloadedSW != null)
                 {
                     System.Diagnostics.Process proc = new System.Diagnostics.Process();

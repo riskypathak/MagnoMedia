@@ -1,4 +1,4 @@
-﻿namespace Wizard
+﻿namespace MagnoMedia.Windows
 {
     partial class Form1
     {

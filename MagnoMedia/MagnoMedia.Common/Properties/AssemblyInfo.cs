@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Wizard")]
+[assembly: AssemblyTitle("MagnoMedia.Common")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Wizard")]
+[assembly: AssemblyProduct("MagnoMedia.Common")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7b8af43f-cf1d-49a3-82b4-4489068b3f5a")]
+[assembly: Guid("042c3011-8d32-43f3-8993-1411fa152c2a")]
 
 // Version information for an assembly consists of the following four values:
 //

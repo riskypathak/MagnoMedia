@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MagnoMedia.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Wizard
+namespace MagnoMedia.Windows
 {
     static class Program
     {
@@ -14,6 +15,8 @@ namespace Wizard
         [STAThread]
         static void Main()
         {
+            Logging.Log.Info("Application Started");
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

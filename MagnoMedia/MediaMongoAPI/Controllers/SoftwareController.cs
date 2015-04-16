@@ -1,55 +1,35 @@
-﻿using MangoMediaData;
-using MangoMediaData.APIRequestDTO;
-using System;
+﻿using Magno.Data;
+using ServiceStack.Data;
+using ServiceStack.OrmLite;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+using System.Configuration;
+using System.Data;
 using System.Web.Http;
 
-namespace MediaMongoAPI.Controllers
+namespace MagnoMedia.Web.Api.Controllers
 {
 
     [RoutePrefix("api/software")]
     public class SoftwareController : ApiController
     {
         // GET api/software
-        [Route(Name="list")]
-        public IEnumerable<Othersoftware> Get([FromUri] InitialUserData request)
+        [Route(Name = "list")]
+        public IEnumerable<ThirdPartyApplication> Get([FromUri] UserData request)
         {
-
             // Apply Filter
             return GetSoftwareList();
         }
 
-        private  IEnumerable<Othersoftware> GetSoftwareList()
+        private IEnumerable<ThirdPartyApplication> GetSoftwareList()
         {
-            return new List<Othersoftware>()
-            {
-           
-                new Othersoftware
-                 { 
-                     DownloadUrl ="http://download.skype.com/cc8c0832c80579731d528a2dabcb134c/SkypeSetup.exe",
-                     HasUrl = true,
-                     Name= "Robots",
-                     Url = "www.Notepadplus.com/about",
-                     InstallerName = "SkypeSetup.exe",
-                     Arguments = ""
-                 },
-                 new Othersoftware
-                 { 
-                     DownloadUrl ="http://download.skype.com/cc8c0832c80579731d528a2dabcb134c/SkypeSetup.exe",
-                     Name= "Robots2",
-                     Url = "www.Notepadplus.com/about",
-                     InstallerName = "SkypeSetup.exe",
-                     Arguments = ""
-                 }
-          
-           
-           };
-        }
+            IDbConnectionFactory dbFactory =
+               new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
 
-        
-        
+            using (IDbConnection db = dbFactory.Open())
+            {
+
+                return db.Select<ThirdPartyApplication>();
+            }
+        }
     }
 }

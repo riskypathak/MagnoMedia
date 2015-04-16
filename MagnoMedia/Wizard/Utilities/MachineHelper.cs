@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Management;
 using Microsoft.Win32;
 
-namespace Wizard.Utilities
+namespace MagnoMedia.Windows.Utilities
 {
     class MachineHelper
     {

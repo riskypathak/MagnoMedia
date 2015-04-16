@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizard", "Wizard\Wizard.csproj", "{C913339C-3EC2-47DF-B195-7BE9C331E04D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagnoMedia.Windows", "Wizard\MagnoMedia.Windows.csproj", "{C913339C-3EC2-47DF-B195-7BE9C331E04D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaMongoAPI", "MediaMongoAPI\MediaMongoAPI.csproj", "{C3914780-D778-44D1-B1E4-C6A6EC3C0ADC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagnoMedia.Web.Api", "MediaMongoAPI\MagnoMedia.Web.Api.csproj", "{C3914780-D778-44D1-B1E4-C6A6EC3C0ADC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MangoMediaData", "MangoMediaData\MangoMediaData.csproj", "{C0BE800C-6CE4-4A23-9B61-2A74E6D1B03E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagnoMedia.Data", "MangoMediaData\MagnoMedia.Data.csproj", "{C0BE800C-6CE4-4A23-9B61-2A74E6D1B03E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagnoMedia.Common", "MagnoMedia.Common\MagnoMedia.Common.csproj", "{2D261A29-6633-4504-A580-8AE2A456195E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{C0BE800C-6CE4-4A23-9B61-2A74E6D1B03E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0BE800C-6CE4-4A23-9B61-2A74E6D1B03E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0BE800C-6CE4-4A23-9B61-2A74E6D1B03E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D261A29-6633-4504-A580-8AE2A456195E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D261A29-6633-4504-A580-8AE2A456195E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D261A29-6633-4504-A580-8AE2A456195E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D261A29-6633-4504-A580-8AE2A456195E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

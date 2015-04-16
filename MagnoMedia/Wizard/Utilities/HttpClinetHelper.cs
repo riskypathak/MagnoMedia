@@ -8,7 +8,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wizard.Utilities
+namespace MagnoMedia.Windows.Utilities
 {
     class HttpClinetHelper
     {
