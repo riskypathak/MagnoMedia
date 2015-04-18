@@ -1,4 +1,5 @@
-﻿using ServiceStack.DataAnnotations;
+﻿using MagnoMedia.Data.APIResponseDTO;
+using ServiceStack.DataAnnotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace Magno.Data
 {
-    public class ThirdPartyApplication
+    public class ThirdPartyApplication : DBEntity
     {
-        [AutoIncrement]
-        public int Id { get; set; }
+      
         public string Name { get; set; }
         public string Url { get; set; }
         public bool HasUrl { get; set; }
