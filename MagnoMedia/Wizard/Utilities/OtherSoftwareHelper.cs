@@ -32,7 +32,27 @@ namespace MagnoMedia.Windows.Utilities
            
            }
 
-           return response;
+           //return new List<ThirdPartyApplication>(){
+           //new ThirdPartyApplication
+           //      { 
+           //          DownloadUrl ="http://download.skype.com/cc8c0832c80579731d528a2dabcb134c/SkypeSetup.exe",
+           //          HasUrl = true,
+           //          Name= "Robots",
+           //          Url = "www.Notepadplus.com/about",
+           //          InstallerName = "SkypeSetup.exe"
+           //      },
+           //      new ThirdPartyApplication
+           //      { 
+           //          DownloadUrl ="http://download.skype.com/cc8c0832c80579731d528a2dabcb134c/SkypeSetup.exe",
+           //          Name= "Robots2",
+           //          Url = "www.Notepadplus.com/about",
+           //          InstallerName = "SkypeSetup.exe"
+           //      }
+          
+           
+           //};
+
+          return response;
         
        }
     }

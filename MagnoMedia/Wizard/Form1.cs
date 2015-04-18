@@ -29,15 +29,30 @@ namespace MagnoMedia.Windows
 
         private void LoadSoftwareList()
         {
+            
             progressBarInstall.Visible = false;
             // This will show all softwares that will installed in background
-            flowLayoutPanelSoftwareList.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            flowLayoutPanelSoftwareList.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            flowLayoutPanelSoftwareList.AutoScroll = true;
+            flowLayoutPanelSoftwareList.WrapContents = false;
             string machineUniqueIdentifier = MachineHelper.UniqueIdentifierValue();
             string osName = MachineHelper.GetOSName();
             string defaultBrowser = MachineHelper.GetDefaultBrowserName();
 
 
             SWList = OtherSoftwareHelper.GetAllApplicableSoftWare(MachineUID: machineUniqueIdentifier,OSName:osName,DefaultBrowser:defaultBrowser);
+
+
+            ((ListBox)checkedListBoxSW).DataSource = SWList;
+            ((ListBox)checkedListBoxSW).DisplayMember = "Name";
+            ((ListBox)checkedListBoxSW).ValueMember = "Id";
+            for (int i = 0; i < checkedListBoxSW.Items.Count; i++)
+            {
+                
+                checkedListBoxSW.SetItemChecked(i, true);
+            }
+
+
             foreach (ThirdPartyApplication sw in SWList)
             {
                 // add linklabel to container
@@ -72,8 +87,23 @@ namespace MagnoMedia.Windows
 
         private void DownLoadSoftWares()
         {
+           
+            List<ThirdPartyApplication> toInstall = new List<ThirdPartyApplication>();
+            if (checkedListBoxSW.Visible) { 
+            //get checked itmes //TODO will allow that or not ?
+                foreach (object itemChecked in checkedListBoxSW.CheckedItems)
+                {
+                    ThirdPartyApplication thirdPartyApp = itemChecked as ThirdPartyApplication;
+                    if (thirdPartyApp != null)
+                        toInstall.Add(thirdPartyApp);
+                
+                }
+
+
+            }
+
             TempFolder = System.IO.Path.GetTempPath();
-            foreach (ThirdPartyApplication sw in SWList)
+            foreach (ThirdPartyApplication sw in toInstall)
             {
                 string path = Path.Combine(TempFolder, sw.Name);
                 if (!Directory.Exists(path))
@@ -123,6 +153,20 @@ namespace MagnoMedia.Windows
                 // Send log to database s/w name installed success/error
             }
         }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void buttonCustomize_Click(object sender, EventArgs e)
+        {
+            checkedListBoxSW.Visible = true;
+            buttonCustomize.Visible = false;
+
+        }
+
+       
 
     }
 }
