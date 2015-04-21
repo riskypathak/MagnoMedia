@@ -61,12 +61,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIRequestDTO\InstallerData.cs" />
     <Compile Include="APIRequestDTO\UserData.cs" />
     <Compile Include="APIResponseDTO\BrowserEntity.cs" />
     <Compile Include="APIResponseDTO\CountryDBEntity.cs" />
     <Compile Include="APIResponseDTO\DBEntity.cs" />
     <Compile Include="APIResponseDTO\OSEntity.cs" />
     <Compile Include="APIResponseDTO\ThirdPartyApplication.cs" />
+    <Compile Include="DBEntities\InstallationReportEntity.cs" />
+    <Compile Include="Models\InstallationState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
