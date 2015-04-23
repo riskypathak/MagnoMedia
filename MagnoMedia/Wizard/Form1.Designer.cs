@@ -28,131 +28,68 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonInstall = new System.Windows.Forms.Button();
-            this.buttonCancel = new System.Windows.Forms.Button();
-            this.flowLayoutPanelSoftwareList = new System.Windows.Forms.FlowLayoutPanel();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.panelInstallCancel = new System.Windows.Forms.Panel();
-            this.progressBarInstall = new System.Windows.Forms.ProgressBar();
-            this.labelAgreementTxt = new System.Windows.Forms.Label();
-            this.checkedListBoxSW = new System.Windows.Forms.CheckedListBox();
-            this.buttonCustomize = new System.Windows.Forms.Button();
-            this.flowLayoutPanelSoftwareList.SuspendLayout();
-            this.panelInstallCancel.SuspendLayout();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.labelInitialStep = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonInstall
+            // pictureBox1
             // 
-            this.buttonInstall.Location = new System.Drawing.Point(0, 27);
-            this.buttonInstall.Name = "buttonInstall";
-            this.buttonInstall.Size = new System.Drawing.Size(75, 23);
-            this.buttonInstall.TabIndex = 0;
-            this.buttonInstall.Text = "Install";
-            this.buttonInstall.UseVisualStyleBackColor = true;
-            this.buttonInstall.Click += new System.EventHandler(this.buttonInstall_Click);
+            this.pictureBox1.Image = global::MagnoMedia.Windows.Properties.Resources._33;
+            this.pictureBox1.Location = new System.Drawing.Point(33, 23);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(26, 23);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
-            // buttonCancel
+            // labelInitialStep
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(125, 27);
-            this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonCancel.TabIndex = 1;
-            this.buttonCancel.Text = "Cancel";
-            this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            this.labelInitialStep.AutoSize = true;
+            this.labelInitialStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelInitialStep.Location = new System.Drawing.Point(65, 28);
+            this.labelInitialStep.Name = "labelInitialStep";
+            this.labelInitialStep.Size = new System.Drawing.Size(87, 18);
+            this.labelInitialStep.TabIndex = 1;
+            this.labelInitialStep.Text = "Please Wait";
             // 
-            // flowLayoutPanelSoftwareList
+            // panel1
             // 
-            this.flowLayoutPanelSoftwareList.Controls.Add(this.linkLabel1);
-            this.flowLayoutPanelSoftwareList.Location = new System.Drawing.Point(32, 344);
-            this.flowLayoutPanelSoftwareList.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.flowLayoutPanelSoftwareList.Name = "flowLayoutPanelSoftwareList";
-            this.flowLayoutPanelSoftwareList.Size = new System.Drawing.Size(262, 134);
-            this.flowLayoutPanelSoftwareList.TabIndex = 2;
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.Location = new System.Drawing.Point(3, 0);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(100, 23);
-            this.linkLabel1.TabIndex = 0;
-            // 
-            // panelInstallCancel
-            // 
-            this.panelInstallCancel.Controls.Add(this.buttonInstall);
-            this.panelInstallCancel.Controls.Add(this.buttonCancel);
-            this.panelInstallCancel.Location = new System.Drawing.Point(383, 378);
-            this.panelInstallCancel.Name = "panelInstallCancel";
-            this.panelInstallCancel.Size = new System.Drawing.Size(200, 100);
-            this.panelInstallCancel.TabIndex = 3;
-            // 
-            // progressBarInstall
-            // 
-            this.progressBarInstall.Location = new System.Drawing.Point(383, 281);
-            this.progressBarInstall.Name = "progressBarInstall";
-            this.progressBarInstall.Size = new System.Drawing.Size(200, 23);
-            this.progressBarInstall.TabIndex = 4;
-            // 
-            // labelAgreementTxt
-            // 
-            this.labelAgreementTxt.AutoSize = true;
-            this.labelAgreementTxt.Location = new System.Drawing.Point(32, 325);
-            this.labelAgreementTxt.Name = "labelAgreementTxt";
-            this.labelAgreementTxt.Size = new System.Drawing.Size(190, 13);
-            this.labelAgreementTxt.TabIndex = 5;
-            this.labelAgreementTxt.Text = "Following Applications will be installed .";
-            // 
-            // checkedListBoxSW
-            // 
-            this.checkedListBoxSW.CheckOnClick = true;
-            this.checkedListBoxSW.FormattingEnabled = true;
-            this.checkedListBoxSW.Location = new System.Drawing.Point(383, 244);
-            this.checkedListBoxSW.Name = "checkedListBoxSW";
-            this.checkedListBoxSW.Size = new System.Drawing.Size(200, 94);
-            this.checkedListBoxSW.TabIndex = 6;
-            this.checkedListBoxSW.Visible = false;
-            // 
-            // buttonCustomize
-            // 
-            this.buttonCustomize.Location = new System.Drawing.Point(383, 281);
-            this.buttonCustomize.Name = "buttonCustomize";
-            this.buttonCustomize.Size = new System.Drawing.Size(75, 27);
-            this.buttonCustomize.TabIndex = 7;
-            this.buttonCustomize.Text = "Customize";
-            this.buttonCustomize.UseVisualStyleBackColor = true;
-            this.buttonCustomize.Click += new System.EventHandler(this.buttonCustomize_Click);
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.labelInitialStep);
+            this.panel1.Controls.Add(this.pictureBox1);
+            this.panel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(351, 65);
+            this.panel1.TabIndex = 2;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(628, 510);
-            this.Controls.Add(this.buttonCustomize);
-            this.Controls.Add(this.checkedListBoxSW);
-            this.Controls.Add(this.labelAgreementTxt);
-            this.Controls.Add(this.progressBarInstall);
-            this.Controls.Add(this.panelInstallCancel);
-            this.Controls.Add(this.flowLayoutPanelSoftwareList);
+            this.ClientSize = new System.Drawing.Size(351, 65);
+            this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form1";
-            this.Text = "Form1";
-            this.flowLayoutPanelSoftwareList.ResumeLayout(false);
-            this.panelInstallCancel.ResumeLayout(false);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Checking";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button buttonInstall;
-        private System.Windows.Forms.Button buttonCancel;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelSoftwareList;
-        private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.Panel panelInstallCancel;
-        private System.Windows.Forms.ProgressBar progressBarInstall;
-        private System.Windows.Forms.Label labelAgreementTxt;
-        private System.Windows.Forms.CheckedListBox checkedListBoxSW;
-        private System.Windows.Forms.Button buttonCustomize;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label labelInitialStep;
+        private System.Windows.Forms.Panel panel1;
+
     }
 }
 

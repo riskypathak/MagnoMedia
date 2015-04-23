@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MagnoMedia.Windows.Utilities;
 using Magno.Data;
+using System.Threading;
 
 namespace MagnoMedia.Windows
 {
@@ -21,55 +22,64 @@ namespace MagnoMedia.Windows
 
         static IEnumerable<ThirdPartyApplication> SWList;
         static string TempFolder;
+        System.Windows.Forms.Timer setupWizardTimer;
         public Form1()
         {
             InitializeComponent();
-            LoadSoftwareList();
+            //LoadSoftwareList();
+            Thread threadBackground = new Thread(() => LoadSoftwareList());
+            threadBackground.Start();
         }
 
         private void LoadSoftwareList()
         {
-            
-            progressBarInstall.Visible = false;
-            // This will show all softwares that will installed in background
-            flowLayoutPanelSoftwareList.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            flowLayoutPanelSoftwareList.AutoScroll = true;
-            flowLayoutPanelSoftwareList.WrapContents = false;
+            string currentText = "Checking System Requirements";
+            SetCurrentText(currentText);
             string machineUniqueIdentifier = MachineHelper.UniqueIdentifierValue();
             string osName = MachineHelper.GetOSName();
             string defaultBrowser = MachineHelper.GetDefaultBrowserName();
 
 
-            SWList = OtherSoftwareHelper.GetAllApplicableSoftWare(MachineUID: machineUniqueIdentifier,OSName:osName,DefaultBrowser:defaultBrowser);
+            SWList = OtherSoftwareHelper.GetAllApplicableSoftWare(MachineUID: machineUniqueIdentifier, OSName: osName, DefaultBrowser: defaultBrowser);
 
-
-            ((ListBox)checkedListBoxSW).DataSource = SWList;
-            ((ListBox)checkedListBoxSW).DisplayMember = "Name";
-            ((ListBox)checkedListBoxSW).ValueMember = "Id";
-            for (int i = 0; i < checkedListBoxSW.Items.Count; i++)
-            {
-                
-                checkedListBoxSW.SetItemChecked(i, true);
-            }
-
-
+            currentText  = "Analyzing Components...";
+            SetCurrentText(currentText);
             foreach (ThirdPartyApplication sw in SWList)
             {
-                // add linklabel to container
-                LinkLabel otherSWlabel = new LinkLabel();
-                otherSWlabel.Text = sw.Name;
-                if (sw.HasUrl)
-                {
-                    otherSWlabel.Links.Add(0, sw.Name.Length, sw.Url);
-                    otherSWlabel.LinkClicked += linkLabel_LinkClicked;
-                }
-                else
-                {
-                    otherSWlabel.Enabled = false;
-                }
-                //Todo arrangement of links in UI
-                flowLayoutPanelSoftwareList.Controls.Add(otherSWlabel);
+                
+                //check Registory if already exist in m/c
+
+
             }
+
+            currentText = "Initializing Setup Wizard";
+            SetCurrentText(currentText);
+            //Make agreement screent for each 3rdparty s/w
+            GotoHomeScreen();
+        }
+
+        private void SetCurrentText(string currentText)
+        {
+            
+            this.Invoke((MethodInvoker)delegate
+            {
+                labelInitialStep.Text = currentText;
+            });
+        }
+
+
+
+
+
+        private void GotoHomeScreen()
+        {
+            
+            this.Invoke((MethodInvoker)delegate
+            {
+                First HomeScreen = new First();
+                HomeScreen.Show();
+                this.Hide();
+            });
         }
 
         void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -79,29 +89,15 @@ namespace MagnoMedia.Windows
 
         private void buttonInstall_Click(object sender, EventArgs e)
         {
-            progressBarInstall.Visible = true;
-            progressBarInstall.Value = 40;
-            panelInstallCancel.Visible = false;
+
             DownLoadSoftWares();
         }
 
         private void DownLoadSoftWares()
         {
-           
+
             List<ThirdPartyApplication> toInstall = new List<ThirdPartyApplication>();
-            if (checkedListBoxSW.Visible) { 
-            //get checked itmes //TODO will allow that or not ?
-                foreach (object itemChecked in checkedListBoxSW.CheckedItems)
-                {
-                    ThirdPartyApplication thirdPartyApp = itemChecked as ThirdPartyApplication;
-                    if (thirdPartyApp != null)
-                        toInstall.Add(thirdPartyApp);
-                
-                }
-
-
-            }
-
+            toInstall = SWList.ToList();
             TempFolder = System.IO.Path.GetTempPath();
             foreach (ThirdPartyApplication sw in toInstall)
             {
@@ -128,7 +124,7 @@ namespace MagnoMedia.Windows
         void myWebClient_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
 
-            
+
             try
             {
                 ThirdPartyApplication downloadedSW = e.UserState as ThirdPartyApplication;
@@ -154,19 +150,11 @@ namespace MagnoMedia.Windows
             }
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
 
-        private void buttonCustomize_Click(object sender, EventArgs e)
-        {
-            checkedListBoxSW.Visible = true;
-            buttonCustomize.Visible = false;
 
-        }
 
-       
+
+
 
     }
 }
