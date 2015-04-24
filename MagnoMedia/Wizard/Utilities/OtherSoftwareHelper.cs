@@ -23,7 +23,7 @@ namespace MagnoMedia.Windows.Utilities
 
            string url = String.Format("software?request.MachineUID={0}&request.OSName={1}&request.DefaultBrowser={2}", MachineUID, OSName, DefaultBrowser);
 
-           HttpResponseMessage apiResponse = HttpClinetHelper.Get(url);
+           HttpResponseMessage apiResponse = HttpClientHelper.Get(url);
 
            if (apiResponse != null && apiResponse.IsSuccessStatusCode)
            {
