@@ -20,9 +20,8 @@ namespace MagnoMedia.Windows
     public partial class Form1 : Form
     {
 
-        static IEnumerable<ThirdPartyApplication> SWList;
+       public static IEnumerable<ThirdPartyApplication> SWList;
         static string TempFolder;
-        System.Windows.Forms.Timer setupWizardTimer;
         public Form1()
         {
             InitializeComponent();

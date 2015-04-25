@@ -15,13 +15,34 @@ namespace MagnoMedia.Windows
         public First()
         {
             InitializeComponent();
+            RegisterLinks();
+        }
+
+        private void RegisterLinks()
+        {
+            this.linkLabelLicence.Links.Add(111, 17, "www.magnomedia.com/licence");
+            this.linkLabelLicence.Links.Add(133, 14, "www.magnomedia.com/privacy");
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Second step2 = new Second();
+
+
+            Agreement step2 = new Agreement(CurrentThirdPartySwIndex:0);
             step2.Show();
             Hide();
+        }
+
+        private void label13_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+          
+            System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
+        
         }
     }
 }

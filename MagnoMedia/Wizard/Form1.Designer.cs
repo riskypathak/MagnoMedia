@@ -37,7 +37,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::MagnoMedia.Windows.Properties.Resources._33;
+            this.pictureBox1.Image = global::MagnoMedia.Windows.Properties.Resources._32;
             this.pictureBox1.Location = new System.Drawing.Point(33, 23);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(26, 23);

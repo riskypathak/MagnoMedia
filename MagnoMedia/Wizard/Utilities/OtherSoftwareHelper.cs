@@ -1,5 +1,6 @@
 ﻿using Magno.Data;
 using MagnoMedia;
+using MagnoMedia.Data.DBEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,39 @@ namespace MagnoMedia.Windows.Utilities
 
           return response;
         
+       }
+
+
+       internal static ThirdPartyApplicationDetails GetSoftWareDetails(int SoftWareId)
+       {
+
+           // it will get details for software to install
+           
+
+           ThirdPartyApplicationDetails response = new ThirdPartyApplicationDetails();
+
+           string url = String.Format("software/{0}",SoftWareId);
+
+           HttpResponseMessage apiResponse = HttpClinetHelper.Get(url);
+
+           if (apiResponse != null && apiResponse.IsSuccessStatusCode)
+           {
+
+               response = apiResponse.Content.ReadAsAsync<ThirdPartyApplicationDetails>().Result;
+
+           }
+
+
+           //TODO remove junk data 
+           return new ThirdPartyApplicationDetails()
+           {
+          AgreementText = "Attribute Routing \n now provides an extensibility point called IDirectRouteProvider, which allows full control over how attribute routes are discovered and configured. An IDirectRouteProvider is responsible for providing a list of actions and controllers along with associated route information to specify exactly what routing configuration is desired for those actions. An IDirectRouteProvider implementation may be specified when calling MapAttributes/MapHttpAttributeRoutes.Customizing IDirectRouteProvider will be easiest by extending our default implementation, DefaultDirectRouteProvider. This class provides separate overridable virtual methods to change the logic for discovering attributes, creating route entries, and discovering route prefix and area prefix.Following are some examples on what you could do with this new extensibility point:"
+        
+
+           };
+
+           return response;
+
        }
     }
 }

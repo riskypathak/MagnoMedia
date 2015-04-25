@@ -59,6 +59,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agreement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Agreement.Designer.cs">
+      <DependentUpon>Agreement.cs</DependentUpon>
+    </Compile>
     <Compile Include="First.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,9 +85,12 @@
     <Compile Include="Second.Designer.cs">
       <DependentUpon>Second.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\HttpClientHelper.cs" />
+    <Compile Include="Utilities\HttpClinetHelper.cs" />
     <Compile Include="Utilities\MachineHelper.cs" />
     <Compile Include="Utilities\OtherSoftwareHelper.cs" />
+    <EmbeddedResource Include="Agreement.resx">
+      <DependentUpon>Agreement.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="First.resx">
       <DependentUpon>First.cs</DependentUpon>
     </EmbeddedResource>
