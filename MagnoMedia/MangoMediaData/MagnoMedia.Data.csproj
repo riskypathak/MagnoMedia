@@ -69,6 +69,7 @@
     <Compile Include="APIResponseDTO\OSEntity.cs" />
     <Compile Include="APIResponseDTO\ThirdPartyApplication.cs" />
     <Compile Include="DBEntities\InstallationReportEntity.cs" />
+    <Compile Include="DBEntities\ThirdPartyApplicationDetails.cs" />
     <Compile Include="DBEntities\UserEntity.cs" />
     <Compile Include="Models\InstallationState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
