@@ -62,7 +62,7 @@ namespace MagnoMedia.Windows.Utilities
 
            string url = String.Format("software/{0}",SoftWareId);
 
-           HttpResponseMessage apiResponse = HttpClinetHelper.Get(url);
+           HttpResponseMessage apiResponse = HttpClientHelper.Get(url);
 
            if (apiResponse != null && apiResponse.IsSuccessStatusCode)
            {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MagnoMedia.Windows.Utilities
 {
-    class HttpClientHelper
+   public class HttpClientHelper
     {
         public static HttpResponseMessage Get(string url)
         {
