@@ -32,7 +32,6 @@ namespace MagnoMedia.Windows
 
         private void GetDetails(Magno.Data.ThirdPartyApplication thirdPartyApplication)
         {
-
             ThirdPartyApplicationDetails appDetails = OtherSoftwareHelper.GetSoftWareDetails(thirdPartyApplication.Id);
 
             //TODO Use Some HTML control instead of plain textbox/label 
@@ -57,6 +56,21 @@ namespace MagnoMedia.Windows
 
             System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
 
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Do you really want to close?", "MagnoMedia", MessageBoxButtons.YesNo);
+
+            if (result == System.Windows.Forms.DialogResult.Yes)
+            {
+                this.Close();
+            }
         }
     }
 }

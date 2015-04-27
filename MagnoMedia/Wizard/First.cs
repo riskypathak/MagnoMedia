@@ -44,5 +44,20 @@ namespace MagnoMedia.Windows
             System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
         
         }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Do you really want to close?", "MagnoMedia", MessageBoxButtons.YesNo);
+
+            if (result == System.Windows.Forms.DialogResult.Yes)
+            {
+                this.Close();
+            }
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
     }
 }

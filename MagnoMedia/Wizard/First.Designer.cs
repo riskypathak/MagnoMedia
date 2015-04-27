@@ -245,6 +245,7 @@
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox3.TabIndex = 14;
             this.pictureBox3.TabStop = false;
+            this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
             // 
             // pictureBox2
             // 
@@ -256,6 +257,7 @@
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 13;
             this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // button1
             // 
@@ -288,7 +290,7 @@
             this.labelFeatures1.Name = "labelFeatures1";
             this.labelFeatures1.Size = new System.Drawing.Size(181, 13);
             this.labelFeatures1.TabIndex = 15;
-            this.labelFeatures1.Text = "• Play online videos on MangoMedia";
+            this.labelFeatures1.Text = "• Play online videos on MagnoMedia";
             // 
             // labelFeatures2
             // 
