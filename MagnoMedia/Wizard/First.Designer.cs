@@ -145,9 +145,9 @@
             this.label5.ForeColor = System.Drawing.SystemColors.AppWorkspace;
             this.label5.Location = new System.Drawing.Point(157, 54);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(89, 17);
+            this.label5.Size = new System.Drawing.Size(62, 17);
             this.label5.TabIndex = 2;
-            this.label5.Text = "MagnoMedia";
+            this.label5.Text = "Vidsoom";
             // 
             // label4
             // 
@@ -176,10 +176,10 @@
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(66, 255);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(586, 32);
+            this.label10.Size = new System.Drawing.Size(560, 32);
             this.label10.TabIndex = 4;
-            this.label10.Text = "With MagnoMedia™ you can create your own playlist adding your favourite internet " +
-    "video clips and\r\nviode or audio stored on your PC. The main features include:";
+            this.label10.Text = "With Vidsoom™ you can create your own playlist adding your favourite internet vid" +
+    "eo clips and\r\nviode or audio stored on your PC. The main features include:";
             // 
             // label12
             // 
@@ -288,9 +288,9 @@
             this.labelFeatures1.AutoSize = true;
             this.labelFeatures1.Location = new System.Drawing.Point(75, 302);
             this.labelFeatures1.Name = "labelFeatures1";
-            this.labelFeatures1.Size = new System.Drawing.Size(181, 13);
+            this.labelFeatures1.Size = new System.Drawing.Size(159, 13);
             this.labelFeatures1.TabIndex = 15;
-            this.labelFeatures1.Text = "• Play online videos on MagnoMedia";
+            this.labelFeatures1.Text = "• Play online videos on Vidsoom";
             // 
             // labelFeatures2
             // 

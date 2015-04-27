@@ -29,7 +29,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Second));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -41,10 +40,11 @@
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.labelProgress = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -56,7 +56,7 @@
             this.label1.Font = new System.Drawing.Font("Trebuchet MS", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(134, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(283, 37);
+            this.label1.Size = new System.Drawing.Size(282, 37);
             this.label1.TabIndex = 1;
             this.label1.Text = "Installation Progress";
             // 
@@ -144,24 +144,24 @@
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(610, 23);
             this.progressBar1.TabIndex = 15;
+            this.progressBar1.Value = 5;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(42, 84);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(649, 26);
+            this.label3.Size = new System.Drawing.Size(0, 13);
             this.label3.TabIndex = 16;
-            this.label3.Text = resources.GetString("label3.Text");
             // 
-            // label4
+            // labelProgress
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(116, 222);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(154, 13);
-            this.label4.TabIndex = 17;
-            this.label4.Text = "Process: 72 kb of 143 mb (0 %)";
+            this.labelProgress.AutoSize = true;
+            this.labelProgress.Location = new System.Drawing.Point(116, 222);
+            this.labelProgress.Name = "labelProgress";
+            this.labelProgress.Size = new System.Drawing.Size(30, 13);
+            this.labelProgress.TabIndex = 17;
+            this.labelProgress.Text = "(5 %)";
             // 
             // pictureBox2
             // 
@@ -195,14 +195,27 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(72, 74);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(547, 30);
+            this.label4.TabIndex = 19;
+            this.label4.Text = "This Download Manager will minimize to your system tray shortly to allow you to w" +
+    "ork on other items\r\nwhile your selections install.  To restore this window, simp" +
+    "ly click on the icon.\r\n";
+            // 
             // Second
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(754, 490);
             this.ControlBox = false;
-            this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.label4);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.labelProgress);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.pictureBox3);
@@ -242,7 +255,8 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelProgress;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label label4;
     }
 }

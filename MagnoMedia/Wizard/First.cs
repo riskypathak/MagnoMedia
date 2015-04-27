@@ -28,7 +28,16 @@ namespace MagnoMedia.Windows
         {
 
 
-            Agreement step2 = new Agreement(CurrentThirdPartySwIndex:0);
+            //Agreement step2 = new Agreement(CurrentThirdPartySwIndex:0);
+            //step2.Show();
+            //Hide();
+            LoadScreen();
+
+        }
+
+        private void LoadScreen()
+        {
+            Second step2 = new Second();
             step2.Show();
             Hide();
         }
