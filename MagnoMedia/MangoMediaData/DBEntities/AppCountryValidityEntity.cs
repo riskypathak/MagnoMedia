@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MagnoMedia.Data.APIResponseDTO;
+using ServiceStack.DataAnnotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +14,11 @@ namespace MagnoMedia.Data.DBEntities
         public int ThirdPartyApplicationId { get; set; }
 
         //FK CountryDBEntity
-        public int  CountryCode { get; set; }
+        [ForeignKey(typeof(CountryDBEntity))]
+        public int  CountryId { get; set; }
+
+        //[Reference]
+        //public CountryDBEntity Country{ get; set; }
 
         //Priority
         public int Order { get; set; }

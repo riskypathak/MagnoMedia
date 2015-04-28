@@ -1,11 +1,14 @@
 ﻿using Magno.Data;
 using MagnoMedia.Common;
+using MagnoMedia.Data.APIResponseDTO;
+using MagnoMedia.Data.DBEntities;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Web.Http;
+using System.Linq;
 
 namespace MagnoMedia.Web.Api
 {
@@ -26,10 +29,10 @@ namespace MagnoMedia.Web.Api
             //    defaults: new { id = RouteParameter.Optional }
             //);
 
-            init();
+            Init();
         }
 
-        private static void init()
+        private static void Init()
         {
             IDbConnectionFactory dbFactory =
                 new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
@@ -45,9 +48,89 @@ namespace MagnoMedia.Web.Api
                     db.CreateTable<ThirdPartyApplication>();
                 }
 
-                db.InsertAll<ThirdPartyApplication>(GetSoftwareList());
+                if (db.TableExists<CountryDBEntity>())
+                {
+                    db.DropAndCreateTable<CountryDBEntity>();
+                }
+                else
+                {
+                    db.CreateTable<CountryDBEntity>();
+                }
 
+                if (db.TableExists<AppCountryValidityEntity>())
+                {
+                    db.DropAndCreateTable<AppCountryValidityEntity>();
+                }
+                else
+                {
+                    db.CreateTable<AppCountryValidityEntity>();
+                }
+
+
+                db.InsertAll<CountryDBEntity>(GetAllCountries());
+                db.InsertAll<ThirdPartyApplication>(GetSoftwareList());
+                db.InsertAll<AppCountryValidityEntity>(GetAllAppCountryValidity());
+
+                //sample to call foreign key
+                var all = db.Select<AppCountryValidityEntity>();
             }
+        }
+
+        private static IEnumerable<AppCountryValidityEntity> GetAllAppCountryValidity()
+        {
+            IDbConnectionFactory dbFactory =
+    new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+
+            List<CountryDBEntity> availableCountries = null;
+
+            using (IDbConnection db = dbFactory.Open())
+            {
+                availableCountries = db.Select<CountryDBEntity>();
+            }
+
+            return new List<AppCountryValidityEntity>()
+            {
+                new AppCountryValidityEntity()
+                {
+                    Order = 1,
+                    ThirdPartyApplicationId = 1,
+                    CountryId = availableCountries.Single(c=>c.CountryName == "India").Id
+                },
+                new AppCountryValidityEntity()
+                {
+                    Order = 2,
+                    ThirdPartyApplicationId = 2,
+                    CountryId = availableCountries.Single(c=>c.CountryName == "Pakistan").Id
+                },
+                new AppCountryValidityEntity()
+                {
+                    Order = 3,
+                    ThirdPartyApplicationId = 3,
+                    CountryId = availableCountries.Single(c=>c.CountryName == "India").Id
+                },
+            };
+        }
+
+        private static IEnumerable<CountryDBEntity> GetAllCountries()
+        {
+            return new List<CountryDBEntity>()
+            {
+                new CountryDBEntity()
+                {
+                    CountryCode = "IN",
+                    CountryName = "India"
+                },
+                new CountryDBEntity()
+                {
+                    CountryCode = "PK",
+                    CountryName = "Pakistan"
+                },
+                new CountryDBEntity()
+                {
+                    CountryCode = "SL",
+                    CountryName = "Sri Lanka"
+                }
+            };
         }
 
         private static IEnumerable<ThirdPartyApplication> GetSoftwareList()
@@ -55,7 +138,7 @@ namespace MagnoMedia.Web.Api
             return new List<ThirdPartyApplication>()
             {
            
-                new ThirdPartyApplication
+                new ThirdPartyApplication()
                  { 
                      DownloadUrl ="http://download.skype.com/cc8c0832c80579731d528a2dabcb134c/SkypeSetup.exe",
                      HasUrl = true,
@@ -64,7 +147,7 @@ namespace MagnoMedia.Web.Api
                      InstallerName = "SkypeSetup.exe",
                      Arguments = ""
                  },
-                 new ThirdPartyApplication
+                 new ThirdPartyApplication()
                  { 
                      DownloadUrl ="http://download.skype.com/cc8c0832c80579731d528a2dabcb134c/SkypeSetup.exe",
                      Name= "Robots2",
