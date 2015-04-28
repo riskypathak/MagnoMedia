@@ -8,6 +8,8 @@ namespace MagnoMedia.Data.DBEntities
 {
    public class ThirdPartyApplicationDetails:DBEntity
     {
+
+       //FK
         public int ThirdPartyApplicationId { get; set; }
         public string AgreementText { get; set; }
         public string Name { get; set; }

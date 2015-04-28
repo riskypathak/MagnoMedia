@@ -65,12 +65,17 @@
     <Compile Include="APIRequestDTO\UserData.cs" />
     <Compile Include="APIResponseDTO\BrowserEntity.cs" />
     <Compile Include="APIResponseDTO\CountryDBEntity.cs" />
+    <Compile Include="DBEntities\AppBrowserValidityEntity.cs" />
+    <Compile Include="DBEntities\AppCountryValidityEntity.cs" />
+    <Compile Include="DBEntities\AppOSValidityEntity.cs" />
     <Compile Include="DBEntities\DBEntity.cs" />
     <Compile Include="APIResponseDTO\OSEntity.cs" />
     <Compile Include="APIResponseDTO\ThirdPartyApplication.cs" />
     <Compile Include="DBEntities\InstallationReportEntity.cs" />
     <Compile Include="DBEntities\ThirdPartyApplicationDetails.cs" />
     <Compile Include="DBEntities\UserEntity.cs" />
+    <Compile Include="DBEntities\UserInstallDetailsEntity.cs" />
+    <Compile Include="DBEntities\UserInstallErrorEntity.cs" />
     <Compile Include="Models\InstallationState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
