@@ -8,9 +8,9 @@ namespace MagnoMedia.Data.Models
 {
     public enum InstallationState
     {
-        Success ,
-        Failure ,
-        Partial 
-        
+        Success,
+        Failure,
+        Partial,
+        Started
     }
 }

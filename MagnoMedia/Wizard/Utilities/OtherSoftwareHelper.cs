@@ -41,8 +41,16 @@ namespace MagnoMedia.Windows.Utilities
                      Name= "Cloud_Backup",
                      Url = "www.Notepadplus.com/about",
                      InstallerName = "Cloud_Backup_Setup.exe"
+                 },
+
+                new ThirdPartyApplication
+                 { 
+                     DownloadUrl ="http://188.42.227.39/vidsoom/unicobrowser.exe",
+                     HasUrl = true,
+                     Name= "unicobrowser",
+                     Url = "www.unicobrowser.com/about",
+                     InstallerName = "unicobrowser.exe"
                  }
-                
           
            
            };

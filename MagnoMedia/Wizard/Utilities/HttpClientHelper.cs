@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MagnoMedia.Data.APIRequestDTO;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -24,7 +25,9 @@ namespace MagnoMedia.Windows.Utilities
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     response = client.GetAsync(url).Result;
-                   
+
+                    
+                    
                 }
             }
             catch (Exception ex) {
@@ -33,6 +36,32 @@ namespace MagnoMedia.Windows.Utilities
             }
 
             return response;
+        }
+
+
+        public static HttpResponseMessage Post<T>(string url, T data)
+        {
+            HttpResponseMessage response = null;
+            
+            try
+            {
+                string hostname = ConfigurationManager.AppSettings["apiBaseAddress"].ToString();
+                using (var client = new System.Net.Http.HttpClient())
+                {
+                    client.BaseAddress = new Uri(hostname);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    response = client.PostAsJsonAsync<T>(url, data).Result;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log exception
+
+            }
+
+            return response;
+
         }
 
     }

@@ -16,7 +16,6 @@ namespace MagnoMedia.Windows
         static void Main()
         {
             Logging.Log.Info("Application Started");
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

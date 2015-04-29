@@ -1,4 +1,6 @@
 ﻿using Magno.Data;
+using MagnoMedia.Data.APIRequestDTO;
+using MagnoMedia.Windows.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -67,12 +69,14 @@ namespace MagnoMedia.Windows
         void myWebClient_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
 
-
+            int ThirdPartyApplicationId = 0;
             try
             {
                 ThirdPartyApplication downloadedSW = e.UserState as ThirdPartyApplication;
                 if (downloadedSW != null)
                 {
+                    ThirdPartyApplicationId = downloadedSW.Id;
+
                     string path =  Path.Combine(TempFolder, downloadedSW.Name, downloadedSW.InstallerName);
                     System.Diagnostics.Process proc = new System.Diagnostics.Process();
                     proc.EnableRaisingEvents = false;
@@ -84,7 +88,17 @@ namespace MagnoMedia.Windows
                    
                     proc.StartInfo.Arguments = downloadedSW.Arguments;
                     proc.Start();
-                   
+
+
+                    HttpClientHelper.Post<InstallerData>("Installer/SaveInstallerState", new InstallerData
+                    {
+                        Message = "Installation Started",
+                        ThirdPartyApplicationId = ThirdPartyApplicationId,
+                        ThirdPartyApplicationState = Data.Models.InstallationState.Started,
+                        MachineUID = MachineHelper.UniqueIdentifierValue()
+
+                    });
+
                     /*
                     var FileName = Path.Combine(TempFolder, downloadedSW.Name, downloadedSW.InstallerName);
                     proc.StartInfo.Arguments = downloadedSW.Arguments;
@@ -96,8 +110,15 @@ namespace MagnoMedia.Windows
 
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                HttpClientHelper.Post<InstallerData>("Installer/SaveInstallerState", new InstallerData { 
+                Message = ex.InnerException.Message,
+                ThirdPartyApplicationId = ThirdPartyApplicationId,
+                ThirdPartyApplicationState = Data.Models.InstallationState.Failure,
+                MachineUID = MachineHelper.UniqueIdentifierValue()
+                
+                });
                 // Log Error
             }
             finally
@@ -125,8 +146,9 @@ namespace MagnoMedia.Windows
         {
             this.Invoke((MethodInvoker)delegate
             {
-                int percentageCompletion =  (int) Math.Ceiling((double)(totalDownloaded / totalToDownload)*100) -20;
+                int percentageCompletion =  (int) Math.Ceiling((double)((double)totalDownloaded / (double)totalToDownload)*100);
                 // -20 for installation process
+                percentageCompletion = percentageCompletion >= 25 ? percentageCompletion - 20 : percentageCompletion;
                 progressBar1.Value = percentageCompletion;
                 labelProgress.Text = String.Format("({0} %)", percentageCompletion);
                
