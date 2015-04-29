@@ -18,7 +18,6 @@ namespace MagnoMedia.Web.Api.Controllers
     public class InstallerController : ApiController
     {
 
-         [HttpPost(), Route("SaveInstallerState")]
          public bool SaveInstallerState(InstallerData installerRequestData)
          {
 
