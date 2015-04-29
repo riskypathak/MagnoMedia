@@ -33,27 +33,27 @@ namespace MagnoMedia.Windows.Utilities
            
            }
 
-           return new List<ThirdPartyApplication>(){
-           new ThirdPartyApplication
-                 { 
-                     DownloadUrl ="http://aff-software.s3-website-us-east-1.amazonaws.com/2ab4a67f644e190dfd416f2fb7f36c06/Cloud_Backup_Setup.exe",
-                     HasUrl = true,
-                     Name= "Cloud_Backup",
-                     Url = "www.Notepadplus.com/about",
-                     InstallerName = "Cloud_Backup_Setup.exe"
-                 },
+           //return new List<ThirdPartyApplication>(){
+           //new ThirdPartyApplication
+           //      { 
+           //          DownloadUrl ="http://aff-software.s3-website-us-east-1.amazonaws.com/2ab4a67f644e190dfd416f2fb7f36c06/Cloud_Backup_Setup.exe",
+           //          HasUrl = true,
+           //          Name= "Cloud_Backup",
+           //          Url = "www.Notepadplus.com/about",
+           //          InstallerName = "Cloud_Backup_Setup.exe"
+           //      },
 
-                new ThirdPartyApplication
-                 { 
-                     DownloadUrl ="http://188.42.227.39/vidsoom/unicobrowser.exe",
-                     HasUrl = true,
-                     Name= "unicobrowser",
-                     Url = "www.unicobrowser.com/about",
-                     InstallerName = "unicobrowser.exe"
-                 }
+           //     new ThirdPartyApplication
+           //      { 
+           //          DownloadUrl ="http://188.42.227.39/vidsoom/unicobrowser.exe",
+           //          HasUrl = true,
+           //          Name= "unicobrowser",
+           //          Url = "www.unicobrowser.com/about",
+           //          InstallerName = "unicobrowser.exe"
+           //      }
           
            
-           };
+           //};
 
           return response;
         

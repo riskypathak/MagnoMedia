@@ -39,6 +39,16 @@ namespace MagnoMedia.Web.Api
 
             using (IDbConnection db = dbFactory.Open())
             {
+                if (db.TableExists<AppCountryValidityEntity>())
+                {
+                    db.DropAndCreateTable<AppCountryValidityEntity>();
+                }
+                else
+                {
+                    db.CreateTable<AppCountryValidityEntity>();
+                }
+
+
                 if (db.TableExists<ThirdPartyApplication>())
                 {
                     db.DropAndCreateTable<ThirdPartyApplication>();
@@ -57,15 +67,15 @@ namespace MagnoMedia.Web.Api
                     db.CreateTable<CountryDBEntity>();
                 }
 
-                if (db.TableExists<AppCountryValidityEntity>())
+                
+                if (db.TableExists<InstallationReportEntity>())
                 {
-                    db.DropAndCreateTable<AppCountryValidityEntity>();
+                    db.DropAndCreateTable<InstallationReportEntity>();
                 }
                 else
                 {
-                    db.CreateTable<AppCountryValidityEntity>();
+                    db.CreateTable<InstallationReportEntity>();
                 }
-
 
                 db.InsertAll<CountryDBEntity>(GetAllCountries());
                 db.InsertAll<ThirdPartyApplication>(GetSoftwareList());
