@@ -112,8 +112,11 @@ namespace MagnoMedia.Windows
             }
             catch (Exception ex)
             {
-                HttpClientHelper.Post<InstallerData>("Installer/SaveInstallerState", new InstallerData { 
-                Message = ex.InnerException.Message,
+                string msg = "";
+                if (ex.InnerException != null && !string.IsNullOrEmpty(ex.InnerException.Message))
+                    msg = ex.InnerException.Message;
+                HttpClientHelper.Post<InstallerData>("Installer/SaveInstallerState", new InstallerData {
+                    Message = msg,
                 ThirdPartyApplicationId = ThirdPartyApplicationId,
                 ThirdPartyApplicationState = Data.Models.InstallationState.Failure,
                 MachineUID = MachineHelper.UniqueIdentifierValue()

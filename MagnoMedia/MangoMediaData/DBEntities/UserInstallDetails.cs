@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace MagnoMedia.Data.DBEntities
 {
-   public class UserInstallErrorEntity
+   public class UserInstallDetails:DBEntity
     {
-       //FK
+
+        //FK
         public int ThirdPartyApplicationId { get; set; }
 
         public string MachineFingerPrint { get; set; }
 
         public InstallationState State { get; set; }
 
-        public string ErrorMessage { get; set; }
+        public string OtherDetails { get; set; }
 
     }
 }

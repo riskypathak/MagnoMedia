@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Management;
 using Microsoft.Win32;
+using System.Net;
+using System.Globalization;
+using System.Threading;
 
 namespace MagnoMedia.Windows.Utilities
 {
@@ -16,6 +19,8 @@ namespace MagnoMedia.Windows.Utilities
         private static string fingerPrint = string.Empty;
         private static string osName = string.Empty;
         private static string browserName = string.Empty;
+        private static string ipAddress = string.Empty;
+        private static string countryName = string.Empty;
         private const string registryPath = @"Software\Microsoft\Windows\Shell\Associations\UrlAssociations\http\UserChoice";
 
         #endregion
@@ -180,6 +185,52 @@ namespace MagnoMedia.Windows.Utilities
         #endregion
 
 
+        public static string GetCountryName() {
+
+            if (string.IsNullOrEmpty(countryName))
+            {
+                countryName = CountryName();
+                                   
+            }
+            return countryName;
+          
+        
+        
+        }
+
+        private static string CountryName()
+        {
+            CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
+            RegionInfo regionInfo = new RegionInfo(cultureInfo.LCID);
+            // or 
+            //regionInfo = new RegionInfo(cultureInfo.Name);
+
+            string englishName = regionInfo.EnglishName;
+            string currencySymbol = regionInfo.CurrencySymbol;
+            string currencyEnglishName = regionInfo.CurrencyEnglishName;
+            string currencyLocalName = regionInfo.CurrencyNativeName;
+            return englishName;
+        }
+
+        public static string GetIpAddress()
+        {
+            if (string.IsNullOrEmpty(ipAddress))
+            {
+                ipAddress = IpAddress();
+
+            }
+            return ipAddress;
+          
+        }
+
+        private static string IpAddress()
+        {
+            string hostName = Dns.GetHostName(); // Retrive the Name of HOST
+            // Get the IP
+            string iP = Dns.GetHostByName(hostName).AddressList[0].ToString();
+            return iP;
+        }
+
         #region Code For getting OS name
 
         public static string GetOSName() {
@@ -240,5 +291,7 @@ namespace MagnoMedia.Windows.Utilities
 
         #endregion
 
+
+  
     }
 }

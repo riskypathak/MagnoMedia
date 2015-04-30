@@ -26,7 +26,7 @@ namespace MagnoMedia.Web.Api.Controllers
                new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
 
 
-             InstallationReportEntity _InstallationReportEntity = new InstallationReportEntity
+             InstallationReport _InstallationReportEntity = new InstallationReport
              {
                  MachineUID = installerRequestData.MachineUID,
                  Message = installerRequestData.Message,
@@ -37,7 +37,7 @@ namespace MagnoMedia.Web.Api.Controllers
              using (IDbConnection db = dbFactory.Open())
              {
 
-                 db.Insert<InstallationReportEntity>(_InstallationReportEntity);
+                 db.Insert<InstallationReport>(_InstallationReportEntity);
                   return true;
              }
 

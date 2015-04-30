@@ -39,16 +39,9 @@ namespace MagnoMedia.Web.Api
 
             using (IDbConnection db = dbFactory.Open())
             {
-                if (db.TableExists<AppCountryValidityEntity>())
-                {
-                    db.DropAndCreateTable<AppCountryValidityEntity>();
-                }
-                else
-                {
-                    db.CreateTable<AppCountryValidityEntity>();
-                }
 
 
+                //ThirdPartyApplication
                 if (db.TableExists<ThirdPartyApplication>())
                 {
                     db.DropAndCreateTable<ThirdPartyApplication>();
@@ -58,88 +51,144 @@ namespace MagnoMedia.Web.Api
                     db.CreateTable<ThirdPartyApplication>();
                 }
 
-                if (db.TableExists<CountryDBEntity>())
+                //Country
+                //if (db.TableExists<Country>())
+                //{
+                //    db.DropAndCreateTable<Country>();
+                //}
+                //else
+                //{
+                //    db.CreateTable<Country>();
+                //}
+
+
+                //AppCountryValidity
+                if (db.TableExists<AppCountryValidity>())
                 {
-                    db.DropAndCreateTable<CountryDBEntity>();
+                    db.DropAndCreateTable<AppCountryValidity>();
                 }
                 else
                 {
-                    db.CreateTable<CountryDBEntity>();
+                    db.CreateTable<AppCountryValidity>();
                 }
 
-                
-                if (db.TableExists<InstallationReportEntity>())
+                //Browser
+                if (db.TableExists<Browser>())
                 {
-                    db.DropAndCreateTable<InstallationReportEntity>();
+                    db.DropAndCreateTable<Browser>();
                 }
                 else
                 {
-                    db.CreateTable<InstallationReportEntity>();
+                    db.CreateTable<Browser>();
                 }
 
-                db.InsertAll<CountryDBEntity>(GetAllCountries());
+                //AppBrowserValidity
+                if (db.TableExists<AppBrowserValidity>())
+                {
+                    db.DropAndCreateTable<AppBrowserValidity>();
+                }
+                else
+                {
+                    db.CreateTable<AppBrowserValidity>();
+                }
+
+
+
+                //InstallationReport
+                if (db.TableExists<InstallationReport>())
+                {
+                    db.DropAndCreateTable<InstallationReport>();
+                }
+                else
+                {
+                    db.CreateTable<InstallationReport>();
+                }
+
+                //UserInstallError
+                if (db.TableExists<UserInstallError>())
+                {
+                    db.DropAndCreateTable<UserInstallError>();
+                }
+                else
+                {
+                    db.CreateTable<UserInstallError>();
+                }
+
+                //User
+                if (db.TableExists<User>())
+                {
+                    db.DropAndCreateTable<User>();
+                }
+                else
+                {
+                    db.CreateTable<User>();
+                }
+
+                //UserInstallDetails
+                if (db.TableExists<UserInstallDetails>())
+                {
+                    db.DropAndCreateTable<UserInstallDetails>();
+                }
+                else
+                {
+                    db.CreateTable<UserInstallDetails>();
+                }
+
+
+               // db.InsertAll<Country>(GetAllCountries());
                 db.InsertAll<ThirdPartyApplication>(GetSoftwareList());
-                db.InsertAll<AppCountryValidityEntity>(GetAllAppCountryValidity());
+                db.InsertAll<AppCountryValidity>(GetAllAppCountryValidity());
 
                 //sample to call foreign key
-                var all = db.Select<AppCountryValidityEntity>();
+                var all = db.Select<AppCountryValidity>();
             }
         }
 
-        private static IEnumerable<AppCountryValidityEntity> GetAllAppCountryValidity()
+        private static IEnumerable<AppCountryValidity> GetAllAppCountryValidity()
         {
             IDbConnectionFactory dbFactory =
     new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
 
-            List<CountryDBEntity> availableCountries = null;
+            List<Country> availableCountries = null;
 
             using (IDbConnection db = dbFactory.Open())
             {
-                availableCountries = db.Select<CountryDBEntity>();
+                availableCountries = db.Select<Country>();
             }
 
-            return new List<AppCountryValidityEntity>()
+            return new List<AppCountryValidity>()
             {
-                new AppCountryValidityEntity()
+                new AppCountryValidity()
                 {
                     Order = 1,
                     ThirdPartyApplicationId = 1,
-                    CountryId = availableCountries.Single(c=>c.CountryName == "India").Id
+                    CountryId = availableCountries.Single(c=>c.Country_name == "India").Id
                 },
-                new AppCountryValidityEntity()
+                new AppCountryValidity()
                 {
                     Order = 2,
                     ThirdPartyApplicationId = 2,
-                    CountryId = availableCountries.Single(c=>c.CountryName == "Pakistan").Id
+                    CountryId = availableCountries.Single(c=>c.Country_name == "Pakistan").Id
                 },
-                new AppCountryValidityEntity()
+                new AppCountryValidity()
                 {
                     Order = 3,
-                    ThirdPartyApplicationId = 3,
-                    CountryId = availableCountries.Single(c=>c.CountryName == "India").Id
+                    ThirdPartyApplicationId = 2,
+                    CountryId = availableCountries.Single(c=>c.Country_name == "Spain").Id
                 },
             };
         }
 
-        private static IEnumerable<CountryDBEntity> GetAllCountries()
+        private static IEnumerable<Country> GetAllCountries()
         {
-            return new List<CountryDBEntity>()
+            return new List<Country>()
             {
-                new CountryDBEntity()
+                new Country()
                 {
-                    CountryCode = "IN",
-                    CountryName = "India"
-                },
-                new CountryDBEntity()
-                {
-                    CountryCode = "PK",
-                    CountryName = "Pakistan"
-                },
-                new CountryDBEntity()
-                {
-                    CountryCode = "SL",
-                    CountryName = "Sri Lanka"
+                    Iso = "IN",
+                    Country_name = "India"
                 }
+                
             };
         }
 
@@ -147,27 +196,32 @@ namespace MagnoMedia.Web.Api
         {
             return new List<ThirdPartyApplication>()
             {
-           
-                new ThirdPartyApplication()
-                 { 
-                     DownloadUrl ="http://download.skype.com/cc8c0832c80579731d528a2dabcb134c/SkypeSetup.exe",
-                     HasUrl = true,
-                     Name= "Robots",
-                     Url = "www.Notepadplus.com/about",
-                     InstallerName = "SkypeSetup.exe",
-                     Arguments = ""
-                 },
-                 new ThirdPartyApplication()
-                 { 
-                     DownloadUrl ="http://download.skype.com/cc8c0832c80579731d528a2dabcb134c/SkypeSetup.exe",
-                     Name= "Robots2",
-                     Url = "www.Notepadplus.com/about",
-                     InstallerName = "SkypeSetup.exe",
-                     Arguments = ""
-                 }
+
+                new ThirdPartyApplication
+                      { 
+                          DownloadUrl ="http://aff-software.s3-website-us-east-1.amazonaws.com/2ab4a67f644e190dfd416f2fb7f36c06/Cloud_Backup_Setup.exe",
+                          HasUrl = true,
+                          Name= "Cloud_Backup",
+                          Url = "www.Notepadplus.com/about",
+                          InstallerName = "Cloud_Backup_Setup.exe"
+                      },
+
+                     new ThirdPartyApplication
+                      { 
+                          DownloadUrl ="http://188.42.227.39/vidsoom/unicobrowser.exe",
+                          HasUrl = true,
+                          Name= "unicobrowser",
+                          Url = "www.unicobrowser.com/about",
+                          InstallerName = "unicobrowser.exe"
+                      }
+
+                      
+
+
+                };
           
            
-           };
+           
         }
     }
 }

@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace MagnoMedia.Data.APIResponseDTO
 {
-    public class CountryDBEntity : DBEntity
+   public class OperatingSystem:DBEntity
     {
-      public string CountryName { get; set; }
-      public string CountryCode { get; set; }
+        public string OSName { get; set; }
 
     }
 }

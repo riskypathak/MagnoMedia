@@ -63,19 +63,19 @@
   <ItemGroup>
     <Compile Include="APIRequestDTO\InstallerData.cs" />
     <Compile Include="APIRequestDTO\UserData.cs" />
-    <Compile Include="APIResponseDTO\BrowserEntity.cs" />
-    <Compile Include="APIResponseDTO\CountryDBEntity.cs" />
-    <Compile Include="DBEntities\AppBrowserValidityEntity.cs" />
-    <Compile Include="DBEntities\AppCountryValidityEntity.cs" />
+    <Compile Include="APIResponseDTO\Browser.cs" />
+    <Compile Include="APIResponseDTO\Country.cs" />
+    <Compile Include="DBEntities\AppBrowserValidity.cs" />
+    <Compile Include="DBEntities\AppCountryValidity.cs" />
     <Compile Include="DBEntities\AppOSValidityEntity.cs" />
     <Compile Include="DBEntities\DBEntity.cs" />
-    <Compile Include="APIResponseDTO\OSEntity.cs" />
+    <Compile Include="APIResponseDTO\OperatingSystem.cs" />
     <Compile Include="APIResponseDTO\ThirdPartyApplication.cs" />
-    <Compile Include="DBEntities\InstallationReportEntity.cs" />
+    <Compile Include="DBEntities\InstallationReport.cs" />
     <Compile Include="DBEntities\ThirdPartyApplicationDetails.cs" />
-    <Compile Include="DBEntities\UserEntity.cs" />
-    <Compile Include="DBEntities\UserInstallDetailsEntity.cs" />
-    <Compile Include="DBEntities\UserInstallErrorEntity.cs" />
+    <Compile Include="DBEntities\User.cs" />
+    <Compile Include="DBEntities\UserInstallDetails.cs" />
+    <Compile Include="DBEntities\UserInstallError.cs" />
     <Compile Include="Models\InstallationState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

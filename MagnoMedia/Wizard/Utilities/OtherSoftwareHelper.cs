@@ -14,7 +14,7 @@ namespace MagnoMedia.Windows.Utilities
     {
 
 
-       internal static IEnumerable<ThirdPartyApplication> GetAllApplicableSoftWare(string MachineUID, string OSName, string DefaultBrowser) 
+       internal static IEnumerable<ThirdPartyApplication> GetAllApplicableSoftWare(string MachineUID, string OSName, string DefaultBrowser, string IPAddress, string CountryName) 
        {
        
            // it will get all softwares to install in background based on users location
@@ -22,7 +22,7 @@ namespace MagnoMedia.Windows.Utilities
 
            List<ThirdPartyApplication> response = new List<ThirdPartyApplication>();
 
-           string url = String.Format("software?request.MachineUID={0}&request.OSName={1}&request.DefaultBrowser={2}", MachineUID, OSName, DefaultBrowser);
+           string url = String.Format("software?request.MachineUID={0}&request.OSName={1}&request.DefaultBrowser={2}&request.IPAddress={3}&request.CountryName={4}", MachineUID, OSName, DefaultBrowser, IPAddress,CountryName);
 
            HttpResponseMessage apiResponse = HttpClientHelper.Get(url);
 

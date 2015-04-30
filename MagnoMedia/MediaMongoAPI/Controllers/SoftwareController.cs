@@ -2,6 +2,7 @@
 using MagnoMedia.Data.DBEntities;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -17,12 +18,31 @@ namespace MagnoMedia.Web.Api.Controllers
         [Route(Name = "list")]
         public IEnumerable<ThirdPartyApplication> Get([FromUri] UserData request)
         {
-            // Apply Filter
+            // Insert USER Data into Db
+            IDbConnectionFactory dbFactory =
+              new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+
+            using (IDbConnection db = dbFactory.Open())
+            {
+                User _usr = new User
+                {
+                    BrowserName = request.DefaultBrowser,
+                    CreationDate = DateTime.Now,
+                    FingerPrint = request.MachineUID,
+                    OSName = request.OSName,
+                    RefererId = 1111,
+                    IP = request.IPAddress,
+                    CountryName = request.CountryName
+                };
+                long count = db.Insert<User>(_usr);
+            }
+
+
             return GetSoftwareList();
         }
 
 
-       [Route("{id:int}")]
+        [Route("{id:int}")]
         public ThirdPartyApplicationDetails Get(int id)
         {
             return GetSoftwareDetails(id);
@@ -50,7 +70,7 @@ namespace MagnoMedia.Web.Api.Controllers
             using (IDbConnection db = dbFactory.Open())
             {
 
-               return db.SingleById<ThirdPartyApplicationDetails>(id);
+                return db.SingleById<ThirdPartyApplicationDetails>(id);
             }
         }
     }

@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace MagnoMedia.Data.APIResponseDTO
 {
-   public class OSEntity:DBEntity
+   public class Browser:DBEntity
     {
-        public string OSName { get; set; }
-
+        public string BrowserName { get; set; }
     }
 }

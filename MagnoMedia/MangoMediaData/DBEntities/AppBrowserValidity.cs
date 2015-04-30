@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MagnoMedia.Data.DBEntities
 {
-    public class AppBrowserValidityEntity
+    public class AppBrowserValidity
     {
         //FK
         public int ThirdPartyApplicationId { get; set; }

@@ -37,9 +37,9 @@ namespace MagnoMedia.Windows
             string machineUniqueIdentifier = MachineHelper.UniqueIdentifierValue();
             string osName = MachineHelper.GetOSName();
             string defaultBrowser = MachineHelper.GetDefaultBrowserName();
-
-
-            SWList = OtherSoftwareHelper.GetAllApplicableSoftWare(MachineUID: machineUniqueIdentifier, OSName: osName, DefaultBrowser: defaultBrowser);
+            string ipAddress = MachineHelper.GetIpAddress();
+            string countryName = MachineHelper.GetCountryName();
+            SWList = OtherSoftwareHelper.GetAllApplicableSoftWare(MachineUID: machineUniqueIdentifier, OSName: osName, DefaultBrowser: defaultBrowser, IPAddress: ipAddress, CountryName: countryName);
 
             currentText  = "Analyzing Components...";
             SetCurrentText(currentText);

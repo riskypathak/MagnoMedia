@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace MagnoMedia.Data.DBEntities
 {
-    public class AppCountryValidityEntity : DBEntity
+    public class AppCountryValidity : DBEntity
     {
         //FK ThirdPartyApplicationId
         public int ThirdPartyApplicationId { get; set; }
 
         //FK CountryDBEntity
-        [ForeignKey(typeof(CountryDBEntity))]
+        //[ForeignKey(typeof(Country))]
         public int  CountryId { get; set; }
 
         //[Reference]

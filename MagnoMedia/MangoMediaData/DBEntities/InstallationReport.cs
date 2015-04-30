@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MagnoMedia.Data.DBEntities
 {
   
-    public class InstallationReportEntity:DBEntity
+    public class InstallationReport:DBEntity
     {
 
         public int ThirdPartyApplicationId { get; set; }

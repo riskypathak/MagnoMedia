@@ -12,5 +12,7 @@ namespace Magno.Data
         public string MachineUID { get; set; }
         public string OSName { get; set; }
         public string DefaultBrowser { get; set; }
+        public string IPAddress { get; set; }
+        public string CountryName { get; set; }
     }
 }
