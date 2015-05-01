@@ -1,5 +1,5 @@
 ﻿using Magno.Data;
-using MagnoMedia.Data.DBEntities;
+using MagnoMedia.Data.Models;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System;
@@ -21,6 +21,8 @@ namespace MagnoMedia.Web.Api.Controllers
             // Insert USER Data into Db
             IDbConnectionFactory dbFactory =
               new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+
+
 
             using (IDbConnection db = dbFactory.Open())
             {

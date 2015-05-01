@@ -1,4 +1,4 @@
-﻿using MagnoMedia.Data.DBEntities;
+﻿using MagnoMedia.Data.Models;
 using MagnoMedia.Windows.Utilities;
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,7 @@ namespace MagnoMedia.Windows
             GetDetails(Form1.SWList.ElementAt(this.CurrentThirdPartySwIndex));
         }
 
-        private void GetDetails(Magno.Data.ThirdPartyApplication thirdPartyApplication)
+        private void GetDetails(ThirdPartyApplication thirdPartyApplication)
         {
             ThirdPartyApplicationDetails appDetails = OtherSoftwareHelper.GetSoftWareDetails(thirdPartyApplication.Id);
 

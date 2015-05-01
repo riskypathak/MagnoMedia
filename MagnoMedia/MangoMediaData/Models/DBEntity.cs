@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MagnoMedia.Data.DBEntities
+namespace MagnoMedia.Data.Models
 {
    public class DBEntity
     {

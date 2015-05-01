@@ -63,25 +63,29 @@
   <ItemGroup>
     <Compile Include="APIRequestDTO\InstallerData.cs" />
     <Compile Include="APIRequestDTO\UserData.cs" />
-    <Compile Include="APIResponseDTO\Browser.cs" />
-    <Compile Include="APIResponseDTO\Country.cs" />
-    <Compile Include="DBEntities\AppBrowserValidity.cs" />
-    <Compile Include="DBEntities\AppCountryValidity.cs" />
-    <Compile Include="DBEntities\AppOSValidityEntity.cs" />
-    <Compile Include="DBEntities\DBEntity.cs" />
-    <Compile Include="APIResponseDTO\OperatingSystem.cs" />
-    <Compile Include="APIResponseDTO\ThirdPartyApplication.cs" />
-    <Compile Include="DBEntities\InstallationReport.cs" />
-    <Compile Include="DBEntities\ThirdPartyApplicationDetails.cs" />
-    <Compile Include="DBEntities\User.cs" />
-    <Compile Include="DBEntities\UserInstallDetails.cs" />
-    <Compile Include="DBEntities\UserInstallError.cs" />
+    <Compile Include="Models\Browser.cs" />
+    <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\AppBrowserValidity.cs" />
+    <Compile Include="Models\AppCountryValidity.cs" />
+    <Compile Include="Models\AppOSValidityEntity.cs" />
+    <Compile Include="Models\DBEntity.cs" />
+    <Compile Include="Models\OperatingSystem.cs" />
+    <Compile Include="Models\ThirdPartyApplication.cs" />
+    <Compile Include="Models\InstallationReport.cs" />
+    <Compile Include="Models\ThirdPartyApplicationDetails.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserInstallDetails.cs" />
+    <Compile Include="Models\UserInstallError.cs" />
     <Compile Include="Models\InstallationState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="APIResponseDTO\" />
+    <Folder Include="DBEntities\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

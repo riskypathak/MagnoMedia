@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using MagnoMedia.Windows.Utilities;
 using Magno.Data;
 using System.Threading;
+using MagnoMedia.Data.Models;
 
 namespace MagnoMedia.Windows
 {

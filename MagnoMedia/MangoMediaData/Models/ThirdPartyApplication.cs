@@ -1,5 +1,4 @@
-﻿using MagnoMedia.Data.APIResponseDTO;
-using MagnoMedia.Data.DBEntities;
+﻿
 using ServiceStack.DataAnnotations;
 using System;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Magno.Data
+namespace MagnoMedia.Data.Models
 {
     public class ThirdPartyApplication : DBEntity
     {

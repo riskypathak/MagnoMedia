@@ -1,6 +1,6 @@
 ﻿using Magno.Data;
 using MagnoMedia;
-using MagnoMedia.Data.DBEntities;
+using MagnoMedia.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

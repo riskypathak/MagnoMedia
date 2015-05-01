@@ -1,5 +1,6 @@
-﻿using MagnoMedia.Data.APIRequestDTO;
-using MagnoMedia.Data.DBEntities;
+﻿
+using MagnoMedia.Data.APIRequestDTO;
+using MagnoMedia.Data.Models;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System;

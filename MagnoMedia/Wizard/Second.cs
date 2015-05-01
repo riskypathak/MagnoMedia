@@ -1,5 +1,6 @@
 ﻿using Magno.Data;
 using MagnoMedia.Data.APIRequestDTO;
+using MagnoMedia.Data.Models;
 using MagnoMedia.Windows.Utilities;
 using System;
 using System.Collections.Generic;

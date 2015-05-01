@@ -5,18 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MagnoMedia.Data.DBEntities
+namespace MagnoMedia.Data.Models
 {
-   public class UserInstallError
+   public class UserInstallDetails:DBEntity
     {
-       //FK
+
+        //FK
         public int ThirdPartyApplicationId { get; set; }
 
         public string MachineFingerPrint { get; set; }
 
         public InstallationState State { get; set; }
 
-        public string ErrorMessage { get; set; }
+        public string OtherDetails { get; set; }
 
     }
 }

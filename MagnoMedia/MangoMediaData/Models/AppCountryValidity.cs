@@ -1,12 +1,11 @@
-﻿using MagnoMedia.Data.APIResponseDTO;
-using ServiceStack.DataAnnotations;
+﻿using ServiceStack.DataAnnotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MagnoMedia.Data.DBEntities
+namespace MagnoMedia.Data.Models
 {
     public class AppCountryValidity : DBEntity
     {

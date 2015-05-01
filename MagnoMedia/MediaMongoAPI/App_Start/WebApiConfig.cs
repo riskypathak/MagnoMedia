@@ -1,7 +1,5 @@
 ﻿using Magno.Data;
 using MagnoMedia.Common;
-using MagnoMedia.Data.APIResponseDTO;
-using MagnoMedia.Data.DBEntities;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System.Collections.Generic;
@@ -9,6 +7,7 @@ using System.Configuration;
 using System.Data;
 using System.Web.Http;
 using System.Linq;
+using MagnoMedia.Data.Models;
 
 namespace MagnoMedia.Web.Api
 {
