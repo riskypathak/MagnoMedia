@@ -12,7 +12,6 @@ namespace MagnoMedia.Data.APIRequestDTO
         public int ThirdPartyApplicationId { get; set; }
         public InstallationState ThirdPartyApplicationState { get; set; }
         public string Message { get; set; }
-
         public string MachineUID { get; set; }
 
     }

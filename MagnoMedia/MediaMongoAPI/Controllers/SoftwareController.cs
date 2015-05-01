@@ -1,5 +1,6 @@
 ﻿using Magno.Data;
 using MagnoMedia.Data.Models;
+using MagnoMedia.Web.Api.Utilities;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System;
@@ -23,7 +24,7 @@ namespace MagnoMedia.Web.Api.Controllers
               new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
 
 
-
+            string ipAddress = ServerHelper.GetClinetIpAddress();
             using (IDbConnection db = dbFactory.Open())
             {
                 User _usr = new User
@@ -33,7 +34,7 @@ namespace MagnoMedia.Web.Api.Controllers
                     FingerPrint = request.MachineUID,
                     OSName = request.OSName,
                     RefererId = 1111,
-                    IP = request.IPAddress,
+                    IP = ipAddress,
                     CountryName = request.CountryName
                 };
                 long count = db.Insert<User>(_usr);
