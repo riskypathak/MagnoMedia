@@ -27,17 +27,28 @@ namespace MagnoMedia.Web.Api.Controllers
             string ipAddress = ServerHelper.GetClinetIpAddress();
             using (IDbConnection db = dbFactory.Open())
             {
-                User _usr = new User
+                //check for already existing user
+                User existingUser = db.Single<User>(x => x.FingerPrint == request.MachineUID);
+                if (existingUser != null)
                 {
-                    BrowserName = request.DefaultBrowser,
-                    CreationDate = DateTime.Now,
-                    FingerPrint = request.MachineUID,
-                    OSName = request.OSName,
-                    RefererId = 1111,
-                    IP = ipAddress,
-                    CountryName = request.CountryName
-                };
-                long count = db.Insert<User>(_usr);
+                    existingUser.BrowserName = request.DefaultBrowser;
+                    existingUser.CreationDate = DateTime.Now;
+                    db.Save(existingUser);
+                }
+                else
+                {
+                    User _usr = new User
+                    {
+                        BrowserName = request.DefaultBrowser,
+                        CreationDate = DateTime.Now,
+                        FingerPrint = request.MachineUID,
+                        OSName = request.OSName,
+                        RefererId = 1111,
+                        IP = ipAddress,
+                        CountryName = request.CountryName
+                    };
+                    long count = db.Insert<User>(_usr);
+                }
             }
 
 
