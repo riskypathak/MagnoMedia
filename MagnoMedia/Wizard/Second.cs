@@ -1,7 +1,10 @@
-﻿using Magno.Data;
+﻿using IWshRuntimeLibrary;
+using Magno.Data;
 using MagnoMedia.Data.APIRequestDTO;
 using MagnoMedia.Data.Models;
+using MagnoMedia.Windows.Model;
 using MagnoMedia.Windows.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,6 +25,7 @@ namespace MagnoMedia.Windows
         static string TempFolder;
         object _mutexLock = new object();
         private int totalDownloaded = 0;
+        private int totalToDownload = 0;
         public Second()
         {
             InitializeComponent();
@@ -33,6 +37,36 @@ namespace MagnoMedia.Windows
             DownLoadSoftWares();
         }
 
+
+        protected override void OnClosed(EventArgs e)
+        {
+
+            SaveState();
+            SaveAppShortCut();
+            base.OnClosed(e);
+        }
+
+        private void SaveState()
+        {
+
+            string applicationDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string jsonconfigFile = Path.Combine(applicationDataFolder, "vidsoomConfig.json");
+            string json = JsonConvert.SerializeObject(InstallerHelper.ThirdPartyApplicationStates, Formatting.Indented);
+            System.IO.File.WriteAllText(jsonconfigFile, json);
+        }
+
+        private void SaveAppShortCut()
+        {
+            string desktopDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            WshShell shell = new WshShell();
+            string shortcutAddress = desktopDirectory + @"\Vidsoom.lnk";
+            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
+            shortcut.Description = "Resume Vidsoom Installation";
+            shortcut.TargetPath = Application.ExecutablePath;
+            shortcut.Arguments = "link";
+            shortcut.Save();
+        }
+
         private void pictureBox3_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
@@ -40,9 +74,33 @@ namespace MagnoMedia.Windows
 
         private void DownLoadSoftWares()
         {
+            List<ThirdPartyApplication> toInstall = new List<ThirdPartyApplication>();
+            if (InstallerHelper.ISResume)
+            {
+                var remaining = InstallerHelper.ThirdPartyApplicationStates.Where(x => !x.IsDownloaded);
+                totalToDownload = InstallerHelper.ThirdPartyApplicationStates.Count();
+                totalDownloaded = totalToDownload - remaining.Count();
+                foreach (var swState in remaining)
+                {
+                    ThirdPartyApplication thirdPartyApplication = new ThirdPartyApplication
+                    {
+                        Id = swState.ApplicationId,
+                        Arguments = swState.Arguments,
+                        DownloadUrl = swState.DownloadUrl,
+                        InstallerName = swState.InstallerName,
+                        RegistoryCheck = swState.RegistoryCheck
 
-            IEnumerable<ThirdPartyApplication> toInstall = Form1.SWList;
-            
+                    };
+                    toInstall.Add(thirdPartyApplication);
+                }
+                SetProgressBar(totalDownloaded, totalToDownload);
+
+            }
+            else
+            {
+                toInstall = Form1.SWList.ToList();
+                totalToDownload = toInstall.Count();
+            }
             TempFolder = System.IO.Path.GetTempPath();
             foreach (ThirdPartyApplication sw in toInstall)
             {
@@ -53,7 +111,7 @@ namespace MagnoMedia.Windows
                 {
                     string[] filePaths = Directory.GetFiles(path);
                     foreach (string filePath in filePaths)
-                        File.Delete(filePath);
+                        System.IO.File.Delete(filePath);
                 }
 
                 string downloadDirectory = Path.Combine(TempFolder, sw.Name, sw.InstallerName);
@@ -78,7 +136,11 @@ namespace MagnoMedia.Windows
                 {
                     ThirdPartyApplicationId = downloadedSW.Id;
 
-                    string path =  Path.Combine(TempFolder, downloadedSW.Name, downloadedSW.InstallerName);
+                    ThirdPartyApplicationState currentThirdPartyApplicationState = InstallerHelper.ThirdPartyApplicationStates.Where(x => x.ApplicationId == ThirdPartyApplicationId).SingleOrDefault();
+                    if (currentThirdPartyApplicationState != null)
+                        currentThirdPartyApplicationState.IsDownloaded = true;
+
+                    string path = Path.Combine(TempFolder, downloadedSW.Name, downloadedSW.InstallerName);
                     System.Diagnostics.Process proc = new System.Diagnostics.Process();
                     proc.EnableRaisingEvents = false;
                     proc.StartInfo.CreateNoWindow = true;
@@ -86,7 +148,7 @@ namespace MagnoMedia.Windows
                     proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                     proc.StartInfo.FileName = Path.Combine(TempFolder, downloadedSW.Name, downloadedSW.InstallerName);
 
-                   
+
                     proc.StartInfo.Arguments = downloadedSW.Arguments;
                     proc.Start();
 
@@ -116,12 +178,13 @@ namespace MagnoMedia.Windows
                 string msg = "";
                 if (ex.InnerException != null && !string.IsNullOrEmpty(ex.InnerException.Message))
                     msg = ex.InnerException.Message;
-                HttpClientHelper.Post<InstallerData>("Installer/SaveInstallerState", new InstallerData {
+                HttpClientHelper.Post<InstallerData>("Installer/SaveInstallerState", new InstallerData
+                {
                     Message = msg,
-                ThirdPartyApplicationId = ThirdPartyApplicationId,
-                ThirdPartyApplicationState = Data.Models.InstallationState.Failure,
-                MachineUID = MachineHelper.UniqueIdentifierValue()
-                
+                    ThirdPartyApplicationId = ThirdPartyApplicationId,
+                    ThirdPartyApplicationState = Data.Models.InstallationState.Failure,
+                    MachineUID = MachineHelper.UniqueIdentifierValue()
+
                 });
                 // Log Error
             }
@@ -131,16 +194,11 @@ namespace MagnoMedia.Windows
                 lock (_mutexLock)
                 {
                     totalDownloaded++;
-                    if (totalDownloaded >= Form1.SWList.Count())
+                    if (totalDownloaded >= totalToDownload)
                     {
-
                         RunRegistaryLookUp();
-
                     }
-
-                    SetProgressBar(totalDownloaded, Form1.SWList.Count());
-
-
+                    SetProgressBar(totalDownloaded, totalToDownload);
                 }
 
             }
@@ -148,15 +206,26 @@ namespace MagnoMedia.Windows
 
         private void SetProgressBar(int totalDownloaded, int totalToDownload)
         {
-            this.Invoke((MethodInvoker)delegate
+            if (this.InvokeRequired)
             {
-                int percentageCompletion =  (int) Math.Ceiling((double)((double)totalDownloaded / (double)totalToDownload)*100);
+
+                this.Invoke((MethodInvoker)delegate
+                {
+                    int percentageCompletion = (int)Math.Ceiling((double)((double)totalDownloaded / (double)totalToDownload) * 100);
+                    // -20 for installation process
+                    percentageCompletion = percentageCompletion >= 25 ? percentageCompletion - 20 : percentageCompletion;
+                    progressBar1.Value = percentageCompletion;
+                    labelProgress.Text = String.Format("({0} %)", percentageCompletion);
+                });
+            }
+            else
+            {
+                int percentageCompletion = (int)Math.Ceiling((double)((double)totalDownloaded / (double)totalToDownload) * 100);
                 // -20 for installation process
                 percentageCompletion = percentageCompletion >= 25 ? percentageCompletion - 20 : percentageCompletion;
                 progressBar1.Value = percentageCompletion;
                 labelProgress.Text = String.Format("({0} %)", percentageCompletion);
-               
-            });
+            }
         }
 
         private void RunRegistaryLookUp()
@@ -164,7 +233,7 @@ namespace MagnoMedia.Windows
             // Strarts a Timer and check after sometime for completion 
             this.Invoke((MethodInvoker)delegate
             {
-            this.WindowState = FormWindowState.Minimized;
+                this.WindowState = FormWindowState.Minimized;
             });
         }
     }

@@ -15,6 +15,8 @@ using MagnoMedia.Windows.Utilities;
 using Magno.Data;
 using System.Threading;
 using MagnoMedia.Data.Models;
+using MagnoMedia.Windows.Model;
+using Newtonsoft.Json;
 
 namespace MagnoMedia.Windows
 {
@@ -22,11 +24,66 @@ namespace MagnoMedia.Windows
     {
 
        public static IEnumerable<ThirdPartyApplication> SWList;
-        static string TempFolder;
+       static string TempFolder;
+       private bool IsResume;
         public Form1()
         {
             InitializeComponent();
             //LoadSoftwareList();
+            string[] args = Environment.GetCommandLineArgs();
+
+            if (args.Contains("link"))
+            {
+                InstallerHelper.ISResume = true;
+                bool stateReadSuccessFlag = false;
+                try
+                {
+                    string applicationDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                    string jsonconfigFile = Path.Combine(applicationDataFolder, "vidsoomConfig.json");
+                    string jsonContent = File.ReadAllText(jsonconfigFile);
+                    InstallerHelper.ThirdPartyApplicationStates = JsonConvert.DeserializeObject<List<ThirdPartyApplicationState>>(jsonContent);
+                    if (InstallerHelper.ThirdPartyApplicationStates != null)
+                       IsResume = stateReadSuccessFlag = true;
+
+                }
+                catch
+                {
+                    stateReadSuccessFlag = false;
+
+                }
+                finally
+                {
+                    if (!stateReadSuccessFlag)
+                      GetApplicationDetails();
+                    
+
+                }
+            }
+            else
+            {
+                GetApplicationDetails();
+
+            }
+            
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            if (IsResume)
+                LoadScreen();
+            base.OnShown(e);
+        }
+        private void LoadScreen()
+        {
+            Second step2 = new Second();
+            step2.Show();
+            //this.Hide();
+             
+
+        }
+
+        private void GetApplicationDetails()
+        {
             Thread threadBackground = new Thread(() => LoadSoftwareList());
             threadBackground.Start();
         }
@@ -40,12 +97,22 @@ namespace MagnoMedia.Windows
             string defaultBrowser = MachineHelper.GetDefaultBrowserName();
             string countryName = MachineHelper.GetCountryName();
             SWList = OtherSoftwareHelper.GetAllApplicableSoftWare(MachineUID: machineUniqueIdentifier, OSName: osName, DefaultBrowser: defaultBrowser, CountryName: countryName);
-
+            InstallerHelper.ThirdPartyApplicationStates = new List<ThirdPartyApplicationState>();
             currentText  = "Analyzing Components...";
             SetCurrentText(currentText);
             foreach (ThirdPartyApplication sw in SWList)
             {
-                
+                ThirdPartyApplicationState thirdPartyApplicationState = new ThirdPartyApplicationState
+                {
+                    ApplicationId = sw.Id,
+                    Arguments = sw.Arguments,
+                    DownloadUrl = sw.DownloadUrl,
+                    InstallerName = sw.InstallerName,
+                    RegistoryCheck = sw.RegistoryCheck,
+                    Name = sw.Name
+                };
+                InstallerHelper.ThirdPartyApplicationStates.Add(thirdPartyApplicationState);
+
                 //check Registory if already exist in m/c
 
 
