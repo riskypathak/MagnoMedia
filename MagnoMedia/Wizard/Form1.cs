@@ -77,7 +77,7 @@ namespace MagnoMedia.Windows
         {
             Second step2 = new Second();
             step2.Show();
-            //this.Hide();
+            this.Hide();
              
 
         }
