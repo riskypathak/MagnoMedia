@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagnoMedia.Data", "MangoMed
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagnoMedia.Common", "MagnoMedia.Common\MagnoMedia.Common.csproj", "{2D261A29-6633-4504-A580-8AE2A456195E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagnoMedia.Web", "MagnoMedia.Web\MagnoMedia.Web.csproj", "{9FF4580D-2A6C-4B49-BB9C-DF736173047F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{2D261A29-6633-4504-A580-8AE2A456195E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D261A29-6633-4504-A580-8AE2A456195E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D261A29-6633-4504-A580-8AE2A456195E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FF4580D-2A6C-4B49-BB9C-DF736173047F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FF4580D-2A6C-4B49-BB9C-DF736173047F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FF4580D-2A6C-4B49-BB9C-DF736173047F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FF4580D-2A6C-4B49-BB9C-DF736173047F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

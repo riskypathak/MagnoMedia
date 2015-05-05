@@ -1,0 +1,680 @@
+﻿/*********** MODAL ************/
+
+.modal-container, .modal-bg, .modal-content-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	color: #333;
+}
+.modal-bg {
+	background: black;
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+	z-index: 9990;
+}
+
+.legalallclick{
+position: relative;
+z-index: 9999;
+}
+
+.modal-content-container {
+	z-index: 9999;
+}
+ul.legalallclick2 li {
+ float: left;
+    list-style: outside none none;
+    margin: 0 20px 0 0;
+       font-size: 0.85em;
+}
+ul.legalallclick2 li a {
+ color: #888;
+    text-decoration: none;
+    font-size: 0.85em;
+}
+
+/**** chrome *****/
+.DirectionsModal_cr ul.legalallclick2 {
+	position: absolute;
+	z-index: 10000;
+	top: 25px;
+	right: 25px;
+}
+
+/*for win */
+.modal-chrome.win {
+	position: absolute;
+	bottom: 0px; 
+	left: 100px;
+	opacity: 1;
+	width: 474px;
+	height: 240px;
+	z-index: 9999;
+	background: url("../images/modal-chrome-b-new.jpg") 0 0 no-repeat;
+}
+.modal-chrome.win .loadingchrome {
+	background: url("../images/loading.gif") no-repeat top left transparent;
+	padding-left: 36px;
+	color: #666;
+	position: absolute;
+	top: 180px;
+	left: 101px;
+	height: 56px;
+	font-size: 14px;
+	padding-top: 5px;
+	width: 36px;
+}
+.modal-chrome-arrow.win {
+	position: absolute;
+	bottom:0;
+	width: 135px;
+	height: 249px;
+	z-index: 10000;
+	background: url("../images/modal-chrome-arrow-b.png") 0 0 no-repeat;
+}
+.modal-chrome.win .col1 {
+	float:left;
+	width:49%;
+	margin: 10px 0 0 0;
+	text-align: center;
+}
+.modal-chrome.win .col2 {
+	float:left;
+	width:48%;
+	margin: 10px 0 0 12px;
+	text-align: center;
+}
+.modal-chrome.win h3 {
+	color: #333;
+	font-size: 20px;
+	margin: 0;
+}
+.modal-chrome.win .col1 h4 {
+	font-size: 36px;
+	color: #fff;
+	margin: 38px 0 0;
+	font-weight: 400;
+}
+.modal-chrome.win .col1 h5 {
+	font-size: 12px;
+	text-align: left;
+	margin: 27px 0 0 58px;
+	font-weight: 400;
+}
+.modal-chrome.win .col2 h4 {
+	color: #fff;
+	font-size: 13px;
+	margin: 14px 0 0;
+	font-weight: 400;
+}
+.modal-chrome.win .col2 h4 span {
+	color:#40A0FF;
+}
+
+span.win .modal-cr-img {
+	background: url("../images/modals/modal-cr-win8.jpg") 0 0 no-repeat;
+	display: block;
+	width: 210px;
+  	margin: 20px auto 0;
+  	border: 2px solid #ccc;
+  	box-shadow: 0 4px 4px #222;
+	height: 103px;
+}
+
+/* for mac */
+.modal-chrome.mac {
+	position: absolute;
+    bottom: 20px;
+    left: 100px;
+    opacity: 1;
+    width: auto;
+    height: 240px;
+    z-index: 9999;
+    background: #f3f3f3;
+    border: 1px solid #434343;    
+    -webkit-box-shadow:  0 15px 15px #111;
+    box-shadow:  0 15px 15px #111;
+}
+.modal-chrome.mac .loadingchrome {
+    background: url("../images/modals/loading2.gif") no-repeat top left transparent;   
+    height: 56px;
+    display: block;
+    margin: 5px auto 0;
+    width: 56px;
+}
+.modal-chrome-arrow.mac {
+	 position: absolute;
+    bottom: 0;
+    width: 135px;
+    height: 249px;
+    z-index: 10000;
+    background: url("../images/modals/modal-cr-arrow-b.png") 0 0 no-repeat;
+}
+.modal-chrome.mac .col1 {
+	float: left;
+    width: 237px;
+    margin: 0;
+    text-align: center;
+    height: 240px;
+    border-right: 1px solid #ccc;
+}
+.modal-chrome.mac .col1 .border {
+    border-radius: 5px;
+    box-shadow: inset 0 5px 15px #999;
+    -webkit-box-shadow: inset 0 5px 15px #999;
+    margin: 15px;
+    height: 173px;
+}
+.modal-chrome.mac .col2 {
+	float: left;
+    width: 237px;
+    margin: 0;
+    text-align: center;
+    height: 240px;
+}
+.modal-chrome.mac .col3 {
+    float: left;
+    width: 237px;
+    margin: 0;
+    border-left: 1px solid #ccc;
+    text-align: center;
+    height: 240px;
+}
+.modal-chrome.mac h3 {
+	 background: #3c70f1;
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzNjNzBmMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMzYjRhZWQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+background: -moz-linear-gradient(top,  #3c70f1 0%, #3b4aed 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3c70f1), color-stop(100%,#3b4aed));
+background: -webkit-linear-gradient(top,  #3c70f1 0%,#3b4aed 100%);
+background: -o-linear-gradient(top,  #3c70f1 0%,#3b4aed 100%);
+background: -ms-linear-gradient(top,  #3c70f1 0%,#3b4aed 100%);
+background: linear-gradient(to bottom,  #3c70f1 0%,#3b4aed 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3c70f1', endColorstr='#3b4aed',GradientType=0 );
+
+    color: #fff;
+    font-size: 20px;
+    margin: 0;
+    display: block;
+    width: 100%;
+    padding: 8px 0;
+}
+.modal-chrome.mac .col1 h4 {
+	font-size: 32px;
+    color: #434343;
+    margin: 0;
+    padding-top: 14px;
+    font-weight: 400;
+}
+.modal-chrome.mac .col1 h5 {
+	font-size: 12px;
+    text-align: left;
+    padding: 11px 0 0 34px;
+    font-weight: 400;
+    background: url("../images/modals/cr-installbar.png") no-repeat top left transparent;
+    margin: 10px 0 0 10px;
+    width: 152px;
+    height: 25px;
+}
+.modal-chrome.mac .col2 h4 {
+	  color: #434343;
+    font-size: 13px;
+    margin: 9px 0 6px;
+    font-weight: 400;
+}
+.modal-chrome.mac .col2 h4 span {
+	color: #3C70F1;
+}
+.modal-chrome.mac .col3 h4 {
+    color: #434343;
+    font-size: 13px;
+    margin: 14px 0 0;
+    font-weight: 400;
+}
+span.macstep2 .modal-cr-img {
+    background: url("../images/modals/modal-cr-mac.png") 0 0 no-repeat;
+    display: block;
+    width: 154px;
+    margin: 0 auto;
+    text-align: center;
+    height: 128px;
+    border: 1px solid #ccc;
+}
+
+span.macstep3 .modal-cr-img {
+    background: url("../images/modals/ff-3-mac.png") 0 0 no-repeat;
+	display: block;
+	width: 177px;
+  	margin: 20px auto 0;
+	height: 72px;
+	border: 1px solid #ccc;
+}
+/***** firefox *****/
+
+.DirectionsModal_ff ul.legalallclick2 {
+	position: absolute;
+	z-index: 10000;
+	top: 495px;
+	left: 50%;
+	width: 700px;
+	margin-left: -350px;
+}
+/*for win */
+.modal-ff.win {
+	position: absolute;
+	z-index: 10001;
+	right: 145px;
+	opacity: 1;
+	width: 494px;
+	height: 299px;
+	background: url("../images/modal-ff-b.jpg") 0 0 no-repeat;
+	margin:10px 0 0;
+}
+.modal-ff-arrow.win {
+	position: absolute;
+	top:10px;
+	right:5px;
+	width: 135px;
+	height: 249px;
+	z-index: 999;
+	background: url("../images/modal-ff-arrow-b.png") 0 0 no-repeat;
+}
+.modal-ff.win .col1 {
+	float:left;
+	width:49%;
+	height: 150px;
+	margin: 10px 0 0 0;
+	text-align: center;
+}
+.modal-ff.win .col2 {
+	float:left;
+	width:47%;
+	height: 150px;
+	margin: 10px 0 0 10px;
+	text-align: center;
+}
+.modal-ff.win .col3 {
+	float:left;
+	width:100%;
+	margin: 10px 0 0 10px;
+	text-align: center;
+}
+.modal-ff.win h3 {
+	color: #333;
+	font-size: 18px;
+	margin: 0;
+}
+.modal-ff.win .col1 h4 {
+	color: #fff;
+	font-size: 14px;
+	margin: 15px 0 0;
+	font-weight: 400;
+}
+.modal-ff.win .col2 h4 {
+	color: #fff;
+	font-size: 13px;
+	margin: 11px 0 0;
+	font-weight: 400;
+}
+.modal-ff.win .col3 h4 {
+	color: #fff;
+	font-size: 15px;
+	margin: 45px 0 0;
+	font-weight: 400;
+	text-align: left;
+}
+
+/* for mac */
+
+.modal-ff.mac {
+	background: #fff;
+    position: absolute;
+    z-index: 10001;
+    right: 145px;
+    opacity: 1;
+    top: 35px;
+    width: auto;
+    height: auto;
+    
+    margin: 0;
+    -webkit-box-shadow: 0 15px 15px #111;
+    box-shadow: 0 15px 15px #111;
+}
+.modal-ff-arrow.mac {
+	  position: absolute;
+    top: 10px;
+    right: 5px;
+    width: 135px;
+    height: 249px;
+    z-index: 999;
+    background: url("../images/modals/modal-ff-arrow-b.png") 0 0 no-repeat;
+
+}
+.modal-ff.mac .col1 {
+	  float: left;
+    width: 240px;
+    height: 230px;
+    margin: 0;
+    border-right: 1px solid #ccc;
+    text-align: center;
+}
+.modal-ff.mac .col2 {
+ float: left;
+    width: 240px;
+    height: 230px;
+    margin: 0;
+    border-right: 1px solid #ccc;
+    text-align: center;
+}
+.modal-ff.mac .ff1 {
+background: url("../images/modals/ff-1.png") 0 0 no-repeat;
+display: block;
+width: 226px;
+  margin: 0 auto;
+height: 114px;
+}
+.modal-ff.mac .ff2 {
+background: url("../images/modals/ff-2.png") 0 0 no-repeat;
+display: block;
+width: 238px;
+  margin: 0 auto;
+height: 123px;
+}
+.modal-ff.mac .ff3 {
+background: url("../images/modals/modal-cr-win8.jpg") 0 0 no-repeat;
+display: block;
+    width: 210px;
+    margin: 10px auto 0;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 4px #222;
+    height: 103px;
+}
+.modal-ff.mac .ff1-mac {
+    background: url("../images/modals/ff-1-mac.png") no-repeat scroll top left transparent;
+    display: block;
+    border: 1px solid #ccc;
+    height: 130px;
+    margin: 10px auto 0;
+    width: 191px;
+}
+.modal-ff.mac .ff2-mac {
+background: url("../images/modals/ff-2-mac.png") 0 0 no-repeat;
+display: block;
+width: 154px;
+border: 1px solid #ccc;
+  margin: 10px auto 0;
+height: 129px;
+}
+.modal-ff.mac .ff3-mac {
+background: url("../images/modals/ff-3-mac.png") 0 0 no-repeat;
+display: block;
+width: 177px;
+border: 1px solid #ccc;
+  margin: 10px auto 0;
+height: 72px;
+}
+.modal-ff.mac .col3 {
+	float: left;
+    width: 240px;
+    margin: 0;
+    text-align: center;
+}
+.modal-ff.mac h3 {
+	background: #557AC5;
+    color: #fff;
+    font-size: 20px;
+    margin: 0;
+    display: block;
+    width: 100%;
+    padding: 8px 0;
+}
+.modal-ff.mac .col1 h4, .modal-ff.mac .col2 h4, .modal-ff.mac .col3 h4 {
+    color: #434343;
+    font-size: 13px;
+    margin: 10px 0 0;
+    font-weight: 400;
+}
+
+/**** explorer *****/
+.DirectionsModal_ie ul.legalallclick2 {
+	position: absolute;
+	z-index: 9998;
+	top: 495px;
+	left: 50%;
+	width: 700px;
+	margin-left: -350px;
+}
+.modal-ie {
+	position: absolute;
+	z-index: 10001;
+	left:50%;
+	bottom: 120px;
+	opacity: 1;
+	width: 492px;
+	height: 160px;
+	margin-left: -246px;
+	padding:0 20px;
+	background: url("../images/modal-ie-b.jpg") 0 0 no-repeat
+}
+.modal-ie-arrow {
+	position: absolute;
+	bottom:60px;
+	left:50%;
+	width: 135px;
+	height: 249px;
+	z-index: 999;
+	margin-left: -330px;
+	background: url("../images/modal-chrome-arrow-b.png") 0 0 no-repeat;
+}
+.modal-ie-2-arrow {
+	position: absolute;
+	bottom:60px;
+	left:50%;
+	width: 135px;
+	height: 249px;
+	z-index: 999;
+	margin-left: 200px;
+	background: url("../images/modal-chrome-arrow-b.png") 0 0 no-repeat;	
+}
+.modal-ie h4 {
+	text-align: center;
+	font-size: 18px;
+	font-weight: 600;
+	margin: 30px 0 0;
+	width:90%;	
+	color: #fff;
+}
+.modal-ie h4 span {
+	color:#40A0FF;
+}
+
+/**** explorer ie 8 *****/
+.DirectionsModal_ie8 ul.legalallclick2 {
+	position: absolute;
+	z-index: 9998;
+	top: 495px;
+	left: 50%;
+	width: 700px;
+	margin-left: -350px;
+}
+.modal-ie-8 {
+	position: absolute;
+	z-index: 998;
+	left:50%;
+	bottom: 0px;
+	opacity: 1;
+	width: 631px;
+	height: 330px;
+	margin-left: -315px;
+	padding:0;
+	background: url("../images/modal-ie-8-b.jpg") 0 0 no-repeat
+}
+.modal-ie-8 .col1 {
+	float:left;
+	width:100%;
+	height: 138px;
+	margin: 0 0 0 0;
+	text-align: center;
+
+}
+.modal-ie-8 .col2 {
+	float:left;
+	width:31%;
+	height: 190px;
+	margin: 0 7px 0 7px;
+	text-align: center;
+
+}
+.modal-ie-8 h3 {
+	color: #333;
+	font-size: 16px;
+	font-weight: 400;
+	margin: 3px 0 0;
+}
+.modal-ie-8 h4 {
+	text-align: center;
+	font-size: 12px;
+	font-weight: 400;
+	margin: 10px 0 0;
+	color: #fff;
+}
+.modal-ie-8 h4 span {
+		color: #fff;
+
+}
+/****** default ********/
+.modal-default {
+    
+    background: url("../images/modals/white-bg.png") repeat top left transparent;
+    border-radius: 4px;
+    float: left;
+    height: auto;
+    margin: 0 0 0 -250px;
+    text-align: center;    
+    position: fixed;
+    width: 500px;
+    color: #434343;
+    display: block;
+    top: 220px;
+    left: 50%;
+}
+.modal-default .bluearrow {
+    background: url("../images/modals/arrowblue.png") no-repeat top left transparent;
+    display: block;
+    position: absolute;
+    width: 406px;
+    margin-left: 450px;
+    height: 371px;
+    margin-top: 0px
+
+}
+
+.modal-default .padding20 {
+    padding: 20px;
+}
+.modal-default h2 {
+    background: #bbd2e9;
+ border-radius: 0;
+    box-shadow: 1px 1px 2px #666;
+    color: #333;
+    font-size: 22px;
+    margin: 0;
+    padding: 10px 0;
+}
+.imginstaller {
+background: url("../images/modals/imginstaller.png") no-repeat top left transparent;
+display: inline-block;
+width: 24px;
+height: 36px;
+margin: 0 5px;
+
+position: relative;
+top: 12px;
+left: 5px;
+
+
+}
+.iconinstall {
+    background: url("../images/modals/iconinstall.png") no-repeat top left transparent;
+ 
+    display: inline-block;
+    position: relative;
+    top: 12px;
+    left: 5px;
+    width: 42px;
+    height: 36px;
+    margin: 0 5px;
+
+
+}
+.lockicon {
+    background: url("../images/modals/lockicon.png") no-repeat top left transparent;
+ 
+    display: inline-block;
+    position: relative;
+    top: 12px;
+    left: 5px;
+    width: 31px;
+    height: 36px;
+    margin: 0 5px;
+
+
+}
+
+.modal-default .whitebg {
+  background: #ffffff;
+  display: block;
+    height: auto;
+    margin: 10px;
+    width: 480px;
+    overflow: hidden;
+}
+.modal-default .clear10 {
+display: block;
+height: 20px;
+}
+.modal-default p {
+    font-size: 12px;
+}
+.modal-default p.other {
+    margin: 10px 0;
+    width: 100%;
+}
+/*****/
+
+/*****/
+.modal-content-container p {
+	width:86%;
+	line-height: 16px;
+	margin: 2px 0 0;
+
+}
+.modal-content-container .powered {
+	color: #0097d0; 
+	font-weight: bold; 
+}
+
+
+
+
+
+.overmodal  {
+	display: inline-block;
+	margin: 15px 0 0;
+	font-size: .85em;
+	z-index: 9999;
+}
+.overmodal li {
+
+	float: left;
+	margin: 0 20px 0 0;
+	list-style: none;
+}
+
+.overmodal li a {
+
+	color: #888;
+	text-decoration: none;
+}
