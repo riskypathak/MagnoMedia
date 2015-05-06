@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VidSoom", "VidSoom\VidSoom.csproj", "{B2A01793-302C-470E-B211-D9F5DA22ECB1}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupTest", "SetupTest\SetupTest.vdproj", "{616ECC66-0A59-4F4A-9ADC-777A689433B0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2A01793-302C-470E-B211-D9F5DA22ECB1}.Debug|x86.ActiveCfg = Debug|x86
+		{B2A01793-302C-470E-B211-D9F5DA22ECB1}.Debug|x86.Build.0 = Debug|x86
+		{B2A01793-302C-470E-B211-D9F5DA22ECB1}.Release|x86.ActiveCfg = Release|x86
+		{B2A01793-302C-470E-B211-D9F5DA22ECB1}.Release|x86.Build.0 = Release|x86
+		{616ECC66-0A59-4F4A-9ADC-777A689433B0}.Debug|x86.ActiveCfg = Debug
+		{616ECC66-0A59-4F4A-9ADC-777A689433B0}.Release|x86.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

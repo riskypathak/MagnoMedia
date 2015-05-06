@@ -1,0 +1,364 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="frmInstall_lblAcuerdo" xml:space="preserve">
+    <value>Acuerdo de licencia</value>
+  </data>
+  <data name="frmInstall_btnAceptar" xml:space="preserve">
+    <value>&amp;Aceptar e Instalar</value>
+  </data>
+  <data name="frmInstall_btnCancelar" xml:space="preserve">
+    <value>&amp;Cancelar</value>
+  </data>
+  <data name="frmInstall_cAcceso" xml:space="preserve">
+    <value>Crea un acceso directo en el escritorio.</value>
+  </data>
+  <data name="frmInstall_cInicio" xml:space="preserve">
+    <value>Define y mantiene Vidsoom.com como mi página de inicio y como motor de búsqueda predeterminado.</value>
+  </data>
+  <data name="frmInstall_gTipo" xml:space="preserve">
+    <value>Tipo de instalación</value>
+  </data>
+  <data name="frmInstall_lblIdioma" xml:space="preserve">
+    <value>Seleccione el idioma del programa de instalación:</value>
+  </data>
+  <data name="frmInstall_lblLeyenda" xml:space="preserve">
+    <value>Al hacer click en "Aceptar e instalar" usted está aceptando el acuerdo de licencia.</value>
+  </data>
+  <data name="frmInstall_lblTipica" xml:space="preserve">
+    <value>• Define y mantiene Vidsoom.com como mi página de inicio y como motor de búsqueda predeterminado.
+• Crea un acceso directo en el escritorio.</value>
+  </data>
+  <data name="frmInstall_oPersonalizada" xml:space="preserve">
+    <value>Instalación personalizada</value>
+  </data>
+  <data name="frmInstall_oTipica" xml:space="preserve">
+    <value>Instalación típica (recomendada)</value>
+  </data>
+  <data name="frmInstall_frmInstall" xml:space="preserve">
+    <value>Instalación de VidSoom</value>
+  </data>
+  <data name="frmMain_Archivos" xml:space="preserve">
+    <value>Archivos</value>
+  </data>
+  <data name="frmMain_btnConfiguracion" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
+  <data name="frmMain_btnDescargar" xml:space="preserve">
+    <value>Descargar</value>
+  </data>
+  <data name="frmMain_btnDescargas" xml:space="preserve">
+    <value>Mis Descargas</value>
+  </data>
+  <data name="frmMain_btnEliminar" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="frmMain_btnPausa" xml:space="preserve">
+    <value>Pausa</value>
+  </data>
+  <data name="frmMain_btnPegar" xml:space="preserve">
+    <value>Pegar enlaces</value>
+  </data>
+  <data name="frmMain_Descargado" xml:space="preserve">
+    <value>Descargado</value>
+  </data>
+  <data name="frmMain_Descargando" xml:space="preserve">
+    <value>Descargando</value>
+  </data>
+  <data name="frmMain_Descargas" xml:space="preserve">
+    <value>Descargas</value>
+  </data>
+  <data name="frmMain_Documentos" xml:space="preserve">
+    <value>Documentos</value>
+  </data>
+  <data name="frmMain_Estado" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="frmMain_mmArchivo" xml:space="preserve">
+    <value>Archivo</value>
+  </data>
+  <data name="frmMain_mmAyuda" xml:space="preserve">
+    <value>Ayuda</value>
+  </data>
+  <data name="frmMain_mmEdicion" xml:space="preserve">
+    <value>Edición</value>
+  </data>
+  <data name="frmMain_Musica" xml:space="preserve">
+    <value>Música</value>
+  </data>
+  <data name="frmMain_Origen" xml:space="preserve">
+    <value>Origen</value>
+  </data>
+  <data name="frmMain_Programas" xml:space="preserve">
+    <value>Programas</value>
+  </data>
+  <data name="frmMain_Progreso" xml:space="preserve">
+    <value>Progreso</value>
+  </data>
+  <data name="frmMain_Peso" xml:space="preserve">
+    <value>Tamaño</value>
+  </data>
+  <data name="frmMain_Titulo" xml:space="preserve">
+    <value>Titulo</value>
+  </data>
+  <data name="frmMain_tURL" xml:space="preserve">
+    <value>Pegue aquí los enlaces a descargar...</value>
+  </data>
+  <data name="frmMain_Velocidad" xml:space="preserve">
+    <value>Velocidad</value>
+  </data>
+  <data name="frmMain_Videos" xml:space="preserve">
+    <value>Videos</value>
+  </data>
+  <data name="frmQuality_btnCancelar" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="frmQuality_btnDescargar" xml:space="preserve">
+    <value>Descargar</value>
+  </data>
+  <data name="frmQuality_frmQuality" xml:space="preserve">
+    <value>Seleccione la calidad del video</value>
+  </data>
+  <data name="frmQuality_msgSeleccione" xml:space="preserve">
+    <value>Seleccione una calidad.</value>
+  </data>
+  <data name="General_Ended" xml:space="preserve">
+    <value>Finalizado</value>
+  </data>
+  <data name="General_EndedWithError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="General_NeedToPrepare" xml:space="preserve">
+    <value>Necesita preparse</value>
+  </data>
+  <data name="General_Paused" xml:space="preserve">
+    <value>Pausado</value>
+  </data>
+  <data name="General_Pausing" xml:space="preserve">
+    <value>Pausando</value>
+  </data>
+  <data name="General_Prepared" xml:space="preserve">
+    <value>Preparado</value>
+  </data>
+  <data name="General_Preparing" xml:space="preserve">
+    <value>Preparando</value>
+  </data>
+  <data name="General_WaitingForReconnect" xml:space="preserve">
+    <value>Esperando reconexión</value>
+  </data>
+  <data name="General_Working" xml:space="preserve">
+    <value>Descargando</value>
+  </data>
+  <data name="frmConfiguracion_btnCancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="frmConfiguracion_btnOK" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
+  <data name="frmConfiguracion_cUpdates" xml:space="preserve">
+    <value>Verificar actualizaciones automáticamente</value>
+  </data>
+  <data name="frmConfiguracion_cVelocidad" xml:space="preserve">
+    <value>Velocidad máxima (kb/s):</value>
+  </data>
+  <data name="frmConfiguracion_frmConfiguracion" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
+  <data name="frmConfiguracion_lblDescargas" xml:space="preserve">
+    <value>Máximo de descargas simultaneas:</value>
+  </data>
+  <data name="frmConfiguracion_lblIdioma" xml:space="preserve">
+    <value>Idioma:</value>
+  </data>
+  <data name="frmConfiguracion_lblRuta" xml:space="preserve">
+    <value>Ruta de descargas:</value>
+  </data>
+  <data name="frmConfiguracion_tDescargas" xml:space="preserve">
+    <value>Descargas</value>
+  </data>
+  <data name="frmConfiguracion_tGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="frmMain_btnPausa_Continuar" xml:space="preserve">
+    <value>Continuar</value>
+  </data>
+  <data name="frmMain_cmAbrir" xml:space="preserve">
+    <value>Abrir en directorio</value>
+  </data>
+  <data name="frmMain_cmEliminar" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="frmMain_cmPausa" xml:space="preserve">
+    <value>Pausa</value>
+  </data>
+  <data name="frmMain_cmPegar" xml:space="preserve">
+    <value>Pegar enlaces</value>
+  </data>
+  <data name="frmMain_Confirm_Eliminar" xml:space="preserve">
+    <value>¿Desea eliminar las descargas seleccionadas? Las descargas que no hayan finalizado se borrarán del disco.</value>
+  </data>
+  <data name="frmMain_sDescargando" xml:space="preserve">
+    <value>Descargando: </value>
+  </data>
+  <data name="frmMain_sTiempo" xml:space="preserve">
+    <value>Tiempo de sesión: </value>
+  </data>
+  <data name="frmMain_sVelocidad" xml:space="preserve">
+    <value>Velocidad total: </value>
+  </data>
+  <data name="frmMain_mmAbrir" xml:space="preserve">
+    <value>Abrir carpeta de descargas</value>
+  </data>
+  <data name="frmMain_mmAcerca" xml:space="preserve">
+    <value>Acerca de VidSoom</value>
+  </data>
+  <data name="frmMain_mmConfiguracion" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
+  <data name="frmMain_mmEliminar" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="frmMain_mmPausar" xml:space="preserve">
+    <value>Pausar/Reanudar</value>
+  </data>
+  <data name="frmMain_mmPegar" xml:space="preserve">
+    <value>Pegar enlaces</value>
+  </data>
+  <data name="frmMain_mmSalir" xml:space="preserve">
+    <value>Salir</value>
+  </data>
+  <data name="frmMain_msgUpdate" xml:space="preserve">
+    <value>Hay una nueva versión de VidSoom, ¿Desea descargarla ahora?</value>
+  </data>
+  <data name="frmMain_msgNewVersion" xml:space="preserve">
+    <value>¡Hay una nueva versión de VidSoom disponible! ¿Desea descargarla ahora?</value>
+  </data>
+  <data name="frmMain_btnPrevisualizar" xml:space="preserve">
+    <value>Previsualizar</value>
+  </data>
+  <data name="frmMain_mmPrevisualizar" xml:space="preserve">
+    <value>Previsualizar</value>
+  </data>
+  <data name="frmMain_cmPrevisualizar" xml:space="preserve">
+    <value>Previsualizar</value>
+  </data>
+  <data name="frmMain_msgBadProtocol" xml:space="preserve">
+    <value>El protocolo de la URL ingresada no es válido.</value>
+  </data>
+</root>
