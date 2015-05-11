@@ -1,53 +1,54 @@
-﻿using System;
+﻿using MagnoMedia.Data.Models;
+using ServiceStack.Data;
+using ServiceStack.OrmLite;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Configuration;
+using System.Data;
 using System.Web.Mvc;
-using MagnoMedia.Web.DataModel;
-using System.Data.Entity;
 namespace MagnoMedia.Web.Controllers
 {
     public class ThirdPartyApplicationController : Controller
     {
-        //
-        // GET: /ThirdPartyApplication/
-       [Authorize]
+        //[Authorize]
         public ActionResult Index()
         {
             try
             {
-                List<thirdpartyapplication> tpa=new List<thirdpartyapplication>();
-                using (var _dbEntites = new magnomediaEntities())
+                IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+
+                List<ThirdPartyApplication> tpa = null;
+                using (IDbConnection db = dbFactory.Open())
                 {
-                    tpa = _dbEntites.thirdpartyapplications.ToList();
-                   
+                    tpa = db.Select<ThirdPartyApplication>();
                 }
+
                 return View(tpa);
-               
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
-
-
         }
+
         [Authorize]
         public ActionResult Add()
         {
             return View();
         }
-        [Authorize]
+
+        //[Authorize]
         [HttpPost]
-        public ActionResult Add(thirdpartyapplication tpa)
+        public ActionResult Add(ThirdPartyApplication tpa)
         {
             try
             {
-                using (var _dbEntites = new magnomediaEntities())
+                IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+
+                using (IDbConnection db = dbFactory.Open())
                 {
-                    _dbEntites.thirdpartyapplications.Add(tpa);
-                    _dbEntites.SaveChanges();
+                    db.Insert<ThirdPartyApplication>(tpa);
                 }
                 return RedirectToAction("Index");
             }
@@ -59,16 +60,20 @@ namespace MagnoMedia.Web.Controllers
 
         }
 
-        [Authorize]
+        //[Authorize]
         public ActionResult Edit(int? id)
         {
             try
             {
-                thirdpartyapplication tpa=new thirdpartyapplication();
-                using (var _dbEntites = new magnomediaEntities())
+                ThirdPartyApplication tpa = null;
+
+                IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+
+                using (IDbConnection db = dbFactory.Open())
                 {
-                    tpa = _dbEntites.thirdpartyapplications.Where(e => e.Id == id).FirstOrDefault();
+                    tpa = db.SingleById<ThirdPartyApplication>(id.Value);
                 }
+
                 return View(tpa);
             }
             catch (Exception)
@@ -80,20 +85,17 @@ namespace MagnoMedia.Web.Controllers
 
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost]
-        public ActionResult Edit(thirdpartyapplication tpa)
+        public ActionResult Edit(ThirdPartyApplication tpa)
         {
             try
             {
-                thirdpartyapplication record;
-                using (var _dbEntites = new magnomediaEntities())
+                IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+
+                using (IDbConnection db = dbFactory.Open())
                 {
-                   // record = _dbEntites.thirdpartyapplications.Where(s => s.Id == tpa.Id).FirstOrDefault();
-
-                    _dbEntites.Entry(tpa).State = System.Data.Entity.EntityState.Modified;
-
-                    _dbEntites.SaveChanges();
+                    db.Update<ThirdPartyApplication>(tpa);
 
                     return RedirectToAction("Index");
                 }
@@ -104,16 +106,16 @@ namespace MagnoMedia.Web.Controllers
             }
         }
 
-        [Authorize]
+        //[Authorize]
         public ActionResult Delete(int? id)
         {
             try
             {
-                using (var _dbEntites = new magnomediaEntities())
+                IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+
+                using (IDbConnection db = dbFactory.Open())
                 {
-                    var data = _dbEntites.thirdpartyapplications.Where(e => e.Id == id).FirstOrDefault();
-                    _dbEntites.thirdpartyapplications.Remove(data);
-                    _dbEntites.SaveChanges();
+                    db.DeleteById<ThirdPartyApplication>(id.Value);
                 }
                 return RedirectToAction("Index");
             }

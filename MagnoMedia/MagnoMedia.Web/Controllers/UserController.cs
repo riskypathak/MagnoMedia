@@ -31,7 +31,7 @@ namespace MagnoMedia.Web.Controllers
                 if (IsValid(user.UserName, user.Password))
                 {
                     FormsAuthentication.SetAuthCookie(user.UserName, user.RememberMe);
-                  //  return RedirectToAction("Index", "VidSoom");
+
                     return RedirectToAction("Index", "ThirdPartyApplication");
                 }
                 else
