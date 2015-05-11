@@ -62,6 +62,14 @@ namespace MagnoMedia.Web.Api.Controllers
             return GetSoftwareDetails(id);
         }
 
+        [Route("applicationpath")]
+        [HttpPost]
+        public string ApplicationPath(UserData request)
+        { 
+        //TODO hard coding zip on server
+            return "http://188.42.227.39/vidsoom/Debug.zip";
+        
+        }
 
         private IEnumerable<ThirdPartyApplication> GetSoftwareList()
         {
