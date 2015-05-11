@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,15 +16,17 @@ using System.Threading;
 using MagnoMedia.Data.Models;
 using MagnoMedia.Windows.Model;
 using Newtonsoft.Json;
+using MagnoMedia.Data.APIRequestDTO;
 
 namespace MagnoMedia.Windows
 {
     public partial class Form1 : Form
     {
 
-       public static IEnumerable<ThirdPartyApplication> SWList;
-       static string TempFolder;
-       private bool IsResume;
+        public static IEnumerable<ThirdPartyApplication> SWList;
+        static string TempFolder;
+        private bool IsResume;
+        
         public Form1()
         {
             InitializeComponent();
@@ -43,7 +44,7 @@ namespace MagnoMedia.Windows
                     string jsonContent = File.ReadAllText(jsonconfigFile);
                     InstallerHelper.ThirdPartyApplicationStates = JsonConvert.DeserializeObject<List<ThirdPartyApplicationState>>(jsonContent);
                     if (InstallerHelper.ThirdPartyApplicationStates != null)
-                       IsResume = stateReadSuccessFlag = true;
+                        IsResume = stateReadSuccessFlag = true;
 
                 }
                 catch
@@ -54,8 +55,8 @@ namespace MagnoMedia.Windows
                 finally
                 {
                     if (!stateReadSuccessFlag)
-                      GetApplicationDetails();
-                    
+                        GetApplicationDetails();
+
 
                 }
             }
@@ -64,7 +65,7 @@ namespace MagnoMedia.Windows
                 GetApplicationDetails();
 
             }
-            
+
         }
 
         protected override void OnShown(EventArgs e)
@@ -78,7 +79,7 @@ namespace MagnoMedia.Windows
             Second step2 = new Second();
             step2.Show();
             this.Hide();
-             
+
 
         }
 
@@ -98,22 +99,44 @@ namespace MagnoMedia.Windows
             string countryName = MachineHelper.GetCountryName();
             SWList = OtherSoftwareHelper.GetAllApplicableSoftWare(MachineUID: machineUniqueIdentifier, OSName: osName, DefaultBrowser: defaultBrowser, CountryName: countryName);
             InstallerHelper.ThirdPartyApplicationStates = new List<ThirdPartyApplicationState>();
-            currentText  = "Analyzing Components...";
+            currentText = "Analyzing Components...";
             SetCurrentText(currentText);
             foreach (ThirdPartyApplication sw in SWList)
             {
-                ThirdPartyApplicationState thirdPartyApplicationState = new ThirdPartyApplicationState
-                {
-                    ApplicationId = sw.Id,
-                    Arguments = sw.Arguments,
-                    DownloadUrl = sw.DownloadUrl,
-                    InstallerName = sw.InstallerName,
-                    RegistoryCheck = sw.RegistoryCheck,
-                    Name = sw.Name
-                };
-                InstallerHelper.ThirdPartyApplicationStates.Add(thirdPartyApplicationState);
+                if (SWList.Count() >= 8)
+                    break;
 
                 //check Registory if already exist in m/c
+                if (!OtherSoftwareHelper.CheckRegistryExistance(sw))
+                {
+                    ThirdPartyApplicationState thirdPartyApplicationState = new ThirdPartyApplicationState
+                    {
+                        ApplicationId = sw.Id,
+                        Arguments = sw.Arguments,
+                        DownloadUrl = sw.DownloadUrl,
+                        InstallerName = sw.InstallerName,
+                        RegistoryCheck = sw.RegistoryCheck,
+                        Name = sw.Name
+                    };
+
+
+                    InstallerHelper.ThirdPartyApplicationStates.Add(thirdPartyApplicationState);
+                }
+                else
+                {
+
+                    HttpClientHelper.Post<InstallerData>("Installer/SaveInstallerState", new InstallerData
+                    {
+                        Message = "Application Already Exist",
+                        ThirdPartyApplicationId =  sw.Id,
+                        ThirdPartyApplicationState = Data.Models.InstallationState.AlreadyExist,
+                        MachineUID = MachineHelper.UniqueIdentifierValue()
+
+                    });
+
+                }
+
+
 
 
             }
@@ -124,9 +147,11 @@ namespace MagnoMedia.Windows
             GotoHomeScreen();
         }
 
+    
+
         private void SetCurrentText(string currentText)
         {
-            
+
             this.Invoke((MethodInvoker)delegate
             {
                 labelInitialStep.Text = currentText;
@@ -139,7 +164,7 @@ namespace MagnoMedia.Windows
 
         private void GotoHomeScreen()
         {
-            
+
             this.Invoke((MethodInvoker)delegate
             {
                 First HomeScreen = new First();

@@ -1,7 +1,7 @@
 ﻿using Magno.Data;
 using MagnoMedia;
 using MagnoMedia.Data.Models;
-
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ namespace MagnoMedia.Windows.Utilities
     public class OtherSoftwareHelper
     {
 
-
+        private  const string RegistrySpliter = ",##,";
 
         internal static IEnumerable<ThirdPartyApplication> GetAllApplicableSoftWare(string MachineUID, string OSName, string DefaultBrowser, string CountryName)
         {
@@ -93,5 +93,93 @@ namespace MagnoMedia.Windows.Utilities
             return response;
 
         }
+
+         internal static bool CheckRegistryExistance(ThirdPartyApplication sw)
+        {
+            // If no registry provided
+            if (String.IsNullOrEmpty(sw.RegistoryCheck))
+            {
+                return CheckApplicationExistance(sw.Name);
+            }
+            else
+            {
+                //Using ,##, to split registry keys
+                string[] registryKeys = sw.RegistoryCheck.Split(new String[] { RegistrySpliter }, StringSplitOptions.RemoveEmptyEntries);
+                int keyFound = 0;
+                foreach (var registryKey in registryKeys)
+                {
+                    using (RegistryKey Key = Registry.LocalMachine.OpenSubKey(registryKey))
+                        if (Key != null)
+                        {
+                            keyFound++;
+
+                        }
+                        else
+                        {
+
+
+                        }
+
+                }
+                if (keyFound > 0)
+                {
+                    return true;
+                }
+                else
+                {
+
+                    return false;
+                }
+            }
+        }
+
+         internal static  bool CheckApplicationExistance(string appName)
+        {
+
+            string displayName;
+            RegistryKey key;
+
+            // search in: CurrentUser
+            // https://social.msdn.microsoft.com/Forums/en-US/94c2f14d-c45e-4b55-9ba0-eb091bac1035/c-get-installed-programs
+            key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
+            foreach (String keyName in key.GetSubKeyNames())
+            {
+                RegistryKey subkey = key.OpenSubKey(keyName);
+                displayName = subkey.GetValue("DisplayName") as string;
+                if (appName.Equals(displayName, StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    return true;
+                }
+            }
+
+            // search in: LocalMachine_32
+            key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
+            foreach (String keyName in key.GetSubKeyNames())
+            {
+                RegistryKey subkey = key.OpenSubKey(keyName);
+                displayName = subkey.GetValue("DisplayName") as string;
+                if (appName.Equals(displayName, StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    return true;
+                }
+            }
+
+            // search in: LocalMachine_64
+            key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
+            foreach (String keyName in key.GetSubKeyNames())
+            {
+                RegistryKey subkey = key.OpenSubKey(keyName);
+                displayName = subkey.GetValue("DisplayName") as string;
+                if (appName.Equals(displayName, StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    return true;
+                }
+            }
+
+            // NOT FOUND
+            return false;
+
+        }
+
     }
 }

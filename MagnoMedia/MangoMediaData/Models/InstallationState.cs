@@ -11,6 +11,7 @@ namespace MagnoMedia.Data.Models
         Success,
         Failure,
         Partial,
+        AlreadyExist,
         Started
     }
 }
