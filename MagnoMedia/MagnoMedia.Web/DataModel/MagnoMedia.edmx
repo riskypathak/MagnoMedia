@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="magnomediaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="appbrowservalidity">
+          <Key>
+            <PropertyRef Name="ThirdPartyApplicationId" />
+          </Key>
+          <Property Name="ThirdPartyApplicationId" Type="int" Nullable="false" />
+          <Property Name="BrowserId" Type="int" Nullable="false" />
+          <Property Name="Order" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="appcountryvalidity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="ThirdPartyApplicationId" Type="int" Nullable="false" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="Order" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="browser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="BrowserName" Type="varchar" MaxLength="255" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Iso" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Country_name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="installationreport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="ThirdPartyApplicationId" Type="int" Nullable="false" />
+          <Property Name="ThirdPartyApplicationState" Type="varchar" MaxLength="255" />
+          <Property Name="Message" Type="varchar" MaxLength="255" />
+          <Property Name="MachineUID" Type="varchar" MaxLength="255" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="thirdpartyapplication">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="Url" Type="varchar" MaxLength="255" />
+          <Property Name="HasUrl" Type="smallint" Nullable="false" />
+          <Property Name="InstallerName" Type="varchar" MaxLength="255" />
+          <Property Name="DownloadUrl" Type="varchar" MaxLength="255" />
+          <Property Name="Arguments" Type="varchar" MaxLength="255" />
+          <Property Name="RegistoryCheck" Type="varchar" MaxLength="255" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="FingerPrint" Type="varchar" MaxLength="255" />
+          <Property Name="OSName" Type="varchar" MaxLength="255" />
+          <Property Name="BrowserName" Type="varchar" MaxLength="255" />
+          <Property Name="CountryName" Type="varchar" MaxLength="255" />
+          <Property Name="IP" Type="varchar" MaxLength="255" />
+          <Property Name="RefererId" Type="int" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime2" Precision="0" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="userinstalldetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="ThirdPartyApplicationId" Type="int" Nullable="false" />
+          <Property Name="MachineFingerPrint" Type="varchar" MaxLength="255" />
+          <Property Name="State" Type="varchar(max)" Nullable="false" />
+          <Property Name="OtherDetails" Type="varchar" MaxLength="255" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="userinstallerror">
+          <Key>
+            <PropertyRef Name="ThirdPartyApplicationId" />
+          </Key>
+          <Property Name="ThirdPartyApplicationId" Type="int" Nullable="false" />
+          <Property Name="MachineFingerPrint" Type="varchar" MaxLength="255" />
+          <Property Name="State" Type="varchar(max)" Nullable="false" />
+          <Property Name="ErrorMessage" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityContainer Name="magnomediaModelStoreContainer">
+          <EntitySet Name="appbrowservalidity" EntityType="Self.appbrowservalidity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="appcountryvalidity" EntityType="Self.appcountryvalidity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="browser" EntityType="Self.browser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="country" EntityType="Self.country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="installationreport" EntityType="Self.installationreport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="thirdpartyapplication" EntityType="Self.thirdpartyapplication" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userinstalldetails" EntityType="Self.userinstalldetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userinstallerror" EntityType="Self.userinstallerror" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="magnomediaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="appbrowservalidity">
+          <Key>
+            <PropertyRef Name="ThirdPartyApplicationId" />
+          </Key>
+          <Property Name="ThirdPartyApplicationId" Type="Int32" Nullable="false" />
+          <Property Name="BrowserId" Type="Int32" Nullable="false" />
+          <Property Name="Order" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="appcountryvalidity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="ThirdPartyApplicationId" Type="Int32" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="Order" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="browser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="BrowserName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Iso" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Country_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="installationreport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="ThirdPartyApplicationId" Type="Int32" Nullable="false" />
+          <Property Name="ThirdPartyApplicationState" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="MachineUID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="thirdpartyapplication">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Url" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HasUrl" Type="Int16" Nullable="false" />
+          <Property Name="InstallerName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DownloadUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Arguments" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="RegistoryCheck" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="FingerPrint" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="OSName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BrowserName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CountryName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IP" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="RefererId" Type="Int32" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="userinstalldetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="ThirdPartyApplicationId" Type="Int32" Nullable="false" />
+          <Property Name="MachineFingerPrint" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OtherDetails" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="userinstallerror">
+          <Key>
+            <PropertyRef Name="ThirdPartyApplicationId" />
+          </Key>
+          <Property Name="ThirdPartyApplicationId" Type="Int32" Nullable="false" />
+          <Property Name="MachineFingerPrint" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="magnomediaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="appbrowservalidities" EntityType="Self.appbrowservalidity" />
+          <EntitySet Name="appcountryvalidities" EntityType="Self.appcountryvalidity" />
+          <EntitySet Name="browsers" EntityType="Self.browser" />
+          <EntitySet Name="countries" EntityType="Self.country" />
+          <EntitySet Name="installationreports" EntityType="Self.installationreport" />
+          <EntitySet Name="thirdpartyapplications" EntityType="Self.thirdpartyapplication" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <EntitySet Name="userinstalldetails" EntityType="Self.userinstalldetail" />
+          <EntitySet Name="userinstallerrors" EntityType="Self.userinstallerror" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="magnomediaModelStoreContainer" CdmEntityContainer="magnomediaEntities">
+          <EntitySetMapping Name="appbrowservalidities">
+            <EntityTypeMapping TypeName="magnomediaModel.appbrowservalidity">
+              <MappingFragment StoreEntitySet="appbrowservalidity">
+                <ScalarProperty Name="ThirdPartyApplicationId" ColumnName="ThirdPartyApplicationId" />
+                <ScalarProperty Name="BrowserId" ColumnName="BrowserId" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="appcountryvalidities">
+            <EntityTypeMapping TypeName="magnomediaModel.appcountryvalidity">
+              <MappingFragment StoreEntitySet="appcountryvalidity">
+                <ScalarProperty Name="ThirdPartyApplicationId" ColumnName="ThirdPartyApplicationId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="browsers">
+            <EntityTypeMapping TypeName="magnomediaModel.browser">
+              <MappingFragment StoreEntitySet="browser">
+                <ScalarProperty Name="BrowserName" ColumnName="BrowserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="countries">
+            <EntityTypeMapping TypeName="magnomediaModel.country">
+              <MappingFragment StoreEntitySet="country">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Iso" ColumnName="Iso" />
+                <ScalarProperty Name="Country_name" ColumnName="Country_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="installationreports">
+            <EntityTypeMapping TypeName="magnomediaModel.installationreport">
+              <MappingFragment StoreEntitySet="installationreport">
+                <ScalarProperty Name="ThirdPartyApplicationId" ColumnName="ThirdPartyApplicationId" />
+                <ScalarProperty Name="ThirdPartyApplicationState" ColumnName="ThirdPartyApplicationState" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="MachineUID" ColumnName="MachineUID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="thirdpartyapplications">
+            <EntityTypeMapping TypeName="magnomediaModel.thirdpartyapplication">
+              <MappingFragment StoreEntitySet="thirdpartyapplication">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="HasUrl" ColumnName="HasUrl" />
+                <ScalarProperty Name="InstallerName" ColumnName="InstallerName" />
+                <ScalarProperty Name="DownloadUrl" ColumnName="DownloadUrl" />
+                <ScalarProperty Name="Arguments" ColumnName="Arguments" />
+                <ScalarProperty Name="RegistoryCheck" ColumnName="RegistoryCheck" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="magnomediaModel.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="FingerPrint" ColumnName="FingerPrint" />
+                <ScalarProperty Name="OSName" ColumnName="OSName" />
+                <ScalarProperty Name="BrowserName" ColumnName="BrowserName" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="RefererId" ColumnName="RefererId" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userinstalldetails">
+            <EntityTypeMapping TypeName="magnomediaModel.userinstalldetail">
+              <MappingFragment StoreEntitySet="userinstalldetails">
+                <ScalarProperty Name="ThirdPartyApplicationId" ColumnName="ThirdPartyApplicationId" />
+                <ScalarProperty Name="MachineFingerPrint" ColumnName="MachineFingerPrint" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="OtherDetails" ColumnName="OtherDetails" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userinstallerrors">
+            <EntityTypeMapping TypeName="magnomediaModel.userinstallerror">
+              <MappingFragment StoreEntitySet="userinstallerror">
+                <ScalarProperty Name="ThirdPartyApplicationId" ColumnName="ThirdPartyApplicationId" />
+                <ScalarProperty Name="MachineFingerPrint" ColumnName="MachineFingerPrint" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -31,7 +31,8 @@ namespace MagnoMedia.Web.Controllers
                 if (IsValid(user.UserName, user.Password))
                 {
                     FormsAuthentication.SetAuthCookie(user.UserName, user.RememberMe);
-                    return RedirectToAction("Index", "VidSoom");
+                  //  return RedirectToAction("Index", "VidSoom");
+                    return RedirectToAction("Index", "ThirdPartyApplication");
                 }
                 else
                 {
@@ -48,6 +49,13 @@ namespace MagnoMedia.Web.Controllers
                 return true;
             return false;
 
+        }
+
+        public ActionResult LogOff()
+        {
+            FormsAuthentication.SignOut();
+
+            return RedirectToAction("Login", "User");
         }
 
     }
