@@ -41,7 +41,7 @@
             this.panel1.Controls.Add(this.labelInitialStep);
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.panel1.Location = new System.Drawing.Point(9, 35);
+            this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(351, 65);
@@ -71,12 +71,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(374, 124);
+            this.ClientSize = new System.Drawing.Size(351, 65);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "Vidsoom";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

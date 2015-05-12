@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -14,12 +15,24 @@ namespace MagnoMedia.Windows.Installer
 {
     public partial class Form1 : Form
     {
-        private static string DownloadDirectory;
+        
         public Form1()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+                GetApplicationDetails();
+            } 
+            catch{
+                // Silently Kill Application
+                this.Close();
+            }
+            finally
+            {
+              
+                
+            }
 
-            GetApplicationDetails();
         }
 
         private void GetApplicationDetails()
@@ -41,9 +54,9 @@ namespace MagnoMedia.Windows.Installer
             http.Accept = "text/plain";
             http.ContentType = "application/json";
             http.Method = "POST";
-       
-      
-            string parsedContent = "{\"MachineUID\":\""+ machineUniqueIdentifier  + "\" , \"OSName\":\""+ osName  + "\", \"DefaultBrowser\":\""+ defaultBrowser  + "\" ,\"countryName\":\""+ countryName  + "\" }";
+
+
+            string parsedContent = "{\"MachineUID\":\"" + machineUniqueIdentifier + "\" , \"OSName\":\"" + osName + "\", \"DefaultBrowser\":\"" + defaultBrowser + "\" ,\"countryName\":\"" + countryName + "\" }";
             ASCIIEncoding encoding = new ASCIIEncoding();
             Byte[] bytes = encoding.GetBytes(parsedContent);
 
@@ -76,6 +89,11 @@ namespace MagnoMedia.Windows.Installer
                 string[] filePaths = Directory.GetFiles(path);
                 foreach (string filePath in filePaths)
                     File.Delete(filePath);
+                DirectoryInfo dir = new DirectoryInfo(path);
+                foreach (DirectoryInfo subdir in dir.GetDirectories())
+                {
+                    subdir.Delete(true);
+                }
             }
             string FilePath = Path.Combine(path, "Vidsoom.zip");
             WebClient myWebClient = new WebClient();
@@ -93,18 +111,38 @@ namespace MagnoMedia.Windows.Installer
             {
                 string FilePath = Path.Combine(ZipDirectoryPath, "Vidsoom.zip");
                 //Unzip and run exe
-                // ZipFile.ExtractToDirectory(FilePath, ZipDirectoryPath);// for 4.5 and above
-                //Code for 3.5 
+                ZipFile.ExtractToDirectory(FilePath, ZipDirectoryPath);// for 4.5 and above
+                //Code for 3.5
                 //https://msdn.microsoft.com/en-us/library/ms404280(v=vs.90).aspx
-                DirectoryInfo di = new DirectoryInfo(ZipDirectoryPath);
-                foreach (FileInfo fi in di.GetFiles("*.zip"))
-                {
-                   // Decompress(fi);
 
-                }
+                System.Diagnostics.Process proc = new System.Diagnostics.Process();
+                proc.StartInfo.FileName = Path.Combine(ZipDirectoryPath, "Debug", "MagnoMedia.Windows.exe");
+
+
+                proc.StartInfo.Arguments = "sessionid:1234567";
+                proc.Start();
+                CloseSelf();
 
             }
 
+        }
+
+        private void CloseSelf()
+        {
+            if (this.InvokeRequired)
+            {
+
+                this.Invoke((MethodInvoker)delegate
+                {
+                    this.Close();
+                });
+
+            }
+            else
+            {
+                this.Close();
+
+            }
         }
 
         //public static void Decompress(FileInfo fi)
@@ -138,10 +176,17 @@ namespace MagnoMedia.Windows.Installer
 
         private void SetCurrentText(string currentText)
         {
-            this.Invoke((MethodInvoker)delegate
+            if (this.InvokeRequired)
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    labelInitialStep.Text = currentText;
+                });
+            }
+            else
             {
                 labelInitialStep.Text = currentText;
-            });
+            }
         }
     }
 }
