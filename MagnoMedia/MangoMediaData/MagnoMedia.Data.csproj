@@ -69,14 +69,17 @@
     <Compile Include="Models\AppCountryValidity.cs" />
     <Compile Include="Models\AppOSValidityEntity.cs" />
     <Compile Include="Models\DBEntity.cs" />
+    <Compile Include="Models\enum\TrackingState.cs" />
     <Compile Include="Models\OperatingSystem.cs" />
+    <Compile Include="Models\UserTrack.cs" />
     <Compile Include="Models\ThirdPartyApplication.cs" />
     <Compile Include="Models\InstallationReport.cs" />
     <Compile Include="Models\ThirdPartyApplicationDetails.cs" />
+    <Compile Include="Models\SessionDetail.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserInstallDetails.cs" />
     <Compile Include="Models\UserInstallError.cs" />
-    <Compile Include="Models\InstallationState.cs" />
+    <Compile Include="Models\enum\InstallationState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

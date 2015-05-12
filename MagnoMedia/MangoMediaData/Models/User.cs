@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MagnoMedia.Data.Models
 {
-   public class User:DBEntity
+    public class User : DBEntity
     {
         public string FingerPrint { get; set; }
         public string OSName { get; set; }
