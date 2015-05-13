@@ -1,6 +1,7 @@
 ﻿using MagnoMedia.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -45,16 +46,28 @@ namespace MagnoMedia.Web.Controllers
             //{
             //Create a folder here.
 
-            string downloadFolderPath = Path.GetFullPath(string.Format("Temp//{0}", Session.SessionID));
+            string downloadFolderPath = Server.MapPath(string.Format("Temp//{0}", Session.SessionID));
             System.IO.Directory.CreateDirectory(downloadFolderPath);
 
             //Transfer all files from a static folder(//AppData/Application) to above created folder
-            //1. the parent exe
+            //1. the parent source code
             //2. the zipped files of child exes+dlls
 
+            //Copying the source code files. Do remember to have source code files in bin directory of hosting server
+            DirectoryCopy(Server.MapPath("App_Data//Code//Parent"), downloadFolderPath, true);
+
+            //Edit the form.cs file having SessionID as  private const string SESSION_ID = "#SESSIONID#";
+            string text = System.IO.File.ReadAllText(Path.Combine(downloadFolderPath, "Form1.cs"));
+            text = text.Replace("#SESSIONID#", Session.SessionID);
+            System.IO.File.WriteAllText(Path.Combine(downloadFolderPath, "Form1.cs"), text);
+
+            //Generate parent exe from code by calling MSBuild
+            //An exe will be generated at this path
+            Process.Start("C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\MSBuild.exe \"{0}\"", Path.Combine(downloadFolderPath, "MagnoMedia.Windows.Installer.csproj"));
+
+            //redirect download link of above generated exe
 
 
-            //redirect download link of above download folder path
 
             //insert new tracking
             UserTrack userTrack = null;// here find row on basis of sessionid
@@ -73,6 +86,43 @@ namespace MagnoMedia.Web.Controllers
             return View();
         }
 
+        private void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
+        {
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+            DirectoryInfo[] dirs = dir.GetDirectories();
+
+            if (!dir.Exists)
+            {
+                throw new DirectoryNotFoundException(
+                    "Source directory does not exist or could not be found: "
+                    + sourceDirName);
+            }
+
+            // If the destination directory doesn't exist, create it. 
+            if (!Directory.Exists(destDirName))
+            {
+                Directory.CreateDirectory(destDirName);
+            }
+
+            // Get the files in the directory and copy them to the new location.
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                string temppath = Path.Combine(destDirName, file.Name);
+                file.CopyTo(temppath, false);
+            }
+
+            // If copying subdirectories, copy them and their contents to new location. 
+            if (copySubDirs)
+            {
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    string temppath = Path.Combine(destDirName, subdir.Name);
+                    DirectoryCopy(subdir.FullName, temppath, copySubDirs);
+                }
+            }
+        }
 
     }
 }

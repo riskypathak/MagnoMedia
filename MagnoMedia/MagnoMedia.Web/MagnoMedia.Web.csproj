@@ -156,12 +156,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Content Include="App_Data\Application\Child\MagnoMedia.Common.dll" />
-    <Content Include="App_Data\Application\Child\MagnoMedia.Data.dll" />
-    <Content Include="App_Data\Application\Child\MagnoMedia.Windows.exe" />
-    <Content Include="App_Data\Application\Child\Newtonsoft.Json.dll" />
-    <Content Include="App_Data\Application\Child\NLog.dll" />
-    <Content Include="App_Data\Application\Parent\MagnoMedia.Windows.Installer.exe" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -202,6 +196,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Temp\" />
   </ItemGroup>
   <ItemGroup>
