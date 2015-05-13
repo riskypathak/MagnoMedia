@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MagnoMedia.Data.Models
 {
-   public class OperatingSystem:DBEntity
+    public class OperatingSystem : DBEntity
     {
         public string OSName { get; set; }
 

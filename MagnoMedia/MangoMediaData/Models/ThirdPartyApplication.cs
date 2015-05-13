@@ -10,7 +10,6 @@ namespace MagnoMedia.Data.Models
 {
     public class ThirdPartyApplication : DBEntity
     {
-      
         public string Name { get; set; }
         public string Url { get; set; }
         public bool HasUrl { get; set; }

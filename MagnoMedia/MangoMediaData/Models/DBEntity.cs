@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace MagnoMedia.Data.Models
 {
-   public class DBEntity
+    public class DBEntity
     {
-       [AutoIncrement]
-       public int Id { get; set; }
+        [AutoIncrement]
+        public int Id { get; set; }
 
     }
 }

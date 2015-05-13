@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MagnoMedia.Data.Models
 {
-   public class AppOSValidityEntity
+   public class AppOSValidityEntity: DBEntity
     {
         //FK
         public int ThirdPartyApplicationId { get; set; }
