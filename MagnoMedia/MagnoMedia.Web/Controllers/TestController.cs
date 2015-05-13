@@ -1,6 +1,11 @@
 ﻿using MagnoMedia.Data.Models;
+using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using ServiceStack.Data;
+using ServiceStack.OrmLite;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -26,21 +31,38 @@ namespace MagnoMedia.Web.Controllers
             session.IPAddress = Request.UserHostAddress;
 
             //Save into db here
+            IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+            //using (IDbConnection db = dbFactory.Open())
+            //{
+            //    db.Insert<SessionDetail>(session);
+            //}
+            InsertInDB<SessionDetail>(dbFactory, session);
 
+                
             //Insert into tracking
             UserTrack userTrack = new UserTrack();
             userTrack.UpdatedDate = DateTime.Now;
             userTrack.SessionId = session.SessionId;
             userTrack.State = TrackingState.LandingPage;
+            InsertInDB<UserTrack>(dbFactory, userTrack);
+
 
             return View();
+        }
+
+        private static void InsertInDB<T>(IDbConnectionFactory dbFactory, T data)
+        {
+            using (IDbConnection db = dbFactory.Open())
+            {
+                db.Insert<T>(data);
+            }
         }
 
         public ActionResult Download()
         {
             //Check here if session already exist in database table.
             //Also Check only in last 5 minutes. Because a session expire in 20 minutes by default so lets take a 1/4th value
-            //Also as sessionid can be repeated so this will help us to track unique session in last 5 min utes
+            //Also as sessionid can be repeated so this will help us to track unique session in last 5 minutes
 
             //if(db.Sessions.Where(s=>s.SessionId == Session.SessionID && s.RequestDate > DateTime.Now.AddMinutes(-5)))
             //{
@@ -74,7 +96,8 @@ namespace MagnoMedia.Web.Controllers
             userTrack.UpdatedDate = DateTime.Now;
             userTrack.SessionId = Session.SessionID;
             userTrack.State = TrackingState.LandingPage;
-
+            IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+            InsertInDB<UserTrack>(dbFactory, userTrack);
 
 
 
