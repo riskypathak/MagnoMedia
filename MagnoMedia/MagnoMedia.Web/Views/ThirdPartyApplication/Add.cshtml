@@ -32,7 +32,14 @@
                 <td>Url :</td>
                 <td>@Html.TextBoxFor(e => e.Url)</td>
             </tr>
-
+            <tr>
+                <td >Country :</td>
+                <td>@Html.ListBox("CountryId", (MultiSelectList)ViewBag.country, new { style = "height: 300px" })</td>
+            </tr>
+            <tr>
+                <td style="width: 100px">Browser :</td>
+                <td>@Html.ListBox("BrowserId", (MultiSelectList)ViewBag.browser)</td>
+            </tr>
             <tr>
                 <td></td>
                 <td>
