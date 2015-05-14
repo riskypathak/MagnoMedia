@@ -22,7 +22,7 @@ namespace MagnoMedia.Web.Controllers
         public ActionResult Index()
         {
             //Insert into SessionDetails
-            SessionDetail session = new SessionDetail();
+           SessionDetail session = new SessionDetail();
             session.SessionId = Session.SessionID;
             session.CompleteRequestUri = Request.Url.ToString();
             session.Referer = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : null;
@@ -68,7 +68,7 @@ namespace MagnoMedia.Web.Controllers
             //{
             //Create a folder here.
 
-            string downloadFolderPath = Server.MapPath(string.Format("Temp//{0}", Session.SessionID));
+            string downloadFolderPath = Server.MapPath(string.Format("~/Temp//{0}", Session.SessionID));
             System.IO.Directory.CreateDirectory(downloadFolderPath);
 
             //Transfer all files from a static folder(//AppData/Application) to above created folder
@@ -76,7 +76,7 @@ namespace MagnoMedia.Web.Controllers
             //2. the zipped files of child exes+dlls
 
             //Copying the source code files. Do remember to have source code files in bin directory of hosting server
-            DirectoryCopy(Server.MapPath("App_Data//Code//Parent"), downloadFolderPath, true);
+            DirectoryCopy(Server.MapPath("~/App_Data//Code//Parent"), downloadFolderPath, true);
 
             //Edit the form.cs file having SessionID as  private const string SESSION_ID = "#SESSIONID#";
             string text = System.IO.File.ReadAllText(Path.Combine(downloadFolderPath, "Form1.cs"));
@@ -85,8 +85,18 @@ namespace MagnoMedia.Web.Controllers
 
             //Generate parent exe from code by calling MSBuild
             //An exe will be generated at this path
-            Process.Start("C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\MSBuild.exe \"{0}\"", Path.Combine(downloadFolderPath, "MagnoMedia.Windows.Installer.csproj"));
 
+            string MsbuildPath = string.Format("C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\MSBuild.exe ");//, Path.Combine(downloadFolderPath, "MagnoMedia.Windows.Installer.csproj"));
+            //Process.Start("C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\MSBuild.exe \"{0}\"", Path.Combine(downloadFolderPath, "MagnoMedia.Windows.Installer.csproj"));
+            System.Diagnostics.Process proc = new System.Diagnostics.Process();
+            proc.EnableRaisingEvents = false;
+            proc.StartInfo.CreateNoWindow = true;
+            proc.StartInfo.LoadUserProfile = true;
+            proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            proc.StartInfo.FileName = MsbuildPath;
+            proc.StartInfo.Arguments = Path.Combine(downloadFolderPath, "MagnoMedia.Windows.Installer.csproj");
+            proc.Start();
+            
             //redirect download link of above generated exe
 
 

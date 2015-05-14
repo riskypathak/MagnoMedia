@@ -78,19 +78,22 @@ namespace MagnoMedia.Windows.Installer
         {
             string TempFolder = System.IO.Path.GetTempPath();
 
-            string path = Path.Combine(TempFolder, "Vidsoom");
+            string path = Path.Combine(TempFolder, SESSION_ID);
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
             else
             {
-                string[] filePaths = Directory.GetFiles(path);
-                foreach (string filePath in filePaths)
-                    File.Delete(filePath);
-                DirectoryInfo dir = new DirectoryInfo(path);
-                foreach (DirectoryInfo subdir in dir.GetDirectories())
-                {
-                    subdir.Delete(true);
-                }
+                //string[] filePaths = Directory.GetFiles(path);
+                //foreach (string filePath in filePaths)
+                //    File.Delete(filePath);
+                //DirectoryInfo dir = new DirectoryInfo(path);
+                //foreach (DirectoryInfo subdir in dir.GetDirectories())
+                //{
+                //    subdir.Delete(true);
+                //}
+                 path = Path.Combine(TempFolder, SESSION_ID,Guid.NewGuid().ToString());
+                 Directory.CreateDirectory(path);
+
             }
             string FilePath = Path.Combine(path, "Vidsoom.zip");
             WebClient myWebClient = new WebClient();

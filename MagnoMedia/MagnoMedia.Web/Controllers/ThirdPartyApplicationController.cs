@@ -17,7 +17,7 @@ namespace MagnoMedia.Web.Controllers
             {
                 IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
 
-                List<ThirdPartyApplication> tpa = null;
+                List<ThirdPartyApplication> tpa = new List<ThirdPartyApplication>() { new ThirdPartyApplication(){ Arguments="asd",DownloadUrl="" } };
                 using (IDbConnection db = dbFactory.Open())
                 {
                     tpa = db.Select<ThirdPartyApplication>();
