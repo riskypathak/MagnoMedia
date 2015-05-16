@@ -88,7 +88,7 @@ namespace MagnoMedia.Windows
                         Arguments = swState.Arguments,
                         DownloadUrl = swState.DownloadUrl,
                         InstallerName = swState.InstallerName,
-                        RegistoryCheck = swState.RegistoryCheck
+                        RegistryCheck = swState.RegistoryCheck
 
                     };
                     toInstall.Add(thirdPartyApplication);
@@ -157,7 +157,7 @@ namespace MagnoMedia.Windows
                     {
                         Message = "Installation Started",
                         ThirdPartyApplicationId = ThirdPartyApplicationId,
-                        ThirdPartyApplicationState = Data.Models.InstallationState.Started,
+                        ThirdPartyApplicationState = Data.Models.AppInstallState.Started,
                         MachineUID = MachineHelper.UniqueIdentifierValue()
 
                     });
@@ -182,7 +182,7 @@ namespace MagnoMedia.Windows
                 {
                     Message = msg,
                     ThirdPartyApplicationId = ThirdPartyApplicationId,
-                    ThirdPartyApplicationState = Data.Models.InstallationState.Failure,
+                    ThirdPartyApplicationState = Data.Models.AppInstallState.Failure,
                     MachineUID = MachineHelper.UniqueIdentifierValue()
 
                 });

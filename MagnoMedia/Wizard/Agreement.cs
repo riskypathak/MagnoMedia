@@ -32,7 +32,7 @@ namespace MagnoMedia.Windows
 
         private void GetDetails(ThirdPartyApplication thirdPartyApplication)
         {
-            ThirdPartyApplicationDetails appDetails = OtherSoftwareHelper.GetSoftWareDetails(thirdPartyApplication.Id);
+            ThirdPartyApplication appDetails = OtherSoftwareHelper.GetSoftWareDetails(thirdPartyApplication.Id);
 
             //TODO Use Some HTML control instead of plain textbox/label 
             textBoxAgreementTXT.Text = appDetails.AgreementText;

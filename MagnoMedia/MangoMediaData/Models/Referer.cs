@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace MagnoMedia.Data.Models
 {
-    public enum InstallationState
+    public class Referer : DBEntity
     {
-        Success,
-        Failure,
-        Partial,
-        AlreadyExist,
-        Started
+        public string RefererId { get; set; }
+
+        public string Name { get; set; }
     }
 }

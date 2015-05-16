@@ -115,7 +115,7 @@ namespace MagnoMedia.Windows
                         Arguments = sw.Arguments,
                         DownloadUrl = sw.DownloadUrl,
                         InstallerName = sw.InstallerName,
-                        RegistoryCheck = sw.RegistoryCheck,
+                        RegistoryCheck = sw.RegistryCheck,
                         Name = sw.Name
                     };
 
@@ -129,7 +129,7 @@ namespace MagnoMedia.Windows
                     {
                         Message = "Application Already Exist",
                         ThirdPartyApplicationId =  sw.Id,
-                        ThirdPartyApplicationState = Data.Models.InstallationState.AlreadyExist,
+                        ThirdPartyApplicationState = Data.Models.AppInstallState.AlreadyExist,
                         MachineUID = MachineHelper.UniqueIdentifierValue()
 
                     });

@@ -10,9 +10,13 @@ namespace MagnoMedia.Data.Models
     {
         public string SessionId { get; set; }
 
+        public string FingerPrint { get; set; } //This will be used later to track user. This should be foreign key to User table
+
         public string CompleteRequestUri { get; set; }
 
         public string Referer { get; set; }
+
+        public string RefererId { get; set; } //This will give us the refer who passes us the info. This should be FK to Referer table
 
         public string IPAddress { get; set; }
 

@@ -43,7 +43,6 @@ namespace MagnoMedia.Web.Api.Controllers
                         CreationDate = DateTime.Now,
                         FingerPrint = request.MachineUID,
                         OSName = request.OSName,
-                        RefererId = 1111,
                         IP = ipAddress,
                         CountryName = request.CountryName
                     };
@@ -57,7 +56,7 @@ namespace MagnoMedia.Web.Api.Controllers
 
 
         [Route("{id:int}")]
-        public ThirdPartyApplicationDetails Get(int id)
+        public ThirdPartyApplication Get(int id)
         {
             return GetSoftwareDetails(id);
         }
@@ -84,7 +83,7 @@ namespace MagnoMedia.Web.Api.Controllers
         }
 
 
-        private ThirdPartyApplicationDetails GetSoftwareDetails(int id)
+        private ThirdPartyApplication GetSoftwareDetails(int id)
         {
             IDbConnectionFactory dbFactory =
                new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
@@ -92,7 +91,7 @@ namespace MagnoMedia.Web.Api.Controllers
             using (IDbConnection db = dbFactory.Open())
             {
 
-                return db.SingleById<ThirdPartyApplicationDetails>(id);
+                return db.SingleById<ThirdPartyApplication>(id);
             }
         }
     }

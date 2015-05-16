@@ -42,7 +42,18 @@ namespace MagnoMedia.Test
                 //Insert 3rd party Softwares
                 db.InsertAll<ThirdPartyApplication>(GetSoftwareList());
 
+                //Install Referer
+                db.InsertAll<Referer>(GetAllReferers());
+
             }
+        }
+
+        private IEnumerable<Referer> GetAllReferers()
+        {
+            return new List<Referer>()
+            {
+                new Referer(){Name = "Ad Booth"}
+            };
         }
 
         private IEnumerable<Browser> GetBrowserList()

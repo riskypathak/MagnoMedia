@@ -10,7 +10,9 @@ namespace MagnoMedia.Data.Models
     {
         public string SessionId { get; set; }
 
-        public TrackingState State { get; set; }
+        public string FingerPrint { get; set; }
+
+        public UserTrackState State { get; set; }
 
         public DateTime UpdatedDate { get; set; }
     }

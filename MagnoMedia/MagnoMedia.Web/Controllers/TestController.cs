@@ -43,7 +43,7 @@ namespace MagnoMedia.Web.Controllers
             UserTrack userTrack = new UserTrack();
             userTrack.UpdatedDate = DateTime.Now;
             userTrack.SessionId = session.SessionId;
-            userTrack.State = TrackingState.LandingPage;
+            userTrack.State = UserTrackState.LandingPage;
             InsertInDB<UserTrack>(dbFactory, userTrack);
 
 
@@ -105,7 +105,7 @@ namespace MagnoMedia.Web.Controllers
             UserTrack userTrack = null;// here find row on basis of sessionid
             userTrack.UpdatedDate = DateTime.Now;
             userTrack.SessionId = Session.SessionID;
-            userTrack.State = TrackingState.LandingPage;
+            userTrack.State = UserTrackState.LandingPage;
             IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
             InsertInDB<UserTrack>(dbFactory, userTrack);
 

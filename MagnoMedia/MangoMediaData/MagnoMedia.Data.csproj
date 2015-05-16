@@ -63,23 +63,22 @@
   <ItemGroup>
     <Compile Include="APIRequestDTO\InstallerData.cs" />
     <Compile Include="APIRequestDTO\UserData.cs" />
+    <Compile Include="Models\Referer.cs" />
     <Compile Include="Models\Browser.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\AppBrowserValidity.cs" />
     <Compile Include="Models\AppCountryValidity.cs" />
-    <Compile Include="Models\AppOSValidityEntity.cs" />
+    <Compile Include="Models\AppOSValidity.cs" />
     <Compile Include="Models\DBEntity.cs" />
-    <Compile Include="Models\enum\TrackingState.cs" />
+    <Compile Include="Models\enum\UserTrackState.cs" />
     <Compile Include="Models\OperatingSystem.cs" />
     <Compile Include="Models\UserTrack.cs" />
     <Compile Include="Models\ThirdPartyApplication.cs" />
     <Compile Include="Models\InstallationReport.cs" />
-    <Compile Include="Models\ThirdPartyApplicationDetails.cs" />
     <Compile Include="Models\SessionDetail.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserInstallDetails.cs" />
-    <Compile Include="Models\UserInstallError.cs" />
-    <Compile Include="Models\enum\InstallationState.cs" />
+    <Compile Include="Models\UserAppTrack.cs" />
+    <Compile Include="Models\enum\AppInstallState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
