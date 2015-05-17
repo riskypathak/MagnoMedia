@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="APIRequestDTO\InstallerData.cs" />
     <Compile Include="APIRequestDTO\UserData.cs" />
+    <Compile Include="Models\Revenue.cs" />
     <Compile Include="Models\Referer.cs" />
     <Compile Include="Models\Browser.cs" />
     <Compile Include="Models\Country.cs" />
