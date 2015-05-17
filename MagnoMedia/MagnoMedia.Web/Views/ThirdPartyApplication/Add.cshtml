@@ -1,68 +1,73 @@
 ﻿@model MagnoMedia.Data.Models.ThirdPartyApplication
 @{
     ViewBag.Title = "Add";
-}
+    Layout = "~/Views/Shared/_Layout.cshtml";
 
-<p>
-   
-   @Html.ActionLink("Log Off", "LogOff", "User")
-</p>
-@using (Html.BeginForm("Add", "thirdpartyapplication", FormMethod.Post))
+}
+@*<p>
+
+    @Html.ActionLink("Log Off", "LogOff", "User")
+</p>*@
+@using (Html.BeginForm("Add", "thirdpartyapplication", FormMethod.Post, new { @class = "form-horizontal" }))
 {
-    <fieldset>
-        <legend>Add New Application</legend>
-        <table style="width: 50%; padding: 30px;">
-            <tr>
-                <td>Name :</td>
-                <td>@Html.TextBoxFor(e => e.Name)</td>
-            </tr>
-            <tr>
-                <td >Installer Name :</td>
-                <td>@Html.TextBoxFor(e => e.InstallerName)</td>
-            </tr>
-            <tr>
-                <td>Arguments :</td>
-                <td>@Html.TextBoxFor(e => e.Arguments)</td>
-            </tr>
-            <tr>
-                <td>Download Url :</td>
-                <td>@Html.TextBoxFor(e => e.DownloadUrl)</td>
-            </tr>
-            <tr>
-                <td>Url :</td>
-                <td>@Html.TextBoxFor(e => e.Url)</td>
-            </tr>
-            <tr>
-                <td >Country :</td>
-                <td>@Html.ListBox("CountryId", (MultiSelectList)ViewBag.country, new { style = "height: 300px" })</td>
-            </tr>
-            <tr>
-                <td style="width: 100px">Browser :</td>
-                <td>@Html.ListBox("BrowserId", (MultiSelectList)ViewBag.browser)</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <input type="submit" name="name" value="Save Changes" />
-                </td>
-            </tr>
+    <h2>Add New Application</h2>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="email">Name :</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(e => e.Name, new { @class = "form-control" })
+        </div>
+    </div>
 
-        </table>
-    </fieldset>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="email">Installer Name :</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(e => e.InstallerName, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="email">Arguments :</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(e => e.Arguments, new { @class = "form-control" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="email">Download Url :</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(e => e.DownloadUrl, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="email">Url:</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(e => e.Url, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="email">Country :</label>
+        <div class="col-sm-10">
+            @Html.ListBox("CountryId", (MultiSelectList)ViewBag.country, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="email">Browser :</label>
+        <div class="col-sm-10">
+            @Html.ListBox("BrowserId", (MultiSelectList)ViewBag.browser, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="submit" name="name" class="btn btn-primary" value="Save Changes" />
+        </div>
+    </div>
+
+
 
 }
-<style>
-    tr {
-        padding: 10px 0px;
-    }
 
-        tr td:first-child {
-            text-align: right;
-            padding-right: 20px;
-            width: 30%;
-        }
-
-    input[type="text"] {
-        width: 400px !important;
-    }
-</style>
