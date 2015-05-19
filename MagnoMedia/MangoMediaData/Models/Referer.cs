@@ -9,7 +9,7 @@ namespace MagnoMedia.Data.Models
 {
     public class Referer : DBEntity
     {
-        public string RefererId { get; set; }
+        public string RefererCode { get; set; }
 
         public string Name { get; set; }
     }
