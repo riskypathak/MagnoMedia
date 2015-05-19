@@ -154,6 +154,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DownloadData.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\VidSoomHome.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

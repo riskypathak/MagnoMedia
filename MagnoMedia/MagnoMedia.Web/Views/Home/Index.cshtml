@@ -1,9 +1,12 @@
-﻿<!DOCTYPE html>
+﻿
+@model MagnoMedia.Web.Models.DownloadData
+
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
 
-
+    
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
@@ -27,7 +30,11 @@
 
 <body>
 
+    <script>
 
+        var ss = '@Model.DownloadLink';
+        alert(ss);
+    </script>
     <!-- modales navegadores -->
     <div class="modales" style="display: none;">
         <!-- chrome -->

@@ -1,4 +1,5 @@
 ﻿using MagnoMedia.Data.Models;
+using MagnoMedia.Web.Models;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System;
@@ -43,8 +44,10 @@ namespace MagnoMedia.Web.Controllers
             userTrack.State = UserTrackState.LandingPage;
             InsertInDB<UserTrack>(dbFactory, userTrack);
 
+            DownloadData _downloaddata = new DownloadData { SessionId = session.SessionId };
+            _downloaddata.DownloadLink = String.Format("home/download/{0}/setup.exe‏", session.SessionId‏);
             //Embedd this SessionId in download/install link   on index page
-            return View();
+            return View(_downloaddata);
         }
 
         private static void InsertInDB<T>(IDbConnectionFactory dbFactory, T data)
