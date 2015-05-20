@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceStack.DataAnnotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,19 @@ namespace MagnoMedia.Data.Models
 {
     public class Revenue : DBEntity
     {
-        //[FK]
-        public int AppId { get; set; }
+        [References(typeof(ThirdPartyApplication))]
+        public int ApplicationId { get; set; }
+
+        [Reference]
+        public ThirdPartyApplication Application { get; set; }
 
         public DateTime Date { get; set; }
 
-        public string CountryCode { get; set; }
+        [References(typeof(Country))]
+        public int CountryId { get; set; }
+
+        [Reference]
+        public Country Country { get; set; }
 
         public float Value { get; set; }
     }

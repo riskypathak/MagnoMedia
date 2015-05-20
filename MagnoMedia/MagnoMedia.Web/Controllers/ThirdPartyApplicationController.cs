@@ -96,7 +96,7 @@ namespace MagnoMedia.Web.Controllers
                     AppCountryValidity acv = new AppCountryValidity();
                     acv.CountryId = item;
                     acv.Order = order;
-                    acv.ThirdPartyApplicationId = ThirdPartyApplicationId;
+                    acv.ApplicationId = ThirdPartyApplicationId;
                     db.Insert<AppCountryValidity>(acv);
                     order++;
                 }
@@ -118,7 +118,7 @@ namespace MagnoMedia.Web.Controllers
                 var browserrecords = db.Where<AppBrowserValidity>("ThirdPartyApplicationId", ThirdPartyApplicationId);
                 browserrecords.ForEach(x =>
                 {
-                    db.DeleteById<AppBrowserValidity>(x.ThirdPartyApplicationId);
+                    db.DeleteById<AppBrowserValidity>(x.ApplicationId);
 
                 });
 
@@ -128,7 +128,7 @@ namespace MagnoMedia.Web.Controllers
                     AppBrowserValidity abv = new AppBrowserValidity();
                     abv.BrowserId = item;
                     abv.Order = order;
-                    abv.ThirdPartyApplicationId = ThirdPartyApplicationId;
+                    abv.ApplicationId = ThirdPartyApplicationId;
                     db.Insert<AppBrowserValidity>(abv);
                     order++;
                 }

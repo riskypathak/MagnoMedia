@@ -1,12 +1,20 @@
 ﻿
+using ServiceStack.DataAnnotations;
 namespace MagnoMedia.Data.Models
 {
     public class UserAppTrack : DBEntity
     {
-        //FK
-        public int ThirdPartyApplicationId { get; set; }
+        [References(typeof(ThirdPartyApplication))]
+        public int ApplicationId { get; set; }
 
-        public string FingerPrint { get; set; }
+        [Reference]
+        public ThirdPartyApplication Application { get; set; }
+
+        [References(typeof(User))]
+        public int UserId { get; set; }
+
+        [Reference]
+        public User User { get; set; }
 
         public AppInstallState State { get; set; }
 

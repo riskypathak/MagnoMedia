@@ -31,7 +31,7 @@ namespace MagnoMedia.Web.Api.Controllers
                 User existingUser = db.Single<User>(x => x.FingerPrint == request.MachineUID);
                 if (existingUser != null)
                 {
-                    existingUser.BrowserName = request.DefaultBrowser;
+                    //existingUser.BrowserId = request.DefaultBrowser;
                     existingUser.CreationDate = DateTime.Now;
                     db.Save(existingUser);
                 }
@@ -39,12 +39,12 @@ namespace MagnoMedia.Web.Api.Controllers
                 {
                     User _usr = new User
                     {
-                        BrowserName = request.DefaultBrowser,
+                        //BrowserId = request.DefaultBrowser,
                         CreationDate = DateTime.Now,
                         FingerPrint = request.MachineUID,
-                        OSName = request.OSName,
+                        //OsId = request.OSName,
                         IP = ipAddress,
-                        CountryName = request.CountryName
+                        //CountryId = request.CountryName
                     };
                     long count = db.Insert<User>(_usr);
                 }

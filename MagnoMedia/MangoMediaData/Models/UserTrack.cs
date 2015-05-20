@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceStack.DataAnnotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,17 @@ namespace MagnoMedia.Data.Models
 {
     public class UserTrack : DBEntity
     {
-        public string SessionId { get; set; }
+        [References(typeof(SessionDetail))]
+        public int SessionDetailId { get; set; }
 
-        public string FingerPrint { get; set; }
+        [Reference]
+        public SessionDetail SessionDetail { get; set; }
+
+        [References(typeof(User))]
+        public int? UserId { get; set; }
+
+        [Reference]
+        public User User { get; set; }
 
         public UserTrackState State { get; set; }
 
