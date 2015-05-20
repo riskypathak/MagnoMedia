@@ -1,13 +1,20 @@
 ﻿
+using ServiceStack.DataAnnotations;
 namespace MagnoMedia.Data.Models
 {
    public class AppOSValidity: DBEntity
     {
-        //FK
+        [References(typeof(ThirdPartyApplication))]
         public int ThirdPartyApplicationId { get; set; }
 
-        //FK OSEntity
-        public int OSID { get; set; }
+        [Reference]
+        public ThirdPartyApplication Application { get; set; }
+
+        [References(typeof(OperatingSystem))]
+        public int OSId { get; set; }
+
+        [Reference]
+        public OperatingSystem OperatingSystem { get; set; }
 
         //Priority
         public int Order { get; set; }

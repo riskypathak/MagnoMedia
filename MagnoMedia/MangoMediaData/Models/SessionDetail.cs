@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceStack.DataAnnotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,15 +9,19 @@ namespace MagnoMedia.Data.Models
 {
     public class SessionDetail : DBEntity
     {
-        public string SessionId { get; set; }
+        public string SessionCode { get; set; }
 
         public string FingerPrint { get; set; } //This will be used later to track user. This should be foreign key to User table
 
         public string CompleteRequestUri { get; set; }
 
-        public string Referer { get; set; }
+        public string RefereralUrl { get; set; }
 
-        public string RefererId { get; set; } //This will give us the refer who passes us the info. This should be FK to Referer table
+        [References(typeof(Referer))]
+        public int RefererId { get; set; }
+
+        [Reference]
+        public Referer Referer { get; set; }
 
         public string IPAddress { get; set; }
 

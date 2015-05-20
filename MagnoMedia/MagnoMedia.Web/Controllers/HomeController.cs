@@ -21,9 +21,9 @@ namespace MagnoMedia.Web.Controllers
         {
             //Insert into SessionDetails
             SessionDetail session = new SessionDetail();
-            session.SessionId = Guid.NewGuid().ToString();
+            session.SessionCode = Guid.NewGuid().ToString();
             session.CompleteRequestUri = Request.Url.ToString();
-            session.Referer = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : null;
+            session.RefereralUrl = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : null;
             session.RequestDate = DateTime.Now;
             session.UserAgent = Request.UserAgent != null ? Request.UserAgent.ToString() : null;
             session.IPAddress = Request.UserHostAddress;
@@ -40,7 +40,7 @@ namespace MagnoMedia.Web.Controllers
             //Insert into tracking
             UserTrack userTrack = new UserTrack();
             userTrack.UpdatedDate = DateTime.Now;
-            userTrack.SessionId = session.SessionId;
+            userTrack.SessionId = session.SessionCode;
             userTrack.State = UserTrackState.LandingPage;
             InsertInDB<UserTrack>(dbFactory, userTrack);
 
@@ -77,7 +77,7 @@ namespace MagnoMedia.Web.Controllers
                 //Also Check only in last 5 minutes. Because we assume the download request should come from user in 5 minutes after user hit the index page
                 //Also as sessionid can be repeated so this will help us to track unique session in last 5 minutes
 
-                SessionDetail lastSession = db.Select<SessionDetail>().SingleOrDefault(s => s.SessionId == sessionId && s.RequestDate > DateTime.Now.AddMinutes(-5));
+                SessionDetail lastSession = db.Select<SessionDetail>().SingleOrDefault(s => s.SessionCode == sessionId && s.RequestDate > DateTime.Now.AddMinutes(-5));
 
                 if (lastSession == null)
                 {

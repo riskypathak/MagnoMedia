@@ -1,20 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ServiceStack.DataAnnotations;
+using System;
 
 namespace MagnoMedia.Data.Models
 {
     public class User : DBEntity
     {
+        [References(typeof(SessionDetail))]
+        public int SessionDetailId { get; set; }
+
+        [Reference]
+        public SessionDetail SessionDetail { get; set; }
+
         public string FingerPrint { get; set; }
 
-        public string OSName { get; set; }
+        [References(typeof(OperatingSystem))]
+        public int OsId { get; set; }
 
-        public string BrowserName { get; set; }
+        [Reference]
+        public OperatingSystem OperatingSystem { get; set; }
 
-        public string CountryName { get; set; }
+        [References(typeof(Browser))]
+        public int BrowserId { get; set; }
+
+        [Reference]
+        public Browser Browser { get; set; }
+
+        [References(typeof(Country))]
+        public int CountryId { get; set; }
+
+        [Reference]
+        public Country Country { get; set; }
 
         public string IP { get; set; }
 

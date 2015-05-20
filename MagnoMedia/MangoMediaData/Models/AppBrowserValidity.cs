@@ -1,13 +1,20 @@
 ﻿
+using ServiceStack.DataAnnotations;
 namespace MagnoMedia.Data.Models
 {
     public class AppBrowserValidity: DBEntity
     {
-        //FK
-        public int ThirdPartyApplicationId { get; set; }
+        [References(typeof(ThirdPartyApplication))]
+        public int ApplicationId { get; set; }
 
-        //FK BrowserEntity
+        [Reference]
+        public ThirdPartyApplication Application { get; set; }
+
+        [References(typeof(Browser))]
         public int BrowserId { get; set; }
+
+        [Reference]
+        public Browser Browser { get; set; }
 
         //Priority
         public int Order { get; set; }
