@@ -28,56 +28,65 @@ namespace MagnoMedia.Web.Controllers
             session.UserAgent = Request.UserAgent != null ? Request.UserAgent.ToString() : null;
             session.IPAddress = Request.UserHostAddress;
 
+            Referer referer = new Referer() { Name = "(Not set)", RefererCode = "(Not set)" };
+
             //Save into db here
             IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
             //using (IDbConnection db = dbFactory.Open())
             //{
             //    db.Insert<SessionDetail>(session);
             //}
-            InsertInDB<SessionDetail>(dbFactory, session);
+           long refererId = InsertInDB<Referer>(dbFactory, referer);
+           session.RefererId = Convert.ToInt32(refererId);
+           long sessionId =  InsertInDB<SessionDetail>(dbFactory, session);
 
 
             //Insert into tracking
             UserTrack userTrack = new UserTrack();
             userTrack.UpdatedDate = DateTime.Now;
-            userTrack.SessionId = session.SessionCode;
+            userTrack.SessionDetailId = Convert.ToInt32(sessionId);
             userTrack.State = UserTrackState.LandingPage;
             InsertInDB<UserTrack>(dbFactory, userTrack);
 
-            DownloadData _downloaddata = new DownloadData { SessionId = session.SessionId };
-            _downloaddata.DownloadLink = String.Format("home/download/{0}/setup.exe‏", session.SessionId‏);
+            DownloadData _downloaddata = new DownloadData { SessionId = session.SessionCode };
+            _downloaddata.DownloadLink = String.Format("home/download/{0}‏", session.SessionCode);
             //Embedd this SessionId in download/install link   on index page
             return View(_downloaddata);
         }
 
-        private static void InsertInDB<T>(IDbConnectionFactory dbFactory, T data)
+        private static long InsertInDB<T>(IDbConnectionFactory dbFactory, T data)
         {
             using (IDbConnection db = dbFactory.Open())
             {
-                db.Insert<T>(data);
+               return db.Insert<T>(data, selectIdentity: true);
             }
         }
 
         //This should be hit when url is http://<rootaddress>/download/<sessionid>
-        public ActionResult Download()
+        public FileResult Download(string id)
         {
-            string sessionId = "";// Store sessionid from input url
+            string sessionId = id;//"";// Store sessionid from input url
 
             //Redirect to Landing Page because we assume that user has not been come directly via LP
-            if (string.IsNullOrEmpty(sessionId))
+            if (string.IsNullOrEmpty(id))
             {
+                Redirect("/index");
                 //Redirect to Index(LP)
             }
 
             IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
-
+            string downloadFile = string.Empty;
             using (IDbConnection db = dbFactory.Open())
             {
                 //Check here if session already exist in database table.
                 //Also Check only in last 5 minutes. Because we assume the download request should come from user in 5 minutes after user hit the index page
                 //Also as sessionid can be repeated so this will help us to track unique session in last 5 minutes
-
-                SessionDetail lastSession = db.Select<SessionDetail>().SingleOrDefault(s => s.SessionCode == sessionId && s.RequestDate > DateTime.Now.AddMinutes(-5));
+                
+                //SessionDetail lastSession = db.Select<SessionDetail>().SingleOrDefault(s => s.SessionCode == sessionId && s.RequestDate > DateTime.Now.AddMinutes(-5));
+                //SessionDetail lastSession = db.Select<SessionDetail>(s => s.SessionCode == sessionId).FirstOrDefault();
+                string sqlQuery = String.Format("SELECT * FROM sessiondetail where SessionCode = \'" + sessionId + "\'");
+                SessionDetail lastSession = db.Select<SessionDetail>(sqlQuery).FirstOrDefault();
+                 //lastSession = db.Select<SessionDetail>(s => s.SessionCode.Equals(sessionId)).FirstOrDefault();
 
                 if (lastSession == null)
                 {
@@ -87,7 +96,7 @@ namespace MagnoMedia.Web.Controllers
                 {
                     //Create a folder here.
 
-                    string downloadFolderPath = Server.MapPath(string.Format("~/Temp//{0}", Session.SessionID));
+                    string downloadFolderPath = Server.MapPath(string.Format("~/Temp//{0}", sessionId));
                     System.IO.Directory.CreateDirectory(downloadFolderPath);
 
                     //Transfer all files from a static folder(//AppData/Application) to above created folder
@@ -115,20 +124,23 @@ namespace MagnoMedia.Web.Controllers
                     proc.StartInfo.FileName = MsbuildPath;
                     proc.StartInfo.Arguments = Path.Combine(downloadFolderPath, "MagnoMedia.Windows.Installer.csproj");
                     proc.Start();
-
+                    proc.WaitForExit();
                     //redirect download link of above generated exe
-
+                    downloadFile = Path.Combine(downloadFolderPath, "bin\\Debug", "MagnoMedia.Windows.Installer.exe");
                     //insert new tracking
-                    UserTrack userTrack = null;// here find row on basis of sessionid
+                    UserTrack userTrack = new UserTrack();// here find row on basis of sessionid
                     userTrack.UpdatedDate = DateTime.Now;
-                    userTrack.SessionId = sessionId;
+                    userTrack.SessionDetailId = lastSession.Id;
                     userTrack.State = UserTrackState.DownloadRequest;
 
                     InsertInDB<UserTrack>(dbFactory, userTrack);
+
+                    
+
                 }
             }
-
-            return View();
+            return File(downloadFile, System.Net.Mime.MediaTypeNames.Application.Octet, "MagnoMedia.Windows.Installer.exe");
+            
         }
 
         private void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)

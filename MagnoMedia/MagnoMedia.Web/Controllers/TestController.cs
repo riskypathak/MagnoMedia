@@ -39,7 +39,7 @@ namespace MagnoMedia.Web.Controllers
             //Insert into tracking
             UserTrack userTrack = new UserTrack();
             userTrack.UpdatedDate = DateTime.Now;
-            userTrack.SessionId = session.SessionCode;
+            userTrack.SessionDetailId = session.Id;
             userTrack.State = UserTrackState.LandingPage;
             InsertInDB<UserTrack>(dbFactory, userTrack);
 
@@ -118,7 +118,7 @@ namespace MagnoMedia.Web.Controllers
                     //insert new tracking
                     UserTrack userTrack = null;// here find row on basis of sessionid
                     userTrack.UpdatedDate = DateTime.Now;
-                    userTrack.SessionId = sessionId;
+                    userTrack.SessionDetailId = lastSession.Id;
                     userTrack.State = UserTrackState.DownloadRequest;
 
                     InsertInDB<UserTrack>(dbFactory, userTrack);
