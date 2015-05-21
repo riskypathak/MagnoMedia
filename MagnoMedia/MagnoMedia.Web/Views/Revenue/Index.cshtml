@@ -1,0 +1,49 @@
+﻿@model IEnumerable<MagnoMedia.Data.Models.Revenue>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Revenue List</h2>
+<table class="table table-striped table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayName("Application Name")
+        </th>
+        <th>
+            @Html.DisplayName("Date")
+        </th>
+        <th>
+            @Html.DisplayName("Country")
+        </th>
+        <th>
+            @Html.DisplayName("Value")
+        </th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Application.Name)
+            </td>
+            <td>
+                @Html.Raw(item.Date.ToShortDateString())
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country.Country_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Value)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                <br />
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "return confirm('Are you sure you wish to delete this?');" })
+            </td>
+        </tr>
+    }
+
+</table>

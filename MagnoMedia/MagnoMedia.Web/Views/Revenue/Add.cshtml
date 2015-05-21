@@ -1,0 +1,50 @@
+﻿@model MagnoMedia.Data.Models.Revenue
+
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Add", "Revenue", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <h2>Add Revenue</h2>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="email">Application :</label>
+        <div class="col-sm-10">
+            @Html.DropDownListFor(e => e.ApplicationId,(SelectList)ViewBag.Applicationlist,"--Select Application--", new { @class = "form-control ", @required="required" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="email">Date:</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(e => e.Date, new { @class = "form-control datePickercontrol",required="required" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="email">Country :</label>
+        <div class="col-sm-10">
+            @Html.DropDownListFor(e => e.CountryId,(SelectList)ViewBag.Countrylist,"--Select Country--", new { @class = "form-control",@required="required" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="email">Value:</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(e => e.Value, new { @class = "form-control",@required="required",type="number", step="any" })
+        </div>
+    </div>
+         
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="submit" name="name" class="btn btn-primary" value="Save Changes" />
+        </div>
+    </div>
+
+
+
+}
+

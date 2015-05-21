@@ -84,8 +84,8 @@ namespace MagnoMedia.Web.Controllers
             try
             {
                 int order = 1;
-                             
-                var countryrecords = db.Where<AppCountryValidity>("ThirdPartyApplicationId", ThirdPartyApplicationId);
+
+                var countryrecords = db.Where<AppCountryValidity>("ApplicationId", ThirdPartyApplicationId);
                 countryrecords.ForEach(x =>
                 {
                     db.DeleteById<AppCountryValidity>(x.Id);
@@ -115,7 +115,7 @@ namespace MagnoMedia.Web.Controllers
         {
             try
             {
-                var browserrecords = db.Where<AppBrowserValidity>("ThirdPartyApplicationId", ThirdPartyApplicationId);
+                var browserrecords = db.Where<AppBrowserValidity>("ApplicationId", ThirdPartyApplicationId);
                 browserrecords.ForEach(x =>
                 {
                     db.DeleteById<AppBrowserValidity>(x.ApplicationId);
@@ -157,12 +157,12 @@ namespace MagnoMedia.Web.Controllers
                     List<int> browserIds = new List<int>();
                     tpa = db.SingleById<ThirdPartyApplication>(id.Value);
 
-                    var country = db.Where<AppCountryValidity>("ThirdPartyApplicationId", id);
+                    var country = db.Where<AppCountryValidity>("ApplicationId", id);
                     country.ForEach(x =>
                     {
                         countryIds.Add(x.CountryId);
                     });
-                    var browser = db.Where<AppBrowserValidity>("ThirdPartyApplicationId", id);
+                    var browser = db.Where<AppBrowserValidity>("ApplicationId", id);
                     browser.ForEach(x =>
                     {
                         browserIds.Add(x.BrowserId);
