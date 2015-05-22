@@ -63,7 +63,9 @@ namespace MagnoMedia.Test
         {
             return new List<Referer>()
             {
-                new Referer(){Name = "Ad Booth"}
+
+                new Referer(){RefererCode="ADBOO", Name = "Ad Booth"},
+                new Referer(){RefererCode="NOREFER", Name = "No Referer"}
             };
         }
 

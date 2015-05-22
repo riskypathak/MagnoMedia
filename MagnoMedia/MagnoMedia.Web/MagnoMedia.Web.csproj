@@ -147,6 +147,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RevenueController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\ThirdPartyApplicationController.cs" />
     <Compile Include="Controllers\UserController.cs" />
