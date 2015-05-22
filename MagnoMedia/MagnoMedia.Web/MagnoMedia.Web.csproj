@@ -200,6 +200,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Revenue\Add.cshtml" />
+    <Content Include="Views\Revenue\Edit.cshtml" />
+    <Content Include="Views\Revenue\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
