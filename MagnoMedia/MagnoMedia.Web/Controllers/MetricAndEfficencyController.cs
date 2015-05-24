@@ -15,7 +15,7 @@ namespace MagnoMedia.Web.Controllers
     {
         //
         // GET: /MetricAndEfficency/
-
+        [Authorize]
         public ActionResult Index()
         {
             try

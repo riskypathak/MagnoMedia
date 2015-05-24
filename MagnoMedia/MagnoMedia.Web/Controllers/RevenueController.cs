@@ -15,7 +15,7 @@ namespace MagnoMedia.Web.Controllers
     {
         //
         // GET: /Revenue/
-
+        [Authorize]
         public ActionResult Index()
         {
             try
@@ -36,7 +36,7 @@ namespace MagnoMedia.Web.Controllers
                 throw ex;
             }
         }
-
+        [Authorize]
         public ActionResult Add()
         {
             try
@@ -56,6 +56,7 @@ namespace MagnoMedia.Web.Controllers
             }
 
         }
+        [Authorize]
         [HttpPost]
         public ActionResult Add(Revenue model)
         {
@@ -76,6 +77,7 @@ namespace MagnoMedia.Web.Controllers
                 throw ex;
             }
         }
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             try
@@ -100,6 +102,8 @@ namespace MagnoMedia.Web.Controllers
                 throw;
             }
         }
+
+        [Authorize]
         [HttpPost]
         public ActionResult Edit(Revenue model)
         {
@@ -118,6 +122,7 @@ namespace MagnoMedia.Web.Controllers
                 throw ex;
             }
         }
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             try
