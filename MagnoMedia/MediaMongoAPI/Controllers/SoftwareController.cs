@@ -65,7 +65,66 @@ namespace MagnoMedia.Web.Api.Controllers
         [HttpPost]
         public string ApplicationPath(UserData request)
         { 
-        //TODO hard coding zip on server
+            //TODO hard coding zip on server
+
+            IDbConnectionFactory dbFactory =
+            new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+            string ipAddress = ServerHelper.GetClinetIpAddress();
+            using (IDbConnection db = dbFactory.Open())
+            {
+                //check for already existing user
+                User existingUser = db.Single<User>(x => x.FingerPrint == request.MachineUID);
+                if (existingUser != null)
+                {
+                    //existingUser.BrowserId = request.DefaultBrowser;
+                    existingUser.CreationDate = DateTime.Now;
+                    db.Save(existingUser);
+                }
+                else
+                {
+
+                    SessionDetail sessionDetail = db.Single<SessionDetail>(x => x.Id == request.SessionID);
+
+                    // Browser Save
+                    Browser browser = new Browser
+                    {
+                    BrowserName = request.DefaultBrowser
+                    };
+                    int browserId = DbHelper.SaveInDB<Browser>(dbFactory, browser, x => x.BrowserName.Equals(request.DefaultBrowser));
+                    
+                    // OS Save
+                    MagnoMedia.Data.Models.OperatingSystem os = new Data.Models.OperatingSystem
+                    {
+                        OSName = request.OSName
+                    };
+                    int osId =   DbHelper.SaveInDB<MagnoMedia.Data.Models.OperatingSystem>(dbFactory, os, x => x.OSName.Equals(request.OSName));
+
+                    //Country Save
+                    Country country = new Country
+                    {
+                        Country_name = request.CountryName,
+                        Iso = "---",
+                    };
+                    int countryId = DbHelper.SaveInDB<Country>(dbFactory, country, x => x.Country_name.Equals(request.CountryName));
+
+                    User _usr = new User
+                    {
+                        BrowserId = browserId,
+                        OsId = osId,
+                        CountryId = countryId,
+                        CreationDate = DateTime.Now,
+                        FingerPrint = request.MachineUID,
+                        //OsId = request.OSName,
+                        IP = ipAddress,
+                        //CountryId = request.CountryName
+                        SessionDetailId = sessionDetail.Id,
+                        
+                    };
+                    long count = db.Insert<User>(_usr);
+                }
+            }
+
+
             return "http://188.42.227.39/vidsoom/Debug.zip";
         
         }
@@ -94,5 +153,16 @@ namespace MagnoMedia.Web.Api.Controllers
                 return db.SingleById<ThirdPartyApplication>(id);
             }
         }
+
+        //private static int SaveInDB<T>(IDbConnectionFactory dbFactory, T data,Func<T,bool> predicate)where T : DBEntity
+        //{
+        //    using (IDbConnection db = dbFactory.Open())
+        //    {
+        //        var existingData = db.Single<T>(predicate);
+        //        if (existingData != null)
+        //            return existingData.Id;
+        //        return (int)db.Insert<T>(data, selectIdentity: true);
+        //    }
+        //}
     }
 }

@@ -51,9 +51,9 @@ namespace MagnoMedia.Windows.Installer
             http.Accept = "text/plain";
             http.ContentType = "application/json";
             http.Method = "POST";
+            //SessionID
 
-
-            string parsedContent = "{\"MachineUID\":\"" + machineUniqueIdentifier + "\" , \"OSName\":\"" + osName + "\", \"DefaultBrowser\":\"" + defaultBrowser + "\" ,\"countryName\":\"" + countryName + "\" }";
+            string parsedContent = "{\"MachineUID\":\"" + machineUniqueIdentifier + "\" , \"OSName\":\"" + osName + "\", \"DefaultBrowser\":\"" + defaultBrowser + "\" ,\"countryName\":\"" + countryName + "\",\"SessionID\":\"" + SESSION_ID + "\" }";
             ASCIIEncoding encoding = new ASCIIEncoding();
             Byte[] bytes = encoding.GetBytes(parsedContent);
 
