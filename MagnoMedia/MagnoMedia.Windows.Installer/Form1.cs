@@ -119,7 +119,7 @@ namespace MagnoMedia.Windows.Installer
                 proc.StartInfo.FileName = Path.Combine(ZipDirectoryPath, "Debug", "MagnoMedia.Windows.exe");
 
 
-                proc.StartInfo.Arguments = "sessionid:1234567";
+                proc.StartInfo.Arguments = "sessionid:"+SESSION_ID;
                 proc.Start();
                 CloseSelf();
 

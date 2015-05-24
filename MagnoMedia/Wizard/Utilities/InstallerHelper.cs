@@ -11,5 +11,6 @@ namespace MagnoMedia.Windows.Utilities
     {
         public static bool ISResume { get; set; }
         public static List<ThirdPartyApplicationState> ThirdPartyApplicationStates;
+        public static String SessionID { get; set; }
     }
 }
