@@ -1,5 +1,4 @@
 ﻿using IWshRuntimeLibrary;
-using Magno.Data;
 using MagnoMedia.Data.APIRequestDTO;
 using MagnoMedia.Data.Models;
 using MagnoMedia.Windows.Model;
@@ -8,14 +7,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MagnoMedia.Windows
