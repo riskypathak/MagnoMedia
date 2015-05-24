@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using System.Dynamic;
 using System.Web.Mvc;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace MagnoMedia.Web.Controllers
 {
@@ -144,87 +145,129 @@ namespace MagnoMedia.Web.Controllers
 
         //There will be two methods. One is for get which will show the dropdowns and other fields for report.
         //There will be one post method which will generate report. The below logic is for post only.
-        public ActionResult ReportApps()
+         [HttpGet]
+        public ActionResult ReportApps(int? AppId, int? CountryId, string _startDate, string _endDate)
         {
+             
             //These values we will get from post parameters
-            DateTime startDate = DateTime.Now;
-            DateTime endDate = DateTime.Now;
+       
             int appId = 0;
             int countryCode = 0;
             UserAppTrack appState;
-
-            IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
-
-            using (IDbConnection db = dbFactory.Open())
+            dynamic ResultCount;
+            List<SearchResult> SearchResultList = new List<SearchResult>();
+            DateTime startDate = DateTime.Now;
+            if (_startDate != null)
             {
-                var validUsersTrack = db.Select<UserTrack>().Where(u => (int)u.State > 4 && u.UpdatedDate > startDate && u.UpdatedDate < endDate); //considering only those users whoose installer installs.
-
-                //Join with above users find in valid track
-                var validUsers = db.Select<User>().Where(u => u.CountryId == countryCode);
-
-                //Join below with users found above.
-                var validApps = db.Select<UserAppTrack>().Where(a => a.Id == appId);
-
-                //On basis of app state, generate a report having count for state(if no state then give all states as column)
-                //At header provide ApplicationName, Country, StarteDate, EndDate, State(if present)
+                startDate = DateTime.Parse(_startDate);
             }
 
-
-            return View();
-        }
-
-        //There will be two methods. One is for get which will show the dropdowns and other fields for report.
-        //There will be one post method which will generate report. The below logic is for post only.
-        public ActionResult ReportInstall()
-        {
+            DateTime endDate = DateTime.Now;
+            if (_endDate != null)
+            {
+                endDate = DateTime.Parse(_endDate);
+            }
             try
             {
                 IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+
                 using (IDbConnection db = dbFactory.Open())
                 {
+                    if (CountryId != null)
+                    {
+                        if (AppId != null)
+                            appId = AppId.Value;
+                        countryCode = CountryId.Value;
+                        var validUsersTrack = db.Select<UserTrack>().Where(u => (int)u.State > 4 && u.UpdatedDate > startDate && u.UpdatedDate < endDate); //considering only those users whoose installer installs.
+
+                        //Join with above users find in valid track
+                        var validUsers = db.Select<User>().Where(u => u.CountryId == countryCode);
+
+                        //Join below with users found above.
+                        var validApps = db.Select<UserAppTrack>().Where(a => a.Id == appId);
+
+                        //On basis of app state, generate a report having count for state(if no state then give all states as column)
+                        //At header provide ApplicationName, Country, StarteDate, EndDate, State(if present)
+                        ResultCount = (from ut in validUsersTrack
+                                       join vu in validUsers on ut.SessionDetailId equals vu.SessionDetailId
+                                       join vp in validApps on vu.Id equals vp.UserId
+                                       group ut.State by new { vu.Country.Country_name, ut.State } into x
+                                       select new SearchResult { Country = x.Key.Country_name, _UserTrackState = x.Key.State, DownLoadCount = x.Count() }).ToList();
+                        SearchResultList.AddRange(ResultCount);   
+                    }
                     ViewBag.country = new SelectList(db.Select<Country>(), "Id", "Country_name");
-                    ViewBag.browser = new SelectList(db.Select<Browser>(), "Id", "BrowserName");
-                    var statuses = from AppInstallState s in Enum.GetValues(typeof(AppInstallState))
-                                   select new { ID = s, Name = s.ToString() };
+
+                    var statuses = from UserTrackState s in Enum.GetValues(typeof(UserTrackState))
+                                   select new { ID = (int)s, Name = s.ToString() };
                     ViewBag.status = new SelectList(statuses, "ID", "Name");
                 }
-                return View();
             }
             catch (Exception)
             {
 
                 throw;
             }
-            
+
+            return View(SearchResultList);
         }
+   
+        //There will be two methods. One is for get which will show the dropdowns and other fields for report.
+        //There will be one post method which will generate report. The below logic is for post only.
+        
  
-        [HttpPost]
-        public ActionResult ReportInstall(int[] CountryId, int[] StateId, string _startDate, string _endDate)
+        [HttpGet]
+        public ActionResult ReportInstall(int? StatusId, int? CountryId, string _startDate, string _endDate)
         {
             //These values we will get from querystring
             DateTime startDate = DateTime.Now;
+            if (_startDate != null)
+            {
+                startDate = DateTime.Parse(_startDate);
+            }          
+            
             DateTime endDate = DateTime.Now;
-            int countryCode = 0;
+            if (_endDate != null)
+            {
+                endDate = DateTime.Parse(_endDate);
+            }
+            int countryCode=0;
+            if(CountryId!=null)
+             countryCode = CountryId.Value;
             UserTrack userTrack;
             dynamic ResultCount;
             IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
-
+            List<SearchResult> SearchResultList = new List<SearchResult>();
             using (IDbConnection db = dbFactory.Open())
             {
-                var validUsersTrack = db.Select<UserTrack>().Where(u => u.UpdatedDate > startDate && u.UpdatedDate < endDate); //considering only those users whoose installer installs.
+                if (CountryId != null)
+                {
+                    var validUsersTrack = db.Select<UserTrack>().Where(u => u.UpdatedDate > startDate && u.UpdatedDate < endDate); //considering only those users whoose installer installs.
 
-                //Join with above users find in valid track
-                var validUsers = db.Select<User>().Where(u => u.CountryId == countryCode);
-                ResultCount = (from ut in validUsersTrack
-                               join vu in validUsers on ut.SessionDetailId equals vu.SessionDetailId
-                               group ut.State by vu.CountryId into x
-                               select new { CountryName = countryCode, State = x.Key, Total = x.Count() }).AsEnumerable().Select(c => c.ToExpando());
+                    if (StatusId != null)
+                    {
+                        validUsersTrack = db.Select<UserTrack>().Where(u => u.UpdatedDate > startDate && u.UpdatedDate < endDate && u.State == (UserTrackState)StatusId); //considering only those users whoose installer installs.
+
+                    }
+                    //Join with above users find in valid track
+                    var validUsers = db.Select<User>().Where(u => u.CountryId == countryCode);
+                    ResultCount = (from ut in validUsersTrack
+                                   join vu in validUsers on ut.SessionDetailId equals vu.SessionDetailId
+                                   group ut.State by new { vu.Country.Country_name, ut.State } into x
+                                   select new SearchResult { Country = x.Key.Country_name, _UserTrackState = x.Key.State, DownLoadCount = x.Count()}).ToList();
+                    SearchResultList.AddRange(ResultCount);                   
+                }
                 //On basis of user state, generate a report having count for state(if no state then give all states as column)
                 //At header provide Country, StarteDate, EndDate, State(if Present)
+
+                ViewBag.country = new SelectList(db.Select<Country>(), "Id", "Country_name");
+                ViewBag.browser = new SelectList(db.Select<Browser>(), "Id", "BrowserName");
+                var statuses = from UserTrackState s in Enum.GetValues(typeof(UserTrackState))
+                               select new { ID = (int)s, Name = s.ToString() };
+                ViewBag.status = new SelectList(statuses, "ID", "Name");
             }
 
 
-            return View(ResultCount);
+            return View(SearchResultList);
         }
 
         public ActionResult Efficiency()

@@ -73,6 +73,7 @@
     <Compile Include="Models\DBEntity.cs" />
     <Compile Include="Models\enum\UserTrackState.cs" />
     <Compile Include="Models\OperatingSystem.cs" />
+    <Compile Include="Models\SearchResult.cs" />
     <Compile Include="Models\UserTrack.cs" />
     <Compile Include="Models\ThirdPartyApplication.cs" />
     <Compile Include="Models\InstallationReport.cs" />
