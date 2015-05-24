@@ -32,7 +32,7 @@ namespace MagnoMedia.Windows
             InitializeComponent();
             //LoadSoftwareList();
             string[] args = Environment.GetCommandLineArgs();
-
+            InstallerHelper.SessionID = args.Where(x => x.Contains("sessionid:")).First().Split(':').ElementAt(1);
             if (args.Contains("link"))
             {
                 InstallerHelper.ISResume = true;
@@ -97,7 +97,7 @@ namespace MagnoMedia.Windows
             string osName = MachineHelper.GetOSName();
             string defaultBrowser = MachineHelper.GetDefaultBrowserName();
             string countryName = MachineHelper.GetCountryName();
-            SWList = OtherSoftwareHelper.GetAllApplicableSoftWare(MachineUID: machineUniqueIdentifier, OSName: osName, DefaultBrowser: defaultBrowser, CountryName: countryName);
+            SWList = OtherSoftwareHelper.GetAllApplicableSoftWare(SessionID: InstallerHelper.SessionID);
             InstallerHelper.ThirdPartyApplicationStates = new List<ThirdPartyApplicationState>();
             currentText = "Analyzing Components...";
             SetCurrentText(currentText);

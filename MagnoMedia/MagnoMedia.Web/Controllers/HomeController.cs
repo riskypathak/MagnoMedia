@@ -110,7 +110,7 @@ namespace MagnoMedia.Web.Controllers
 
                     //Edit the form.cs file having SessionID as  private const string SESSION_ID = "#SESSIONID#";
                     string text = System.IO.File.ReadAllText(Path.Combine(downloadFolderPath, "Form1.cs"));
-                    text = text.Replace("#SESSIONID#", Session.SessionID);
+                    text = text.Replace("#SESSIONID#", sessionCode);
                     System.IO.File.WriteAllText(Path.Combine(downloadFolderPath, "Form1.cs"), text);
 
                     //Generate parent exe from code by calling MSBuild

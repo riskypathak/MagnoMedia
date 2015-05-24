@@ -15,5 +15,6 @@ namespace MagnoMedia.Windows.Model
         public string Arguments { get; set; }
         public string RegistoryCheck { get; set; }
         public bool IsDownloaded { get; set; }
+        public string SessionID { get; set; }
     }
 }

@@ -17,40 +17,47 @@ namespace MagnoMedia.Web.Api.Controllers
     {
         // GET api/software
         [Route(Name = "list")]
-        public IEnumerable<ThirdPartyApplication> Get([FromUri] UserData request)
+        public IEnumerable<ThirdPartyApplication> Get([FromUri] string SessionCode)
         {
             // Insert USER Data into Db
             IDbConnectionFactory dbFactory =
               new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
 
-
             string ipAddress = ServerHelper.GetClinetIpAddress();
             using (IDbConnection db = dbFactory.Open())
             {
+                var sessionDetailID = db.Single<SessionDetail>(r => r.SessionCode == SessionCode).Id;
+            //Insert into tracking
+            UserTrack userTrack = new UserTrack();
+            userTrack.UpdatedDate = DateTime.Now;
+            userTrack.SessionDetailId = sessionDetailID;
+            userTrack.State = UserTrackState.InstallStart;
+            DbHelper.InsertInDB<UserTrack>(dbFactory, userTrack);
                 //check for already existing user
-                User existingUser = db.Single<User>(x => x.FingerPrint == request.MachineUID);
-                if (existingUser != null)
-                {
-                    //existingUser.BrowserId = request.DefaultBrowser;
-                    existingUser.CreationDate = DateTime.Now;
-                    db.Save(existingUser);
-                }
-                else
-                {
-                    User _usr = new User
-                    {
-                        //BrowserId = request.DefaultBrowser,
-                        CreationDate = DateTime.Now,
-                        FingerPrint = request.MachineUID,
-                        //OsId = request.OSName,
-                        IP = ipAddress,
-                        //CountryId = request.CountryName
-                    };
-                    long count = db.Insert<User>(_usr);
-                }
+                //User existingUser = db.Single<User>(x => x. == request.MachineUID);
+                //if (existingUser != null)
+                //{
+                //    //existingUser.BrowserId = request.DefaultBrowser;
+                //    existingUser.CreationDate = DateTime.Now;
+                //    db.Save(existingUser);
+                //}
+                //else
+                //{
+                //    User _usr = new User
+                //    {
+                //        //BrowserId = request.DefaultBrowser,
+                //        CreationDate = DateTime.Now,
+                //        FingerPrint = request.MachineUID,
+                //        //OsId = request.OSName,
+                //        IP = ipAddress,
+                //        //CountryId = request.CountryName
+                //    };
+                //    long count = db.Insert<User>(_usr);
+                //}
+
+
+
             }
-
-
             return GetSoftwareList();
         }
 
