@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Configuration;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
@@ -45,9 +46,9 @@ namespace MagnoMedia.Windows.Installer
             string osName = MachineHelper.GetOSName();
             string defaultBrowser = MachineHelper.GetDefaultBrowserName();
             string countryName = MachineHelper.GetCountryName();
-
+            string hostname = ConfigurationManager.AppSettings["apiBaseAddress"].ToString();
             //OtherSoftwareHelper.GetAllApplicableSoftWare(MachineUID: machineUniqueIdentifier, OSName: osName, DefaultBrowser: defaultBrowser, CountryName: countryName);
-            var http = (HttpWebRequest)WebRequest.Create(new Uri("http://localhost:44227/api/software/applicationpath"));
+            var http = (HttpWebRequest)WebRequest.Create(new Uri(hostname + "/software/applicationpath"));
             http.Accept = "text/plain";
             http.ContentType = "application/json";
             http.Method = "POST";

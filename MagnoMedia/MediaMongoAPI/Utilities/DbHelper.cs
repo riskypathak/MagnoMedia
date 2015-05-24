@@ -22,5 +22,16 @@ namespace MagnoMedia.Web.Api.Utilities
                 return (int)db.Insert<T>(data, selectIdentity: true);
             }
         }
+
+        internal static long InsertInDB<T>(IDbConnectionFactory dbFactory, T data)
+        {
+            using (IDbConnection db = dbFactory.Open())
+            {
+                return db.Insert<T>(data, selectIdentity: true);
+            }
+        }
+
+
+
     }
 }
