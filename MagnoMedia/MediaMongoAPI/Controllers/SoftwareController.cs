@@ -90,14 +90,14 @@ namespace MagnoMedia.Web.Api.Controllers
                     {
                     BrowserName = request.DefaultBrowser
                     };
-                    int browserId = DbHelper.SaveInDB<Browser>(dbFactory, browser, x => x.BrowserName.Equals(request.DefaultBrowser));
+                    int browserId = DbHelper.SaveInDB<Browser>(dbFactory, browser, x => x.BrowserName.Contains(request.DefaultBrowser));
                     
                     // OS Save
                     MagnoMedia.Data.Models.OperatingSystem os = new Data.Models.OperatingSystem
                     {
                         OSName = request.OSName
                     };
-                    int osId =   DbHelper.SaveInDB<MagnoMedia.Data.Models.OperatingSystem>(dbFactory, os, x => x.OSName.Equals(request.OSName));
+                    int osId = DbHelper.SaveInDB<MagnoMedia.Data.Models.OperatingSystem>(dbFactory, os, x => x.OSName.Contains(request.OSName));
 
                     //Country Save
                     Country country = new Country
