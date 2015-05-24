@@ -2,10 +2,7 @@
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
 
 namespace MagnoMedia.Web.Api.Utilities
 {
@@ -20,6 +17,14 @@ namespace MagnoMedia.Web.Api.Utilities
                 if (existingData != null)
                     return existingData.Id;
                 return (int)db.Insert<T>(data, selectIdentity: true);
+            }
+        }
+
+        internal static long InsertInDB<T>(IDbConnectionFactory dbFactory, T data)
+        {
+            using (IDbConnection db = dbFactory.Open())
+            {
+                return db.Insert<T>(data, selectIdentity: true);
             }
         }
     }
