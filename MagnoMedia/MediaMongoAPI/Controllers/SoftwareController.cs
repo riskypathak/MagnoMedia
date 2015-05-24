@@ -103,9 +103,9 @@ namespace MagnoMedia.Web.Api.Controllers
                     Country country = new Country
                     {
                         Country_name = request.CountryName,
-                        Iso = "---",
+                        Iso = request.CountryName
                     };
-                    int countryId = DbHelper.SaveInDB<Country>(dbFactory, country, x => x.Country_name.Equals(request.CountryName));
+                    int countryId = DbHelper.SaveInDB<Country>(dbFactory, country, x => x.Iso.Equals(country.Iso));
 
                     User _usr = new User
                     {

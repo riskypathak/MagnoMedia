@@ -196,3 +196,4 @@ FakesAssemblies/
 *.opt
 
 .DS_Store
+MagnoMedia/MagnoMedia.Web/Scripts/bootstrap/moment-with-locales.js
