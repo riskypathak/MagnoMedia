@@ -8,9 +8,23 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using System.Dynamic;
+using System.Web.Mvc;
+using System.Collections.Generic;
 
 namespace MagnoMedia.Web.Controllers
 {
+    public static class impFunctions
+    {
+        public static ExpandoObject ToExpando(this object anonymousObject)
+        {
+            IDictionary<string, object> anonymousDictionary = HtmlHelper.AnonymousObjectToHtmlAttributes(anonymousObject);
+            IDictionary<string, object> expando = new ExpandoObject();
+            foreach (var item in anonymousDictionary)
+                expando.Add(item);
+            return (ExpandoObject)expando;
+        }
+    }
     public class TestController : Controller
     {
         //
@@ -163,12 +177,36 @@ namespace MagnoMedia.Web.Controllers
         //There will be one post method which will generate report. The below logic is for post only.
         public ActionResult ReportInstall()
         {
+            try
+            {
+                IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+                using (IDbConnection db = dbFactory.Open())
+                {
+                    ViewBag.country = new SelectList(db.Select<Country>(), "Id", "Country_name");
+                    ViewBag.browser = new SelectList(db.Select<Browser>(), "Id", "BrowserName");
+                    var statuses = from AppInstallState s in Enum.GetValues(typeof(AppInstallState))
+                                   select new { ID = s, Name = s.ToString() };
+                    ViewBag.status = new SelectList(statuses, "ID", "Name");
+                }
+                return View();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+        }
+ 
+        [HttpPost]
+        public ActionResult ReportInstall(int[] CountryId, int[] StateId, string _startDate, string _endDate)
+        {
             //These values we will get from querystring
             DateTime startDate = DateTime.Now;
             DateTime endDate = DateTime.Now;
             int countryCode = 0;
             UserTrack userTrack;
-
+            dynamic ResultCount;
             IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
 
             using (IDbConnection db = dbFactory.Open())
@@ -177,13 +215,16 @@ namespace MagnoMedia.Web.Controllers
 
                 //Join with above users find in valid track
                 var validUsers = db.Select<User>().Where(u => u.CountryId == countryCode);
-
+                ResultCount = (from ut in validUsersTrack
+                               join vu in validUsers on ut.SessionDetailId equals vu.SessionDetailId
+                               group ut.State by vu.CountryId into x
+                               select new { CountryName = countryCode, State = x.Key, Total = x.Count() }).AsEnumerable().Select(c => c.ToExpando());
                 //On basis of user state, generate a report having count for state(if no state then give all states as column)
                 //At header provide Country, StarteDate, EndDate, State(if Present)
             }
 
 
-            return View();
+            return View(ResultCount);
         }
 
         public ActionResult Efficiency()
