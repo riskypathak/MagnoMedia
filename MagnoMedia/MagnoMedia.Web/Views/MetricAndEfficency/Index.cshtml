@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">Installer Efficency</div>
+    <div class="panel-body">
+        <div class="form-group">
+
+            @Html.Label("Date", new { @class = "col-md-2 control-label right-lable" })
+            <div class="col-md-4">
+
+                @Html.TextBox("txtDate", "", new { @class = "form-control input-md datePickercontrol", @required = "required" })<br />
+
+            </div>
+
+            @Html.Label("Metric Name", new { @class = "col-md-2 control-label right-lable" })
+            <div class="col-md-4">
+                @Html.TextBox("txtMetric", "", new { @class = "form-control input-md", @required = "required" })<br />
+            </div>
+        </div>
+        <div class="form-group">
+
+            @Html.Label("Country", new { @class = "col-md-2 control-label right-lable" })
+            <div class="col-md-4">
+                @Html.DropDownList("ddlCountry", (SelectList)ViewBag.CountryList, "---Select Country---", new { @class = "form-control input-md", required = "required" })<br />
+
+            </div>
+
+            @Html.Label("Metric Info/Formula", new { @class = "col-md-2 control-label right-lable" })
+            <div class="col-md-4">
+                @Html.TextBox("txtInfo_Formula", "", new { @class = "form-control input-md", required = "required" })<br />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-3">
+                <input type="button" name="name" value="Calculate" class="btn btn-primary" />
+            </div>
+
+            @Html.Label("Metric Value", new { @class = "col-md-2 control-label right-lable" })
+            <div class="col-md-4">
+                @Html.TextBox("txtMetricValue", "", new { @class = "form-control input-md" })<br />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">Metrics</div>
+    <div class="panel-body">
+        <div class="panel panel-default col-md-5">
+            <div class="panel-body">
+                @Html.TextBox("txtMetricm", "", new { @class = "form-control input-md", placeholder = "Metric Name" })
+                <br />
+                @Html.TextBox("txtMetricmn", "", new { @class = "form-control input-md", placeholder = "Metric Info/ Formula" })
+                <br />
+                @Html.TextBox("txtMetricmg", "", new { @class = "form-control input-md", placeholder = "Metric Value" })
+                <br />
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+        <div class="panel panel-default col-md-5">
+            <div class="panel-body">
+                @Html.TextBox("txtMetricm", "", new { @class = "form-control input-md", placeholder = "Metric Name" })
+                <br />
+                @Html.TextBox("txtMetricmn", "", new { @class = "form-control input-md", placeholder = "Metric Info/ Formula" })
+                <br />
+                @Html.TextBox("txtMetricmg", "", new { @class = "form-control input-md", placeholder = "Metric Value" })
+                <br />
+            </div>
+        </div>
+        <div class="panel panel-default col-md-5">
+            <div class="panel-body">
+                @Html.TextBox("txtMetricm", "", new { @class = "form-control input-md", placeholder = "Metric Name" })
+                <br />
+                @Html.TextBox("txtMetricmn", "", new { @class = "form-control input-md", placeholder = "Metric Info/ Formula" })
+                <br />
+                @Html.TextBox("txtMetricmg", "", new { @class = "form-control input-md", placeholder = "Metric Value" })
+                <br />
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+        <div class="panel panel-default col-md-5">
+            <div class="panel-body">
+                @Html.TextBox("txtMetricm", "", new { @class = "form-control input-md", placeholder = "Metric Name" })
+                <br />
+                @Html.TextBox("txtMetricmn", "", new { @class = "form-control input-md", placeholder = "Metric Info/ Formula" })
+                <br />
+                @Html.TextBox("txtMetricmg", "", new { @class = "form-control input-md", placeholder = "Metric Value" })
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .right-lable {
+        text-align: right;
+    }
+</style>
