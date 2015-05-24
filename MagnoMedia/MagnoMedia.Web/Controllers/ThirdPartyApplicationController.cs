@@ -1,5 +1,4 @@
-﻿using MagnoMedia.Data;
-using MagnoMedia.Data.Models;
+﻿using MagnoMedia.Data.Models;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System;

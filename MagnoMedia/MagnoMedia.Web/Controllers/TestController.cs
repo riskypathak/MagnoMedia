@@ -2,16 +2,17 @@
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Dynamic;
 using System.Web.Mvc;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace MagnoMedia.Web.Controllers
 {
@@ -169,32 +170,32 @@ namespace MagnoMedia.Web.Controllers
             }
             try
             {
-                IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+            IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
 
-                using (IDbConnection db = dbFactory.Open())
-                {
+            using (IDbConnection db = dbFactory.Open())
+            {
                     if (CountryId != null)
                     {
                         if (AppId != null)
                             appId = AppId.Value;
                         countryCode = CountryId.Value;
-                        var validUsersTrack = db.Select<UserTrack>().Where(u => (int)u.State > 4 && u.UpdatedDate > startDate && u.UpdatedDate < endDate); //considering only those users whoose installer installs.
+                var validUsersTrack = db.Select<UserTrack>().Where(u => (int)u.State > 4 && u.UpdatedDate > startDate && u.UpdatedDate < endDate); //considering only those users whoose installer installs.
 
-                        //Join with above users find in valid track
-                        var validUsers = db.Select<User>().Where(u => u.CountryId == countryCode);
+                //Join with above users find in valid track
+                var validUsers = db.Select<User>().Where(u => u.CountryId == countryCode);
 
-                        //Join below with users found above.
-                        var validApps = db.Select<UserAppTrack>().Where(a => a.Id == appId);
+                //Join below with users found above.
+                var validApps = db.Select<UserAppTrack>().Where(a => a.Id == appId);
 
-                        //On basis of app state, generate a report having count for state(if no state then give all states as column)
-                        //At header provide ApplicationName, Country, StarteDate, EndDate, State(if present)
+                //On basis of app state, generate a report having count for state(if no state then give all states as column)
+                //At header provide ApplicationName, Country, StarteDate, EndDate, State(if present)
                         ResultCount = (from ut in validUsersTrack
                                        join vu in validUsers on ut.SessionDetailId equals vu.SessionDetailId
                                        join vp in validApps on vu.Id equals vp.UserId
                                        group ut.State by new { vu.Country.Country_name, ut.State } into x
                                        select new SearchResult { Country = x.Key.Country_name, _UserTrackState = x.Key.State, DownLoadCount = x.Count() }).ToList();
                         SearchResultList.AddRange(ResultCount);   
-                    }
+            }
                     ViewBag.country = new SelectList(db.Select<Country>(), "Id", "Country_name");
 
                     var statuses = from UserTrackState s in Enum.GetValues(typeof(UserTrackState))
@@ -207,10 +208,10 @@ namespace MagnoMedia.Web.Controllers
 
                 throw;
             }
-
+            
             return View(SearchResultList);
         }
-   
+ 
         //There will be two methods. One is for get which will show the dropdowns and other fields for report.
         //There will be one post method which will generate report. The below logic is for post only.
         
@@ -241,17 +242,17 @@ namespace MagnoMedia.Web.Controllers
             {
                 if (CountryId != null)
                 {
-                    var validUsersTrack = db.Select<UserTrack>().Where(u => u.UpdatedDate > startDate && u.UpdatedDate < endDate); //considering only those users whoose installer installs.
+                var validUsersTrack = db.Select<UserTrack>().Where(u => u.UpdatedDate > startDate && u.UpdatedDate < endDate); //considering only those users whoose installer installs.
 
                     if (StatusId != null)
                     {
                         validUsersTrack = db.Select<UserTrack>().Where(u => u.UpdatedDate > startDate && u.UpdatedDate < endDate && u.State == (UserTrackState)StatusId); //considering only those users whoose installer installs.
 
                     }
-                    //Join with above users find in valid track
-                    var validUsers = db.Select<User>().Where(u => u.CountryId == countryCode);
-                    ResultCount = (from ut in validUsersTrack
-                                   join vu in validUsers on ut.SessionDetailId equals vu.SessionDetailId
+                //Join with above users find in valid track
+                var validUsers = db.Select<User>().Where(u => u.CountryId == countryCode);
+                ResultCount = (from ut in validUsersTrack
+                               join vu in validUsers on ut.SessionDetailId equals vu.SessionDetailId
                                    group ut.State by new { vu.Country.Country_name, ut.State } into x
                                    select new SearchResult { Country = x.Key.Country_name, _UserTrackState = x.Key.State, DownLoadCount = x.Count()}).ToList();
                     SearchResultList.AddRange(ResultCount);                   

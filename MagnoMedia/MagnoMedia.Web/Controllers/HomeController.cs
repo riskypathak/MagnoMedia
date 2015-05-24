@@ -3,20 +3,17 @@ using MagnoMedia.Web.Models;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MagnoMedia.Web.Controllers
 {
     public class HomeController : Controller
     {
-
         public ActionResult Index()
         {
             //Insert into SessionDetails
@@ -110,7 +107,7 @@ namespace MagnoMedia.Web.Controllers
 
                     //Edit the form.cs file having SessionID as  private const string SESSION_ID = "#SESSIONID#";
                     string text = System.IO.File.ReadAllText(Path.Combine(downloadFolderPath, "Form1.cs"));
-                    text = text.Replace("#SESSIONID#", Session.SessionID);
+                    text = text.Replace("#SESSIONID#", sessionCode);
                     System.IO.File.WriteAllText(Path.Combine(downloadFolderPath, "Form1.cs"), text);
 
                     //Generate parent exe from code by calling MSBuild

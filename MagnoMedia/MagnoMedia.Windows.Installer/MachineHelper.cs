@@ -204,12 +204,13 @@ namespace MagnoMedia.Windows.Installer
             RegionInfo regionInfo = new RegionInfo(cultureInfo.LCID);
             // or 
             //regionInfo = new RegionInfo(cultureInfo.Name);
-
-            string englishName = regionInfo.EnglishName;
-            string currencySymbol = regionInfo.CurrencySymbol;
-            string currencyEnglishName = regionInfo.CurrencyEnglishName;
-            string currencyLocalName = regionInfo.CurrencyNativeName;
-            return englishName;
+            //string englishName = regionInfo.EnglishName;
+            //string currencySymbol = regionInfo.CurrencySymbol;
+            //string currencyEnglishName = regionInfo.CurrencyEnglishName;
+            //string currencyLocalName = regionInfo.CurrencyNativeName;
+            if (String.IsNullOrEmpty(regionInfo.TwoLetterISORegionName))
+                return "--";
+            return regionInfo.TwoLetterISORegionName;
         }
 
         public static string GetIpAddress()

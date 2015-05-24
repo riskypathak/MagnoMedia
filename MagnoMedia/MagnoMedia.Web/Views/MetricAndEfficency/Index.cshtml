@@ -6,93 +6,119 @@
 <div class="panel panel-default">
     <div class="panel-heading">Installer Efficency</div>
     <div class="panel-body">
-        <div class="form-group">
-
-            @Html.Label("Date", new { @class = "col-md-2 control-label right-lable" })
-            <div class="col-md-4">
-
-                @Html.TextBox("txtDate", "", new { @class = "form-control input-md datePickercontrol", @required = "required" })<br />
-
+        <div class="panel panel-default col-md-5">
+            <div class="panel-body col-md-8">
+                <div class="form-group">
+                    @Html.TextBox("txtDate", "", new { @class = "form-control input-md datePickercontrol", @required = "required", placeholder = "--Select Date--" })
+                    <br />
+                    @Html.DropDownList("ddlCountry", (SelectList)ViewBag.CountryList, new { @class = "form-control input-md", @required = "required" })
+                </div>
             </div>
+            <div class="panel-body col-md-4">
+                <br />
+                <input type="submit" name="name" value="Calculate" class="btn btn-primary" />
 
-            @Html.Label("Metric Name", new { @class = "col-md-2 control-label right-lable" })
-            <div class="col-md-4">
-                @Html.TextBox("txtMetric", "", new { @class = "form-control input-md", @required = "required" })<br />
-            </div>
-        </div>
-        <div class="form-group">
-
-            @Html.Label("Country", new { @class = "col-md-2 control-label right-lable" })
-            <div class="col-md-4">
-                @Html.DropDownList("ddlCountry", (SelectList)ViewBag.CountryList, "---Select Country---", new { @class = "form-control input-md", required = "required" })<br />
-
-            </div>
-
-            @Html.Label("Metric Info/Formula", new { @class = "col-md-2 control-label right-lable" })
-            <div class="col-md-4">
-                @Html.TextBox("txtInfo_Formula", "", new { @class = "form-control input-md", required = "required" })<br />
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="col-md-3">
+        <div class="col-md-2">
+        </div>
+        <div class="panel panel-default col-md-5">
+            <div class="panel-body col-md-8">
+                @Html.Label("Install Efficiency", new { @class = "form-control input-md" })
+                <br />
+                @Html.Label("Evaluates the install efficiency of installer on a particular day in a country.", new { @class = "form-control input-md" })
             </div>
-            <div class="col-md-3">
-                <input type="button" name="name" value="Calculate" class="btn btn-primary" />
-            </div>
+            <div class="panel-body col-md-4">
+                <br />
+                @Html.Raw("00.00 %")
 
-            @Html.Label("Metric Value", new { @class = "col-md-2 control-label right-lable" })
-            <div class="col-md-4">
-                @Html.TextBox("txtMetricValue", "", new { @class = "form-control input-md" })<br />
             </div>
         </div>
+
     </div>
+
 </div>
 <div class="panel panel-default">
     <div class="panel-heading">Metrics</div>
     <div class="panel-body">
         <div class="panel panel-default col-md-5">
-            <div class="panel-body">
-                @Html.TextBox("txtMetricm", "", new { @class = "form-control input-md", placeholder = "Metric Name" })
+            <div class="panel-body col-md-8">
+                @Html.Label("Install Per Download", new { @class = "form-control input-md" })
                 <br />
-                @Html.TextBox("txtMetricmn", "", new { @class = "form-control input-md", placeholder = "Metric Info/ Formula" })
+                @Html.Label("(Install/Download)*100", new { @class = "form-control input-md" })
+            </div>
+            <div class="panel-body col-md-4">
                 <br />
-                @Html.TextBox("txtMetricmg", "", new { @class = "form-control input-md", placeholder = "Metric Value" })
-                <br />
+                @Html.Raw("00.00%")
+
             </div>
         </div>
         <div class="col-md-2">
         </div>
         <div class="panel panel-default col-md-5">
-            <div class="panel-body">
-                @Html.TextBox("txtMetricm", "", new { @class = "form-control input-md", placeholder = "Metric Name" })
+            <div class="panel-body col-md-8">
+                @Html.Label("Install Per Visit", new { @class = "form-control input-md" })
                 <br />
-                @Html.TextBox("txtMetricmn", "", new { @class = "form-control input-md", placeholder = "Metric Info/ Formula" })
+                @Html.Label("(Install/LandingPage)*100", new { @class = "form-control input-md" })
+            </div>
+            <div class="panel-body col-md-4">
                 <br />
-                @Html.TextBox("txtMetricmg", "", new { @class = "form-control input-md", placeholder = "Metric Value" })
-                <br />
+                @Html.Raw((String)ViewBag.DownloadPerLP)
+
             </div>
         </div>
+
         <div class="panel panel-default col-md-5">
-            <div class="panel-body">
-                @Html.TextBox("txtMetricm", "", new { @class = "form-control input-md", placeholder = "Metric Name" })
+            <div class="panel-body col-md-8">
+                @Html.Label("Success Per Install", new { @class = "form-control input-md" })
                 <br />
-                @Html.TextBox("txtMetricmn", "", new { @class = "form-control input-md", placeholder = "Metric Info/ Formula" })
+                @Html.Label("(InstallSucess/InstallStart)*100", new { @class = "form-control input-md" })
+            </div>
+            <div class="panel-body col-md-4">
                 <br />
-                @Html.TextBox("txtMetricmg", "", new { @class = "form-control input-md", placeholder = "Metric Value" })
-                <br />
+                @Html.Raw("00.00 %")
+
             </div>
         </div>
         <div class="col-md-2">
         </div>
         <div class="panel panel-default col-md-5">
-            <div class="panel-body">
-                @Html.TextBox("txtMetricm", "", new { @class = "form-control input-md", placeholder = "Metric Name" })
+            <div class="panel-body col-md-8">
+                @Html.Label("Success Per Download", new { @class = "form-control input-md" })
                 <br />
-                @Html.TextBox("txtMetricmn", "", new { @class = "form-control input-md", placeholder = "Metric Info/ Formula" })
+                @Html.Label("(InstallSucess/Download)*100", new { @class = "form-control input-md" })
+            </div>
+            <div class="panel-body col-md-4">
                 <br />
-                @Html.TextBox("txtMetricmg", "", new { @class = "form-control input-md", placeholder = "Metric Value" })
+                @Html.Raw("00.00 %")
+
+            </div>
+        </div>
+
+        <div class="panel panel-default col-md-5">
+            <div class="panel-body col-md-8">
+                @Html.Label("Sucess Per Visit", new { @class = "form-control input-md" })
                 <br />
+                @Html.Label("(InstallSuccess/LP)*100", new { @class = "form-control input-md" })
+            </div>
+            <div class="panel-body col-md-4">
+                <br />
+                @Html.Raw("00.00 %")
+
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+        <div class="panel panel-default col-md-5">
+            <div class="panel-body col-md-8">
+                @Html.Label("Failure Per Install", new { @class = "form-control input-md" })
+                <br />
+                @Html.Label("(InstallFail/Install)*100", new { @class = "form-control input-md" })
+            </div>
+            <div class="panel-body col-md-4">
+                <br />
+                @Html.Raw("00.00 %")
+
             </div>
         </div>
     </div>

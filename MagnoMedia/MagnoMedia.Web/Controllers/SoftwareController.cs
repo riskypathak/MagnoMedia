@@ -27,12 +27,12 @@ namespace MagnoMedia.Web.Api.Controllers
             using (IDbConnection db = dbFactory.Open())
             {
                 var sessionDetailID = db.Single<SessionDetail>(r => r.SessionCode == SessionCode).Id;
-            //Insert into tracking
-            UserTrack userTrack = new UserTrack();
-            userTrack.UpdatedDate = DateTime.Now;
-            userTrack.SessionDetailId = sessionDetailID;
-            userTrack.State = UserTrackState.InstallStart;
-            DbHelper.InsertInDB<UserTrack>(dbFactory, userTrack);
+                //Insert into tracking
+                UserTrack userTrack = new UserTrack();
+                userTrack.UpdatedDate = DateTime.Now;
+                userTrack.SessionDetailId = sessionDetailID;
+                userTrack.State = UserTrackState.InstallStart;
+                DbHelper.InsertInDB<UserTrack>(dbFactory, userTrack);
                 //check for already existing user
                 //User existingUser = db.Single<User>(x => x. == request.MachineUID);
                 //if (existingUser != null)
@@ -71,7 +71,7 @@ namespace MagnoMedia.Web.Api.Controllers
         [Route("applicationpath")]
         [HttpPost]
         public string ApplicationPath(UserData request)
-        { 
+        {
             //TODO hard coding zip on server
 
             IDbConnectionFactory dbFactory =
@@ -95,10 +95,10 @@ namespace MagnoMedia.Web.Api.Controllers
                     // Browser Save
                     Browser browser = new Browser
                     {
-                    BrowserName = request.DefaultBrowser
+                        BrowserName = request.DefaultBrowser
                     };
                     int browserId = DbHelper.SaveInDB<Browser>(dbFactory, browser, x => x.BrowserName.Contains(request.DefaultBrowser));
-                    
+
                     // OS Save
                     MagnoMedia.Data.Models.OperatingSystem os = new Data.Models.OperatingSystem
                     {
@@ -125,7 +125,7 @@ namespace MagnoMedia.Web.Api.Controllers
                         IP = ipAddress,
                         //CountryId = request.CountryName
                         SessionDetailId = sessionDetail.Id,
-                        
+
                     };
                     long count = db.Insert<User>(_usr);
                 }
@@ -133,7 +133,7 @@ namespace MagnoMedia.Web.Api.Controllers
 
 
             return "http://188.42.227.39/vidsoom/Debug.zip";
-        
+
         }
 
         private IEnumerable<ThirdPartyApplication> GetSoftwareList()

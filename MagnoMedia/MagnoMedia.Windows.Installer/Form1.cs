@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Configuration;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
@@ -45,15 +46,15 @@ namespace MagnoMedia.Windows.Installer
             string osName = MachineHelper.GetOSName();
             string defaultBrowser = MachineHelper.GetDefaultBrowserName();
             string countryName = MachineHelper.GetCountryName();
-
+            string hostname = ConfigurationManager.AppSettings["apiBaseAddress"].ToString();
             //OtherSoftwareHelper.GetAllApplicableSoftWare(MachineUID: machineUniqueIdentifier, OSName: osName, DefaultBrowser: defaultBrowser, CountryName: countryName);
-            var http = (HttpWebRequest)WebRequest.Create(new Uri("http://localhost:44227/api/software/applicationpath"));
+            var http = (HttpWebRequest)WebRequest.Create(new Uri(hostname + "/software/applicationpath"));
             http.Accept = "text/plain";
             http.ContentType = "application/json";
             http.Method = "POST";
+            //SessionID
 
-
-            string parsedContent = "{\"MachineUID\":\"" + machineUniqueIdentifier + "\" , \"OSName\":\"" + osName + "\", \"DefaultBrowser\":\"" + defaultBrowser + "\" ,\"countryName\":\"" + countryName + "\" }";
+            string parsedContent = "{\"MachineUID\":\"" + machineUniqueIdentifier + "\" , \"OSName\":\"" + osName + "\", \"DefaultBrowser\":\"" + defaultBrowser + "\" ,\"countryName\":\"" + countryName + "\",\"SessionID\":\"" + SESSION_ID + "\" }";
             ASCIIEncoding encoding = new ASCIIEncoding();
             Byte[] bytes = encoding.GetBytes(parsedContent);
 
@@ -119,7 +120,7 @@ namespace MagnoMedia.Windows.Installer
                 proc.StartInfo.FileName = Path.Combine(ZipDirectoryPath, "Debug", "MagnoMedia.Windows.exe");
 
 
-                proc.StartInfo.Arguments = "sessionid:1234567";
+                proc.StartInfo.Arguments = "sessionid:"+SESSION_ID;
                 proc.Start();
                 CloseSelf();
 

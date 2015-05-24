@@ -1,13 +1,7 @@
-﻿using MagnoMedia.Data.APIRequestDTO;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Configuration;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MagnoMedia.Windows.Utilities
 {
