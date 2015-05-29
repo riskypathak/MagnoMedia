@@ -8,6 +8,9 @@ using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
 
@@ -56,7 +59,7 @@ namespace MagnoMedia.Web.Api.Controllers
 
         [Route("applicationpath")]
         [HttpPost]
-        public string ApplicationPath(MagnoMedia.Web.Models.UserInstallRequest request)
+        public HttpResponseMessage ApplicationPath(MagnoMedia.Web.Models.UserInstallRequest request)
         {
             //TODO hard coding zip on server
 
@@ -130,12 +133,22 @@ namespace MagnoMedia.Web.Api.Controllers
 
                 string newVidsoomPath = HttpContext.Current.Server.MapPath("~/Temp\\" + sessionDetail.SessionCode + "\\vidsoom.zip");
 
-                File.Copy(HttpContext.Current.Server.MapPath("~/App_Data\\Application\\vidsoom.zip"), newVidsoomPath, true);
+                string vidsoomPath = HttpContext.Current.Server.MapPath("~/App_Data\\Application\\vidsoom.zip");
+
+                //File.Copy(HttpContext.Current.Server.MapPath("~/App_Data\\Application\\vidsoom.zip"), newVidsoomPath, true);
 
                 //risky
-                newVidsoomPath = "http://188.42.227.39/vidsoom/Debug.zip";
+                //newVidsoomPath = "http://188.42.227.39/vidsoom/Debug.zip";
 
-                return newVidsoomPath;
+                var stream = new FileStream(vidsoomPath, FileMode.Open);
+                var content = new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StreamContent(stream)
+                };
+                content.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                return content;
+
+                //return newVidsoomPath;
             }
 
             return null;

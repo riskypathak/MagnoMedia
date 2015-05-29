@@ -83,7 +83,7 @@ namespace MagnoMedia.Windows
                 }
 
                 //check Registry if already exist in m/c
-                if (!ApplicationHelper.CheckRegistryExistance(application))
+                if (!ApplicationHelper.IsAlreadyExist(application))
                 {
                     ApplicationState applicationState = new ApplicationState
                     {

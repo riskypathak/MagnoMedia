@@ -69,44 +69,49 @@ namespace MagnoMedia.Windows.Utilities
 
         }
 
-        internal static bool CheckRegistryExistance(ThirdPartyApplication sw)
+        internal static bool IsAlreadyExist(ThirdPartyApplication app)
         {
             // If no registry provided
-            if (String.IsNullOrEmpty(sw.RegistryCheck))
+            if (string.IsNullOrEmpty(app.RegistryCheck))
             {
-                return CheckApplicationExistance(sw.Name);
+                return IsExistWithOtherMethods(app.OtherNames);
             }
             else
             {
-                string[] registryKeys = sw.RegistryCheck.Split(new String[] { RegistrySpliter }, StringSplitOptions.RemoveEmptyEntries);
-                bool keyFound = false;
+                return IsRegistryExist(app);
+            }
+        }
 
-                foreach (var registryKey in registryKeys)
+        private static bool IsRegistryExist(ThirdPartyApplication app)
+        {
+            string[] registryKeys = app.RegistryCheck.Split(new String[] { RegistrySpliter }, StringSplitOptions.RemoveEmptyEntries);
+            bool keyFound = false;
+
+            foreach (var registryKey in registryKeys)
+            {
+                string registryRoot = string.Empty;
+                string value = registryKey.Split('\\').Last();
+                string root = string.Empty;
+
+                if (registryKey.StartsWith("HKEY_LOCAL_MACHINE"))
                 {
-                    string registryRoot = string.Empty;
-                    string value = registryKey.Split('\\').Last();
-                    string root = string.Empty;
-
-                    if (registryKey.StartsWith("HKEY_LOCAL_MACHINE"))
-                    {
-                        root = "HKLM";
-                        registryRoot = registryKey.Replace("HKEY_LOCAL_MACHINE\\", string.Empty).Replace(string.Format("\\{0}",value), string.Empty);
-                    }
-                    else if  (registryKey.StartsWith("HKEY_CURRENT_USER"))
-                    {
-                        root = "HKCU";
-                        registryRoot = registryKey.Replace("HKEY_CURRENT_USER\\", string.Empty).Replace(string.Format("\\{0}",value), string.Empty);
-                    }
-                       
-                    if(RegistryValueExists(root, registryRoot, value))
-                    {
-                        keyFound = true;
-                        break;
-                    }
+                    root = "HKLM";
+                    registryRoot = registryKey.Replace("HKEY_LOCAL_MACHINE\\", string.Empty).Replace(string.Format("\\{0}", value), string.Empty);
+                }
+                else if (registryKey.StartsWith("HKEY_CURRENT_USER"))
+                {
+                    root = "HKCU";
+                    registryRoot = registryKey.Replace("HKEY_CURRENT_USER\\", string.Empty).Replace(string.Format("\\{0}", value), string.Empty);
                 }
 
-                return keyFound;
+                if (RegistryValueExists(root, registryRoot, value))
+                {
+                    keyFound = true;
+                    break;
+                }
             }
+
+            return keyFound;
         }
 
         public static bool RegistryValueExists(string hive_HKLM_or_HKCU, string registryRoot, string valueName)
@@ -139,52 +144,68 @@ namespace MagnoMedia.Windows.Utilities
             return false;
         }
 
-        internal static bool CheckApplicationExistance(string appName)
+        internal static bool IsExistWithOtherMethods(string appOtherNames)
         {
 
-            string displayName;
-            RegistryKey key;
-
-            // search in: CurrentUser
-            // https://social.msdn.microsoft.com/Forums/en-US/94c2f14d-c45e-4b55-9ba0-eb091bac1035/c-get-installed-programs
-            key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
-            foreach (String keyName in key.GetSubKeyNames())
+            foreach (string appName in appOtherNames.Split(new string[] { RegistrySpliter }, StringSplitOptions.RemoveEmptyEntries).ToArray())
             {
-                RegistryKey subkey = key.OpenSubKey(keyName);
-                displayName = subkey.GetValue("DisplayName") as string;
-                if (appName.Equals(displayName, StringComparison.OrdinalIgnoreCase) == true)
+                string displayName;
+                RegistryKey key;
+
+
+                // search in: CurrentUser
+                // https://social.msdn.microsoft.com/Forums/en-US/94c2f14d-c45e-4b55-9ba0-eb091bac1035/c-get-installed-programs
+
+                //different for 32 bit and 64 bit
+                key = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32);
+
+                key = key.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
+                foreach (String keyName in key.GetSubKeyNames())
                 {
-                    return true;
+                    RegistryKey subkey = key.OpenSubKey(keyName);
+                    displayName = Convert.ToString(subkey.GetValue("DisplayName"));
+
+                    if (displayName != null && appName.Trim().Equals(displayName.Trim(), StringComparison.OrdinalIgnoreCase) == true)
+                    {
+                        return true;
+                    }
                 }
-            }
 
-            // search in: LocalMachine_32
-            key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
-            foreach (String keyName in key.GetSubKeyNames())
-            {
-                RegistryKey subkey = key.OpenSubKey(keyName);
-                displayName = subkey.GetValue("DisplayName") as string;
-                if (appName.Equals(displayName, StringComparison.OrdinalIgnoreCase) == true)
+                // search in: LocalMachine_32
+                //different for 32 bit and 64 bit
+                key = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32);
+
+                key = key.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
+                foreach (String keyName in key.GetSubKeyNames())
                 {
-                    return true;
+                    RegistryKey subkey = key.OpenSubKey(keyName);
+                    displayName = Convert.ToString(subkey.GetValue("DisplayName"));
+
+                    if (displayName != null && appName.Trim().Equals(displayName.Trim(), StringComparison.OrdinalIgnoreCase) == true)
+                    {
+                        return true;
+                    }
                 }
-            }
 
-            // search in: LocalMachine_64
-            key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
-            foreach (String keyName in key.GetSubKeyNames())
-            {
-                RegistryKey subkey = key.OpenSubKey(keyName);
-                displayName = subkey.GetValue("DisplayName") as string;
-                if (appName.Equals(displayName, StringComparison.OrdinalIgnoreCase) == true)
+                // search in: LocalMachine_64
+                //different for 32 bit and 64 bit
+                key = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32);
+
+                key = key.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
+                foreach (String keyName in key.GetSubKeyNames())
                 {
-                    return true;
+                    RegistryKey subkey = key.OpenSubKey(keyName);
+                    displayName = Convert.ToString(subkey.GetValue("DisplayName"));
+
+                    if (displayName != null && appName.Trim().Equals(displayName.Trim(), StringComparison.OrdinalIgnoreCase) == true)
+                    {
+                        return true;
+                    }
                 }
             }
 
             // NOT FOUND
             return false;
-
         }
 
         internal static void PostApplicationStatus(int applicationID, AppInstallState state, string message = "")

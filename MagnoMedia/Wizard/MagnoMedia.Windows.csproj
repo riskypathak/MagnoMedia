@@ -82,7 +82,6 @@
     </Compile>
     <Compile Include="Utilities\HttpClientHelper.cs" />
     <Compile Include="Utilities\StaticData.cs" />
-    <Compile Include="Utilities\MachineHelper.cs" />
     <Compile Include="Utilities\ApplicationHelper.cs" />
     <EmbeddedResource Include="First.resx">
       <DependentUpon>First.cs</DependentUpon>

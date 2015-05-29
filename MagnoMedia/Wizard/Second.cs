@@ -129,7 +129,7 @@ namespace MagnoMedia.Windows
 
                     if (state.IsDownloaded && !state.IsInstalled)
                     {
-                        if (ApplicationHelper.CheckRegistryExistance(app))
+                        if (ApplicationHelper.IsAlreadyExist(app))
                         {
                             ApplicationHelper.PostApplicationStatus(app.Id, AppInstallState.Success);
                             state.IsInstalled = true;
@@ -169,7 +169,11 @@ namespace MagnoMedia.Windows
                 ApplicationHelper.PostInstallerStatus(UserTrackState.InstallFail);
             }
 
-            this.Close();
+            // Strarts a Timer and check after sometime for completion 
+            this.Invoke((MethodInvoker)delegate
+            {
+                this.Close();
+            });
         }
 
         void myWebClient_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)

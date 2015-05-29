@@ -25,6 +25,9 @@ namespace MagnoMedia.Data.Models
         [StringLengthAttribute(1000)]
         public string RegistryCheck { get; set; }
 
+        [StringLengthAttribute(1000)]
+        public string OtherNames { get; set; }
+
         public string AgreementText { get; set; }
 
         public bool HasImage { get; set; }
