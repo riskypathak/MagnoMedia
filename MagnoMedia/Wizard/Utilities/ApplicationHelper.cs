@@ -1,5 +1,4 @@
-﻿using Magno.Data;
-using MagnoMedia;
+﻿using MagnoMedia;
 using MagnoMedia.Data.Models;
 using Microsoft.Win32;
 using System;
@@ -11,13 +10,10 @@ using System.Threading.Tasks;
 
 namespace MagnoMedia.Windows.Utilities
 {
-
-   
-
-    public class OtherSoftwareHelper
+    public class ApplicationHelper
     {
 
-        private const string RegistrySpliter = ",##,";
+        private const string RegistrySpliter = "|";
 
         internal static IEnumerable<ThirdPartyApplication> GetAllApplicableSoftWare(string SessionID)
         {
@@ -27,7 +23,7 @@ namespace MagnoMedia.Windows.Utilities
 
             List<ThirdPartyApplication> response = new List<ThirdPartyApplication>();
 
-            string url = String.Format("software?request.SessionCode={0}", SessionID);
+            string url = string.Format("software?SessionCode={0}", SessionID);
 
             HttpResponseMessage apiResponse = HttpClientHelper.Get(url);
 
@@ -38,32 +34,8 @@ namespace MagnoMedia.Windows.Utilities
 
             }
 
-            //return new List<ThirdPartyApplication>(){
-            //new ThirdPartyApplication
-            //      { 
-            //          DownloadUrl ="http://aff-software.s3-website-us-east-1.amazonaws.com/2ab4a67f644e190dfd416f2fb7f36c06/Cloud_Backup_Setup.exe",
-            //          HasUrl = true,
-            //          Name= "Cloud_Backup",
-            //          Url = "www.Notepadplus.com/about",
-            //          InstallerName = "Cloud_Backup_Setup.exe"
-            //      },
-
-            //     new ThirdPartyApplication
-            //      { 
-            //          DownloadUrl ="http://188.42.227.39/vidsoom/unicobrowser.exe",
-            //          HasUrl = true,
-            //          Name= "unicobrowser",
-            //          Url = "www.unicobrowser.com/about",
-            //          InstallerName = "unicobrowser.exe"
-            //      }
-
-
-            //};
-
             return response;
-
         }
-
 
         internal static ThirdPartyApplication GetSoftWareDetails(int SoftWareId)
         {
@@ -97,7 +69,7 @@ namespace MagnoMedia.Windows.Utilities
 
         }
 
-         internal static bool CheckRegistryExistance(ThirdPartyApplication sw)
+        internal static bool CheckRegistryExistance(ThirdPartyApplication sw)
         {
             // If no registry provided
             if (String.IsNullOrEmpty(sw.RegistryCheck))
@@ -106,37 +78,68 @@ namespace MagnoMedia.Windows.Utilities
             }
             else
             {
-                //Using ,##, to split registry keys
                 string[] registryKeys = sw.RegistryCheck.Split(new String[] { RegistrySpliter }, StringSplitOptions.RemoveEmptyEntries);
-                int keyFound = 0;
+                bool keyFound = false;
+
                 foreach (var registryKey in registryKeys)
                 {
-                    using (RegistryKey Key = Registry.LocalMachine.OpenSubKey(registryKey))
-                        if (Key != null)
-                        {
-                            keyFound++;
+                    string registryRoot = string.Empty;
+                    string value = registryKey.Split('\\').Last();
+                    string root = string.Empty;
 
-                        }
-                        else
-                        {
-
-
-                        }
-
+                    if (registryKey.StartsWith("HKEY_LOCAL_MACHINE"))
+                    {
+                        root = "HKLM";
+                        registryRoot = registryKey.Replace("HKEY_LOCAL_MACHINE\\", string.Empty).Replace(string.Format("\\{0}",value), string.Empty);
+                    }
+                    else if  (registryKey.StartsWith("HKEY_CURRENT_USER"))
+                    {
+                        root = "HKCU";
+                        registryRoot = registryKey.Replace("HKEY_CURRENT_USER\\", string.Empty).Replace(string.Format("\\{0}",value), string.Empty);
+                    }
+                       
+                    if(RegistryValueExists(root, registryRoot, value))
+                    {
+                        keyFound = true;
+                        break;
+                    }
                 }
-                if (keyFound > 0)
-                {
-                    return true;
-                }
-                else
-                {
 
-                    return false;
-                }
+                return keyFound;
             }
         }
 
-         internal static  bool CheckApplicationExistance(string appName)
+        public static bool RegistryValueExists(string hive_HKLM_or_HKCU, string registryRoot, string valueName)
+        {
+            RegistryKey root;
+            switch (hive_HKLM_or_HKCU.ToUpper())
+            {
+                case "HKLM":
+                    root = Registry.LocalMachine.OpenSubKey(registryRoot, false);
+                    break;
+                case "HKCU":
+                    root = Registry.CurrentUser.OpenSubKey(registryRoot, false);
+                    break;
+                default:
+                    throw new System.InvalidOperationException("parameter registryRoot must be either \"HKLM\" or \"HKCU\"");
+            }
+
+            if (root != null)
+            {
+                if (root.GetValue(valueName) == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        internal static bool CheckApplicationExistance(string appName)
         {
 
             string displayName;
@@ -184,5 +187,32 @@ namespace MagnoMedia.Windows.Utilities
 
         }
 
+        internal static void PostApplicationStatus(int applicationID, AppInstallState state, string message = "")
+        {
+            HttpClientHelper.Post<UserAppTrack>(
+                string.Format("Installer/SaveInstallerState?SessionCode={0}", StaticData.SessionCode),
+        new UserAppTrack
+        {
+            Message = message,
+            ApplicationId = applicationID,
+            State = state,
+        });
+        }
+
+        internal static void PostInstallerStatus(UserTrackState state, string message = "")
+        {
+            HttpClientHelper.Post<UserTrack>(
+                string.Format("Installer/SaveState?SessionCode={0}", StaticData.SessionCode),
+                new UserTrack
+                {
+                    Message = message,
+                    State = state,
+                });
+        }
+
+        internal static string CreatErrorMessage(Exception ex)
+        {
+            return ex.Message;
+        }
     }
 }

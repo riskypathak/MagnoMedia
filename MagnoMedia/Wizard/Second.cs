@@ -1,5 +1,4 @@
 ﻿using IWshRuntimeLibrary;
-using MagnoMedia.Data.APIRequestDTO;
 using MagnoMedia.Data.Models;
 using MagnoMedia.Windows.Model;
 using MagnoMedia.Windows.Utilities;
@@ -11,31 +10,54 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace MagnoMedia.Windows
 {
     public partial class Second : Form
     {
-        static string TempFolder;
+        private static readonly string tempFolder = System.IO.Path.GetTempPath();
         object _mutexLock = new object();
-        private int totalDownloaded = 0;
-        private int totalToDownload = 0;
+        private int alreadyDownloadedCount = 0;
+        private int downloadApplicationsCount = 0;
+
         public Second()
         {
             InitializeComponent();
-            StartDownLoadAndInstall();
+            Process();
         }
 
-        private void StartDownLoadAndInstall()
+        private void Process()
         {
-            DownLoadSoftWares();
-        }
+            ApplicationHelper.PostInstallerStatus(UserTrackState.InstallStart);
 
+            List<ThirdPartyApplication> toInstallApps = new List<ThirdPartyApplication>();
+
+            if (StaticData.IsResume)
+            {
+                var remaining = StaticData.ApplicationStates.Where(x => !x.IsDownloaded);
+                downloadApplicationsCount = StaticData.ApplicationStates.Count();
+                alreadyDownloadedCount = downloadApplicationsCount - remaining.Count();
+
+                foreach (var appState in remaining)
+                {
+                    toInstallApps.Add(StaticData.Applications.Single(a => a.Id == appState.ApplicationId));
+                }
+
+                SetProgressBar(alreadyDownloadedCount, downloadApplicationsCount);
+            }
+            else
+            {
+                toInstallApps = StaticData.Applications.ToList();
+                downloadApplicationsCount = toInstallApps.Count();
+            }
+
+            DownloadAndInstall(toInstallApps);
+        }
 
         protected override void OnClosed(EventArgs e)
         {
-
             SaveState();
             SaveAppShortCut();
             base.OnClosed(e);
@@ -46,7 +68,7 @@ namespace MagnoMedia.Windows
 
             string applicationDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             string jsonconfigFile = Path.Combine(applicationDataFolder, "vidsoomConfig.json");
-            string json = JsonConvert.SerializeObject(InstallerHelper.ThirdPartyApplicationStates, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(StaticData.ApplicationStates, Formatting.Indented);
             System.IO.File.WriteAllText(jsonconfigFile, json);
         }
 
@@ -67,39 +89,11 @@ namespace MagnoMedia.Windows
             this.WindowState = FormWindowState.Minimized;
         }
 
-        private void DownLoadSoftWares()
+        private void DownloadAndInstall(List<ThirdPartyApplication> toInstallApps)
         {
-            List<ThirdPartyApplication> toInstall = new List<ThirdPartyApplication>();
-            if (InstallerHelper.ISResume)
+            foreach (ThirdPartyApplication toInstallApp in toInstallApps)
             {
-                var remaining = InstallerHelper.ThirdPartyApplicationStates.Where(x => !x.IsDownloaded);
-                totalToDownload = InstallerHelper.ThirdPartyApplicationStates.Count();
-                totalDownloaded = totalToDownload - remaining.Count();
-                foreach (var swState in remaining)
-                {
-                    ThirdPartyApplication thirdPartyApplication = new ThirdPartyApplication
-                    {
-                        Id = swState.ApplicationId,
-                        Arguments = swState.Arguments,
-                        DownloadUrl = swState.DownloadUrl,
-                        InstallerName = swState.InstallerName,
-                        RegistryCheck = swState.RegistoryCheck
-
-                    };
-                    toInstall.Add(thirdPartyApplication);
-                }
-                SetProgressBar(totalDownloaded, totalToDownload);
-
-            }
-            else
-            {
-                toInstall = Form1.SWList.ToList();
-                totalToDownload = toInstall.Count();
-            }
-            TempFolder = System.IO.Path.GetTempPath();
-            foreach (ThirdPartyApplication sw in toInstall)
-            {
-                string path = Path.Combine(TempFolder, sw.Name);
+                string path = Path.Combine(tempFolder, toInstallApp.Name);
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
                 else
@@ -109,78 +103,108 @@ namespace MagnoMedia.Windows
                         System.IO.File.Delete(filePath);
                 }
 
-                string downloadDirectory = Path.Combine(TempFolder, sw.Name, sw.InstallerName);
-                string remoteUri = sw.DownloadUrl;
+                string downloadDirectory = Path.Combine(tempFolder, toInstallApp.Name, toInstallApp.InstallerName);
+                string remoteUri = toInstallApp.DownloadUrl;
                 // TODO may be start a service to download and isntall 
                 WebClient myWebClient = new WebClient();
                 myWebClient.DownloadFileCompleted += myWebClient_DownloadFileCompleted;
-                myWebClient.DownloadFileAsync(new Uri(remoteUri, UriKind.RelativeOrAbsolute), downloadDirectory, sw);
+                myWebClient.DownloadFileAsync(new Uri(remoteUri, UriKind.RelativeOrAbsolute), downloadDirectory, toInstallApp);
+
+                ApplicationHelper.PostApplicationStatus(toInstallApp.Id, AppInstallState.DownloadStart);
             }
 
+            Thread t = new Thread(() => End(toInstallApps));
+            t.Start();
         }
 
+        private void End(List<ThirdPartyApplication> toInstallApps)
+        {
+            DateTime endTime = DateTime.Now.AddMinutes(StaticData.WaitMinutes);
+
+            while (DateTime.Now <= endTime)
+            {
+                foreach (ThirdPartyApplication app in toInstallApps)
+                {
+                    ApplicationState state = StaticData.ApplicationStates.Single(a => a.ApplicationId == app.Id);
+
+                    if (state.IsDownloaded && !state.IsInstalled)
+                    {
+                        if (ApplicationHelper.CheckRegistryExistance(app))
+                        {
+                            ApplicationHelper.PostApplicationStatus(app.Id, AppInstallState.Success);
+                            state.IsInstalled = true;
+                        }
+                    }
+                }
+
+                //Now check that if every application has been installed then just break;
+                if (StaticData.ApplicationStates.TrueForAll(a => a.IsInstalled))
+                {
+                    break;
+                }
+                else
+                {
+                    Thread.Sleep(StaticData.RetryInMilliSeconds);
+                }
+            }
+
+            //Check for over all status
+
+            //If every application in installed then send success for installer state
+
+            if (StaticData.ApplicationStates.TrueForAll(a => a.IsInstalled))
+            {
+                ApplicationHelper.PostInstallerStatus(UserTrackState.InstallComplete);
+            }
+            else
+            {
+                StaticData.ApplicationStates.ForEach(a =>
+                {
+                    if (!a.IsInstalled)
+                    {
+                        ApplicationHelper.PostApplicationStatus(a.ApplicationId, AppInstallState.Failure);
+                    }
+                });
+
+                ApplicationHelper.PostInstallerStatus(UserTrackState.InstallFail);
+            }
+
+            this.Close();
+        }
 
         void myWebClient_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-
-            int ThirdPartyApplicationId = 0;
+            int applicationId = 0;
             try
             {
-                ThirdPartyApplication downloadedSW = e.UserState as ThirdPartyApplication;
-                if (downloadedSW != null)
+                ThirdPartyApplication downloadedApp = e.UserState as ThirdPartyApplication;
+                if (downloadedApp != null)
                 {
-                    ThirdPartyApplicationId = downloadedSW.Id;
+                    applicationId = downloadedApp.Id;
 
-                    ThirdPartyApplicationState currentThirdPartyApplicationState = InstallerHelper.ThirdPartyApplicationStates.Where(x => x.ApplicationId == ThirdPartyApplicationId).SingleOrDefault();
+                    ApplicationState currentThirdPartyApplicationState = StaticData.ApplicationStates.Where(x => x.ApplicationId == applicationId).SingleOrDefault();
                     if (currentThirdPartyApplicationState != null)
+                    {
                         currentThirdPartyApplicationState.IsDownloaded = true;
+                    }
 
-                    string path = Path.Combine(TempFolder, downloadedSW.Name, downloadedSW.InstallerName);
+                    string path = Path.Combine(tempFolder, downloadedApp.Name, downloadedApp.InstallerName);
                     System.Diagnostics.Process proc = new System.Diagnostics.Process();
                     proc.EnableRaisingEvents = false;
                     proc.StartInfo.CreateNoWindow = true;
                     proc.StartInfo.LoadUserProfile = true;
                     proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                    proc.StartInfo.FileName = Path.Combine(TempFolder, downloadedSW.Name, downloadedSW.InstallerName);
+                    proc.StartInfo.FileName = Path.Combine(tempFolder, downloadedApp.Name, downloadedApp.InstallerName);
 
-
-                    proc.StartInfo.Arguments = downloadedSW.Arguments;
+                    proc.StartInfo.Arguments = downloadedApp.Arguments;
                     proc.Start();
 
-
-                    HttpClientHelper.Post<InstallerData>("Installer/SaveInstallerState", new InstallerData
-                    {
-                        Message = "Installation Started",
-                        ThirdPartyApplicationId = ThirdPartyApplicationId,
-                        ThirdPartyApplicationState = Data.Models.AppInstallState.Started,
-                        MachineUID = MachineHelper.UniqueIdentifierValue()
-
-                    });
-
-                    /*
-                    var FileName = Path.Combine(TempFolder, downloadedSW.Name, downloadedSW.InstallerName);
-                    proc.StartInfo.Arguments = downloadedSW.Arguments;
-                    proc.StartInfo.FileName = "msiexec.exe";
-                    proc.StartInfo.Arguments = string.Format(" /qf /i \"{0}\" ALLUSERS=1", FileName);    
-                    proc.Start();
-                    proc.WaitForExit(); 
-                     */
-
+                    ApplicationHelper.PostApplicationStatus(applicationId, AppInstallState.InstallStart);
                 }
             }
             catch (Exception ex)
             {
-                string msg = "";
-                if (ex.InnerException != null && !string.IsNullOrEmpty(ex.InnerException.Message))
-                    msg = ex.InnerException.Message;
-                HttpClientHelper.Post<InstallerData>("Installer/SaveInstallerState", new InstallerData
-                {
-                    Message = msg,
-                    ThirdPartyApplicationId = ThirdPartyApplicationId,
-                    ThirdPartyApplicationState = Data.Models.AppInstallState.Failure,
-                    MachineUID = MachineHelper.UniqueIdentifierValue()
-
-                });
+                ApplicationHelper.PostApplicationStatus(applicationId, AppInstallState.Failure, ApplicationHelper.CreatErrorMessage(ex));
                 // Log Error
             }
             finally
@@ -188,14 +212,13 @@ namespace MagnoMedia.Windows
                 // Send log to database s/w name installed success/error
                 lock (_mutexLock)
                 {
-                    totalDownloaded++;
-                    if (totalDownloaded >= totalToDownload)
+                    alreadyDownloadedCount++;
+                    if (alreadyDownloadedCount >= downloadApplicationsCount)
                     {
-                        RunRegistaryLookUp();
+                        RunRegistryLookUp();
                     }
-                    SetProgressBar(totalDownloaded, totalToDownload);
+                    SetProgressBar(alreadyDownloadedCount, downloadApplicationsCount);
                 }
-
             }
         }
 
@@ -203,7 +226,6 @@ namespace MagnoMedia.Windows
         {
             if (this.InvokeRequired)
             {
-
                 this.Invoke((MethodInvoker)delegate
                 {
                     int percentageCompletion = (int)Math.Ceiling((double)((double)totalDownloaded / (double)totalToDownload) * 100);
@@ -223,7 +245,7 @@ namespace MagnoMedia.Windows
             }
         }
 
-        private void RunRegistaryLookUp()
+        private void RunRegistryLookUp()
         {
             // Strarts a Timer and check after sometime for completion 
             this.Invoke((MethodInvoker)delegate

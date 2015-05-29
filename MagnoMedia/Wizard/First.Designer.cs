@@ -71,10 +71,10 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(66, 75);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(597, 32);
+            this.label2.Size = new System.Drawing.Size(485, 26);
             this.label2.TabIndex = 2;
             this.label2.Text = "Follow the on-screen instructions outlined in this wizard to install the new vers" +
     "ion of Setup and benefit \r\nfrom all the latest features and updates Setup has to" +
@@ -173,10 +173,10 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(66, 255);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(560, 32);
+            this.label10.Size = new System.Drawing.Size(449, 26);
             this.label10.TabIndex = 4;
             this.label10.Text = "With Vidsoom™ you can create your own playlist adding your favourite internet vid" +
     "eo clips and\r\nviode or audio stored on your PC. The main features include:";
@@ -286,27 +286,30 @@
             // labelFeatures1
             // 
             this.labelFeatures1.AutoSize = true;
+            this.labelFeatures1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelFeatures1.Location = new System.Drawing.Point(75, 302);
             this.labelFeatures1.Name = "labelFeatures1";
-            this.labelFeatures1.Size = new System.Drawing.Size(159, 13);
+            this.labelFeatures1.Size = new System.Drawing.Size(157, 13);
             this.labelFeatures1.TabIndex = 15;
             this.labelFeatures1.Text = "• Play online videos on Vidsoom";
             // 
             // labelFeatures2
             // 
             this.labelFeatures2.AutoSize = true;
+            this.labelFeatures2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelFeatures2.Location = new System.Drawing.Point(363, 302);
             this.labelFeatures2.Name = "labelFeatures2";
-            this.labelFeatures2.Size = new System.Drawing.Size(215, 26);
+            this.labelFeatures2.Size = new System.Drawing.Size(212, 26);
             this.labelFeatures2.TabIndex = 15;
             this.labelFeatures2.Text = "• Create mixed playlists with online and local\r\n   videos";
             // 
             // labelFaetures3
             // 
             this.labelFaetures3.AutoSize = true;
+            this.labelFaetures3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelFaetures3.Location = new System.Drawing.Point(75, 339);
             this.labelFaetures3.Name = "labelFaetures3";
-            this.labelFaetures3.Size = new System.Drawing.Size(159, 13);
+            this.labelFaetures3.Size = new System.Drawing.Size(157, 13);
             this.labelFaetures3.TabIndex = 15;
             this.labelFaetures3.Text = "• Choose among 5 quality levels";
             this.labelFaetures3.Click += new System.EventHandler(this.label13_Click);
@@ -314,10 +317,11 @@
             // linkLabelLicence
             // 
             this.linkLabelLicence.AutoSize = true;
+            this.linkLabelLicence.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkLabelLicence.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
             this.linkLabelLicence.Location = new System.Drawing.Point(69, 376);
             this.linkLabelLicence.Name = "linkLabelLicence";
-            this.linkLabelLicence.Size = new System.Drawing.Size(442, 26);
+            this.linkLabelLicence.Size = new System.Drawing.Size(435, 26);
             this.linkLabelLicence.TabIndex = 16;
             this.linkLabelLicence.Text = "Setup is free and ad-supported by a popup advertisment.\r\nBy clicking new you agre" +
     "e to install Setup and to the Licence Agreement and Privacy Policy.\r\n";

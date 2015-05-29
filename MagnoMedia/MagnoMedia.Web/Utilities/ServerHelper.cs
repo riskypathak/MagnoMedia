@@ -8,7 +8,7 @@ namespace MagnoMedia.Web.Api.Utilities
     public class ServerHelper
     {
 
-        public static string GetClinetIpAddress()
+        public static string GetClientIPAddress()
         {
             return HttpContext.Current.Request.UserHostAddress;
         }

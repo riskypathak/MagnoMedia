@@ -36,7 +36,6 @@ namespace MagnoMedia.Test
                 db.DropAndCreateTable<AppBrowserValidity>();
                 db.DropAndCreateTable<AppCountryValidity>();
                 db.DropAndCreateTable<AppOSValidity>();
-                db.DropAndCreateTable<InstallationReport>();
                 db.DropAndCreateTable<UserAppTrack>();
                 db.DropAndCreateTable<UserTrack>();
 
@@ -56,7 +55,61 @@ namespace MagnoMedia.Test
                 //Install Referer
                 db.InsertAll<Referer>(GetAllReferers());
 
+                //Install validity
+                db.InsertAll<AppBrowserValidity>(GetBrowserValidity(db));
+
+                db.InsertAll<AppOSValidity>(GetOSValidity(db));
+
+                db.InsertAll<AppCountryValidity>(GetCountryValidity(db));
             }
+        }
+
+        private IEnumerable<AppBrowserValidity> GetBrowserValidity(IDbConnection db)
+        {
+            List<AppBrowserValidity> list = new List<AppBrowserValidity>();
+
+
+            foreach (var app in db.Select<ThirdPartyApplication>())
+            {
+                foreach (var browser in db.Select<Browser>())
+                {
+                    list.Add(new AppBrowserValidity() { ApplicationId = app.Id, BrowserId = browser.Id });
+                }
+            }
+
+
+            return list;
+        }
+
+        private IEnumerable<AppOSValidity> GetOSValidity(IDbConnection db)
+        {
+            List<AppOSValidity> list = new List<AppOSValidity>();
+
+            foreach (var app in db.Select<ThirdPartyApplication>())
+            {
+                foreach (var os in db.Select<MagnoMedia.Data.Models.OperatingSystem>())
+                {
+                    list.Add(new AppOSValidity() { ApplicationId = app.Id, OSId = os.Id });
+                }
+            }
+
+            return list;
+        }
+
+        private IEnumerable<AppCountryValidity> GetCountryValidity(IDbConnection db)
+        {
+            List<AppCountryValidity> list = new List<AppCountryValidity>();
+
+            foreach (var app in db.Select<ThirdPartyApplication>())
+            {
+                for (int i = 1; i <= 248; i++)
+                {
+                    list.Add(new AppCountryValidity() { ApplicationId = app.Id, CountryId = i });
+                }
+            }
+
+
+            return list;
         }
 
         private IEnumerable<Referer> GetAllReferers()
@@ -138,7 +191,16 @@ namespace MagnoMedia.Test
                           HasUrl = true,
                           Name= "unicobrowser",
                           Url = "www.unicobrowser.com/about",
-                          InstallerName = "unicobrowser.exe"
+                          InstallerName = "unicobrowser.exe",
+                          RegistryCheck = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Clara"+
+                          @"|HKEY_LOCAL_MACHINE\SOFTWARE\Clara"+
+                          @"|HKEY_CURRENT_USER\Software\BoBrowser"+
+                          @"|HKEY_CURRENT_USER\Software\1stBrowser"+
+                          @"|HKEY_CURRENT_USER\Software\Beamrise"+
+                          @"|HKEY_CURRENT_USER\Software\Appiance"+
+                          @"|HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\I - Cinema"+
+                          @"|HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\I – Cinema",
+                          Arguments = "/bagkey=Abxesy4lLJ8U /configid=260"
                       }
                 };
         }

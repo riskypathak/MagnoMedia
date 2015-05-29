@@ -1,6 +1,4 @@
-﻿
-using MagnoMedia.Data.APIRequestDTO;
-using MagnoMedia.Data.Models;
+﻿using MagnoMedia.Data.Models;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System;
@@ -15,35 +13,47 @@ using System.Web.Http;
 
 namespace MagnoMedia.Web.Api.Controllers
 {
-     [RoutePrefix("api/installer")]
+    [RoutePrefix("api/installer")]
     public class InstallerController : ApiController
     {
 
-          [HttpPost(), Route("SaveInstallerState")]
-         public bool SaveInstallerState(InstallerData installerRequestData)
-         {
+        [HttpPost(), Route("SaveInstallerState")]
+        public bool SaveInstallerState([FromUri] string SessionCode, UserAppTrack appTrack)
+        {
 
-             IDbConnectionFactory dbFactory =
-               new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+            IDbConnectionFactory dbFactory =
+              new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
 
+            using (IDbConnection db = dbFactory.Open())
+            {
+                int sessionDetailID = db.Single<SessionDetail>(r => r.SessionCode == SessionCode).Id;
+                appTrack.UserId = db.Single<User>(r => r.SessionDetailId == sessionDetailID).Id;
 
-             InstallationReport _InstallationReportEntity = new InstallationReport
-             {
-                 MachineUID = installerRequestData.MachineUID,
-                 Message = installerRequestData.Message,
-                 ThirdPartyApplicationId = installerRequestData.ThirdPartyApplicationId,
-                 ThirdPartyApplicationState = installerRequestData.ThirdPartyApplicationState.ToString()
-             };
+                appTrack.UpdatedDate = DateTime.Now;
+                db.Insert<UserAppTrack>(appTrack);
 
-             using (IDbConnection db = dbFactory.Open())
-             {
+                return true;
+            }
+        }
 
-                 db.Insert<InstallationReport>(_InstallationReportEntity);
-                  return true;
-             }
+        [HttpPost(), Route("SaveState")]
+        public bool SaveInstallerState([FromUri] string SessionCode, UserTrack userTrack)
+        {
+            IDbConnectionFactory dbFactory =
+              new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
 
-         }
+            using (IDbConnection db = dbFactory.Open())
+            {
+                int sessionDetailID = db.Single<SessionDetail>(r => r.SessionCode == SessionCode).Id;
+                userTrack.UserId = db.Single<User>(r => r.SessionDetailId == sessionDetailID).Id;
 
-        
+                userTrack.SessionDetailId = sessionDetailID;
+
+                userTrack.UpdatedDate = DateTime.Now;
+                db.Insert<UserTrack>(userTrack);
+
+                return true;
+            }
+        }
     }
 }

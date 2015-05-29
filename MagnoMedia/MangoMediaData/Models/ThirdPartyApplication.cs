@@ -22,6 +22,7 @@ namespace MagnoMedia.Data.Models
 
         public string Arguments { get; set; }
 
+        [StringLengthAttribute(1000)]
         public string RegistryCheck { get; set; }
 
         public string AgreementText { get; set; }

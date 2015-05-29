@@ -59,12 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agreement.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Agreement.Designer.cs">
-      <DependentUpon>Agreement.cs</DependentUpon>
-    </Compile>
     <Compile Include="First.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,12 +81,9 @@
       <DependentUpon>Second.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\HttpClientHelper.cs" />
-    <Compile Include="Utilities\InstallerHelper.cs" />
+    <Compile Include="Utilities\StaticData.cs" />
     <Compile Include="Utilities\MachineHelper.cs" />
-    <Compile Include="Utilities\OtherSoftwareHelper.cs" />
-    <EmbeddedResource Include="Agreement.resx">
-      <DependentUpon>Agreement.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="Utilities\ApplicationHelper.cs" />
     <EmbeddedResource Include="First.resx">
       <DependentUpon>First.cs</DependentUpon>
     </EmbeddedResource>
@@ -112,6 +103,7 @@
     <EmbeddedResource Include="Second.resx">
       <DependentUpon>Second.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="App.config" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -125,9 +117,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

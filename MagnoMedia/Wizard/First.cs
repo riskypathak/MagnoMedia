@@ -26,13 +26,7 @@ namespace MagnoMedia.Windows
 
         private void button1_Click(object sender, EventArgs e)
         {
-
-
-            //Agreement step2 = new Agreement(CurrentThirdPartySwIndex:0);
-            //step2.Show();
-            //Hide();
             LoadScreen();
-
         }
 
         private void LoadScreen()
@@ -49,9 +43,7 @@ namespace MagnoMedia.Windows
 
         private void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-          
             System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
-        
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)

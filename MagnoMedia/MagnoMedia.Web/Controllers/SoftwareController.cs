@@ -1,5 +1,4 @@
-﻿using Magno.Data;
-using MagnoMedia.Data.Models;
+﻿using MagnoMedia.Data.Models;
 using MagnoMedia.Web.Api.Utilities;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
@@ -7,11 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
+using System.Linq;
+using System.Web;
 using System.Web.Http;
 
 namespace MagnoMedia.Web.Api.Controllers
 {
-
     [RoutePrefix("api/software")]
     public class SoftwareController : ApiController
     {
@@ -23,42 +24,27 @@ namespace MagnoMedia.Web.Api.Controllers
             IDbConnectionFactory dbFactory =
               new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
 
-            string ipAddress = ServerHelper.GetClinetIpAddress();
+            string ipAddress = ServerHelper.GetClientIPAddress();
             using (IDbConnection db = dbFactory.Open())
             {
-                var sessionDetailID = db.Single<SessionDetail>(r => r.SessionCode == SessionCode).Id;
+                int sessionDetailID = db.Single<SessionDetail>(r => r.SessionCode == SessionCode).Id;
+
+                User user = db.Single<User>(u => u.SessionDetailId == sessionDetailID);
+
+                IEnumerable<int> appValidOSIds = db.Select<AppOSValidity>(a => a.OSId == user.OsId).Select(a => a.ApplicationId);
+                IEnumerable<int> appValidBrowserIds = db.Select<AppBrowserValidity>(a => a.BrowserId == user.BrowserId).Select(a => a.ApplicationId);
+                IEnumerable<int> appValidCountryIds = db.Select<AppCountryValidity>(a => a.CountryId == user.CountryId).Select(a => a.ApplicationId);
+
+                IEnumerable<int> validAppIds = appValidBrowserIds.Intersect(appValidOSIds).Intersect(appValidCountryIds);
+
                 //Insert into tracking
-                UserTrack userTrack = new UserTrack();
-                userTrack.UpdatedDate = DateTime.Now;
-                userTrack.SessionDetailId = sessionDetailID;
-                userTrack.State = UserTrackState.InstallStart;
-                DbHelper.InsertInDB<UserTrack>(dbFactory, userTrack);
-                //check for already existing user
-                //User existingUser = db.Single<User>(x => x. == request.MachineUID);
-                //if (existingUser != null)
-                //{
-                //    //existingUser.BrowserId = request.DefaultBrowser;
-                //    existingUser.CreationDate = DateTime.Now;
-                //    db.Save(existingUser);
-                //}
-                //else
-                //{
-                //    User _usr = new User
-                //    {
-                //        //BrowserId = request.DefaultBrowser,
-                //        CreationDate = DateTime.Now,
-                //        FingerPrint = request.MachineUID,
-                //        //OsId = request.OSName,
-                //        IP = ipAddress,
-                //        //CountryId = request.CountryName
-                //    };
-                //    long count = db.Insert<User>(_usr);
-                //}
+                UserTrack userTrack = new UserTrack() { SessionDetailId = sessionDetailID, UserId = user.Id, UpdatedDate = DateTime.Now, State = UserTrackState.InstallStart };
+                db.Insert<UserTrack>(userTrack);
 
-
-
+                return db.Select<ThirdPartyApplication>(t => validAppIds.Contains(t.Id));
             }
-            return GetSoftwareList();
+
+            return null;
         }
 
 
@@ -70,41 +56,42 @@ namespace MagnoMedia.Web.Api.Controllers
 
         [Route("applicationpath")]
         [HttpPost]
-        public string ApplicationPath(UserData request)
+        public string ApplicationPath(MagnoMedia.Web.Models.UserInstallRequest request)
         {
             //TODO hard coding zip on server
 
             IDbConnectionFactory dbFactory =
             new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
-            string ipAddress = ServerHelper.GetClinetIpAddress();
+            string ipAddress = ServerHelper.GetClientIPAddress();
             using (IDbConnection db = dbFactory.Open())
             {
-                //check for already existing user
-                User existingUser = db.Single<User>(x => x.FingerPrint == request.MachineUID);
-                if (existingUser != null)
+                SessionDetail sessionDetail = db.Select<SessionDetail>().SingleOrDefault(s => s.SessionCode == request.SessionID);
+
+                if (sessionDetail == null)
                 {
-                    //existingUser.BrowserId = request.DefaultBrowser;
-                    existingUser.CreationDate = DateTime.Now;
-                    db.Save(existingUser);
+                    return null; // we will assume that a request without session is invalid
                 }
-                else
+
+                //check for already existing user and insert
+                User existingUser = db.Single<User>(x => x.FingerPrint == request.MachineUID);
+
+                //This means that user is installing it for the first time
+                if (existingUser == null)
                 {
-
-                    SessionDetail sessionDetail = db.Single<SessionDetail>(x => x.Id == request.SessionID);
-
                     // Browser Save
                     Browser browser = new Browser
                     {
                         BrowserName = request.DefaultBrowser
                     };
-                    int browserId = DbHelper.SaveInDB<Browser>(dbFactory, browser, x => x.BrowserName.Contains(request.DefaultBrowser));
+
+                    int browserId = DbHelper.SaveInDB<Browser>(dbFactory, browser, x => request.DefaultBrowser.ToLower().Contains(x.BrowserName.ToLower()));
 
                     // OS Save
                     MagnoMedia.Data.Models.OperatingSystem os = new Data.Models.OperatingSystem
                     {
                         OSName = request.OSName
                     };
-                    int osId = DbHelper.SaveInDB<MagnoMedia.Data.Models.OperatingSystem>(dbFactory, os, x => x.OSName.Contains(request.OSName));
+                    int osId = DbHelper.SaveInDB<MagnoMedia.Data.Models.OperatingSystem>(dbFactory, os, x => request.OSName.Contains(x.OSName));
 
                     //Country Save
                     Country country = new Country
@@ -114,38 +101,44 @@ namespace MagnoMedia.Web.Api.Controllers
                     };
                     int countryId = DbHelper.SaveInDB<Country>(dbFactory, country, x => x.Iso.Equals(country.Iso));
 
-                    User _usr = new User
+                    User user = new User
                     {
                         BrowserId = browserId,
                         OsId = osId,
                         CountryId = countryId,
                         CreationDate = DateTime.Now,
                         FingerPrint = request.MachineUID,
-                        //OsId = request.OSName,
                         IP = ipAddress,
-                        //CountryId = request.CountryName
                         SessionDetailId = sessionDetail.Id,
-
                     };
-                    long count = db.Insert<User>(_usr);
+                    long count = db.Insert<User>(user);
+
+                    UserTrack userTrack = new UserTrack() { SessionDetailId = sessionDetail.Id, UserId = user.Id, UpdatedDate = DateTime.Now, State = UserTrackState.InstallInit };
+                    db.Insert<UserTrack>(userTrack);
                 }
+                else
+                {
+                    // This is returning user with same machine. So we will just update his last session
+                    existingUser.SessionDetailId = sessionDetail.Id;
+                    existingUser.CreationDate = DateTime.Now;
+                    db.Save(existingUser);
+
+
+                    UserTrack userTrack = new UserTrack() { SessionDetailId = sessionDetail.Id, UserId = existingUser.Id, UpdatedDate = DateTime.Now, State = UserTrackState.InstallInit };
+                    db.Insert<UserTrack>(userTrack);
+                }
+
+                string newVidsoomPath = HttpContext.Current.Server.MapPath("~/Temp\\" + sessionDetail.SessionCode + "\\vidsoom.zip");
+
+                File.Copy(HttpContext.Current.Server.MapPath("~/App_Data\\Application\\vidsoom.zip"), newVidsoomPath, true);
+
+                //risky
+                newVidsoomPath = "http://188.42.227.39/vidsoom/Debug.zip";
+
+                return newVidsoomPath;
             }
 
-
-            return "http://188.42.227.39/vidsoom/Debug.zip";
-
-        }
-
-        private IEnumerable<ThirdPartyApplication> GetSoftwareList()
-        {
-            IDbConnectionFactory dbFactory =
-               new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
-
-            using (IDbConnection db = dbFactory.Open())
-            {
-
-                return db.Select<ThirdPartyApplication>();
-            }
+            return null;
         }
 
 
@@ -160,16 +153,5 @@ namespace MagnoMedia.Web.Api.Controllers
                 return db.SingleById<ThirdPartyApplication>(id);
             }
         }
-
-        //private static int SaveInDB<T>(IDbConnectionFactory dbFactory, T data,Func<T,bool> predicate)where T : DBEntity
-        //{
-        //    using (IDbConnection db = dbFactory.Open())
-        //    {
-        //        var existingData = db.Single<T>(predicate);
-        //        if (existingData != null)
-        //            return existingData.Id;
-        //        return (int)db.Insert<T>(data, selectIdentity: true);
-        //    }
-        //}
     }
 }

@@ -1,18 +1,21 @@
-﻿using Microsoft.Win32;
-using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Management;
-using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+
+using System.Management;
+using Microsoft.Win32;
+using System.Net;
+using System.Globalization;
 using System.Threading;
 
-namespace MagnoMedia.Windows.Utilities
+namespace MagnoMedia.Windows.Installer
 {
     class MachineHelper
     {
 
-        #region variables
+        #region variables 
         private static string fingerPrint = string.Empty;
         private static string osName = string.Empty;
         private static string browserName = string.Empty;
@@ -28,10 +31,10 @@ namespace MagnoMedia.Windows.Utilities
         {
             if (string.IsNullOrEmpty(fingerPrint))
             {
-                fingerPrint = GetHash("CPU >> " + cpuId() + "\nBIOS >> " +
-            biosId() + "\nBASE >> " + baseId() +
-                    //+"\nDISK >> "+ diskId() + "\nVIDEO >> " + 
-            videoId() + "\nMAC >> " + macId()
+                fingerPrint = GetHash("CPU >> " + cpuId() + "\nBIOS >> " + 
+			biosId() + "\nBASE >> " + baseId() +
+                            //+"\nDISK >> "+ diskId() + "\nVIDEO >> " + 
+			videoId() +"\nMAC >> "+ macId()
                                      );
             }
             return fingerPrint;
@@ -182,15 +185,17 @@ namespace MagnoMedia.Windows.Utilities
         #endregion
 
 
-        public static string GetCountryName()
-        {
+        public static string GetCountryName() {
 
             if (string.IsNullOrEmpty(countryName))
             {
                 countryName = CountryName();
-
+                                   
             }
             return countryName;
+          
+        
+        
         }
 
         private static string CountryName()
@@ -215,7 +220,7 @@ namespace MagnoMedia.Windows.Utilities
 
             }
             return ipAddress;
-
+          
         }
 
         private static string IpAddress()
@@ -228,24 +233,22 @@ namespace MagnoMedia.Windows.Utilities
 
         #region Code For getting OS name
 
-        public static string GetOSName()
-        {
+        public static string GetOSName() {
 
             if (string.IsNullOrEmpty(osName))
             {
                 osName = OSName();
-
+                             
             }
             return osName;
-
+        
         }
 
-        private static string OSName()
-        {
-            var name = (from x in new ManagementObjectSearcher("SELECT * FROM Win32_OperatingSystem").Get().OfType<ManagementObject>()
-                        select x.GetPropertyValue("Caption")).FirstOrDefault();
-            return name != null ? name.ToString() : "Unknown";
-
+        private static string OSName() { 
+         var name = (from x in new ManagementObjectSearcher("SELECT * FROM Win32_OperatingSystem").Get().OfType<ManagementObject>()
+                      select x.GetPropertyValue("Caption")).FirstOrDefault();
+                      return name != null ? name.ToString() : "Unknown";
+        
         }
 
         #endregion
@@ -266,7 +269,7 @@ namespace MagnoMedia.Windows.Utilities
 
         private static string DefaultBrowserName()
         {
-            object progIdValue = null;
+            object progIdValue  = null;
             using (RegistryKey userChoiceKey = Registry.CurrentUser.OpenSubKey(registryPath))
             {
                 if (userChoiceKey != null)
@@ -275,13 +278,11 @@ namespace MagnoMedia.Windows.Utilities
 
                 }
             }
-            if (progIdValue == null)
-            {
-                return "UNKNOWN";
-
+            if(progIdValue== null){
+            return "UNKNOWN";
+            
             }
-            else
-            {
+            else{
 
                 return progIdValue.ToString();
             }
@@ -291,6 +292,6 @@ namespace MagnoMedia.Windows.Utilities
         #endregion
 
 
-
+  
     }
 }

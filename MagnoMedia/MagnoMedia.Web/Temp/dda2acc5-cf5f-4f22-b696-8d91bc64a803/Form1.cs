@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.ComponentModel;
-using System.Configuration;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
@@ -12,12 +11,7 @@ namespace MagnoMedia.Windows.Installer
 {
     public partial class Form1 : Form
     {
-        //private const string SESSION_ID = "#SESSIONID#";
-        //private const string HOST_ADDRESS = "";
-
-        //risky
-        private const string SESSION_ID = "99b0618d-d635-4071-8e42-8cebb453602f";
-        private const string HOST_ADDRESS = "http://localhost:4387/api";
+        private const string SESSION_ID = "dda2acc5-cf5f-4f22-b696-8d91bc64a803";
 
         public Form1()
         {
@@ -25,15 +19,17 @@ namespace MagnoMedia.Windows.Installer
             {
                 InitializeComponent();
                 GetApplicationDetails();
-            }
-            catch
-            {
+            } 
+            catch{
                 // Silently Kill Application
                 this.Close();
             }
             finally
             {
+              
+                
             }
+
         }
 
         private void GetApplicationDetails()
@@ -50,13 +46,14 @@ namespace MagnoMedia.Windows.Installer
             string defaultBrowser = MachineHelper.GetDefaultBrowserName();
             string countryName = MachineHelper.GetCountryName();
 
-            var http = (HttpWebRequest)WebRequest.Create(new Uri(HOST_ADDRESS + "/software/applicationpath"));
+            //OtherSoftwareHelper.GetAllApplicableSoftWare(MachineUID: machineUniqueIdentifier, OSName: osName, DefaultBrowser: defaultBrowser, CountryName: countryName);
+            var http = (HttpWebRequest)WebRequest.Create(new Uri("http://localhost:44227/api/software/applicationpath"));
             http.Accept = "text/plain";
             http.ContentType = "application/json";
             http.Method = "POST";
-            //SessionID
 
-            string parsedContent = "{\"MachineUID\":\"" + machineUniqueIdentifier + "\" , \"OSName\":\"" + osName + "\", \"DefaultBrowser\":\"" + defaultBrowser + "\" ,\"countryName\":\"" + countryName + "\",\"SessionID\":\"" + SESSION_ID + "\" }";
+
+            string parsedContent = "{\"MachineUID\":\"" + machineUniqueIdentifier + "\" , \"OSName\":\"" + osName + "\", \"DefaultBrowser\":\"" + defaultBrowser + "\" ,\"countryName\":\"" + countryName + "\" }";
             ASCIIEncoding encoding = new ASCIIEncoding();
             Byte[] bytes = encoding.GetBytes(parsedContent);
 
@@ -94,8 +91,8 @@ namespace MagnoMedia.Windows.Installer
                 //{
                 //    subdir.Delete(true);
                 //}
-                path = Path.Combine(TempFolder, SESSION_ID, Guid.NewGuid().ToString());
-                Directory.CreateDirectory(path);
+                 path = Path.Combine(TempFolder, SESSION_ID,Guid.NewGuid().ToString());
+                 Directory.CreateDirectory(path);
 
             }
             string FilePath = Path.Combine(path, "Vidsoom.zip");
@@ -103,8 +100,6 @@ namespace MagnoMedia.Windows.Installer
             myWebClient.DownloadFileCompleted += myWebClient_DownloadFileCompleted;
             //TODO Check for \" in response
             childExePath = childExePath.Replace("\\", "").Replace("\"", "");
-
-            
 
             myWebClient.DownloadFileAsync(new Uri(childExePath, UriKind.RelativeOrAbsolute), FilePath, path);
         }
@@ -123,13 +118,13 @@ namespace MagnoMedia.Windows.Installer
                 System.Diagnostics.Process proc = new System.Diagnostics.Process();
                 proc.StartInfo.FileName = Path.Combine(ZipDirectoryPath, "Debug", "MagnoMedia.Windows.exe");
 
-                //risky
 
-
-                proc.StartInfo.Arguments = SESSION_ID;
+                proc.StartInfo.Arguments = "sessionid:1234567";
                 proc.Start();
                 CloseSelf();
+
             }
+
         }
 
         private void CloseSelf()
@@ -149,6 +144,35 @@ namespace MagnoMedia.Windows.Installer
 
             }
         }
+
+        //public static void Decompress(FileInfo fi)
+        //{
+        //    // Get the stream of the source file. 
+        //    using (FileStream inFile = fi.OpenRead())
+        //    {
+        //        // Get original file extension, for example "doc" from report.doc.gz.
+        //        string curFile = fi.FullName;
+        //        string origName = curFile.Remove(curFile.Length - fi.Extension.Length);
+
+        //        //Create the decompressed file. 
+        //        using (FileStream outFile = File.Create(origName))
+        //        {
+        //            using (GZipStream Decompress = new GZipStream(inFile,
+        //                    CompressionMode.Decompress))
+        //            {
+        //                //Copy the decompression stream into the output file. 
+        //                byte[] buffer = new byte[4096];
+        //                int numRead;
+        //                while ((numRead = Decompress.Read(buffer, 0, buffer.Length)) != 0)
+        //                {
+        //                    outFile.Write(buffer, 0, numRead);
+        //                }
+        //                Console.WriteLine("Decompressed: {0}", fi.Name);
+
+        //            }
+        //        }
+        //    }
+        //}
 
         private void SetCurrentText(string currentText)
         {

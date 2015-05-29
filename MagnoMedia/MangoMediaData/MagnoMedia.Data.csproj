@@ -61,8 +61,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="APIRequestDTO\InstallerData.cs" />
-    <Compile Include="APIRequestDTO\UserData.cs" />
     <Compile Include="Models\Revenue.cs" />
     <Compile Include="Models\Referer.cs" />
     <Compile Include="Models\Browser.cs" />
@@ -76,7 +74,6 @@
     <Compile Include="Models\SearchResult.cs" />
     <Compile Include="Models\UserTrack.cs" />
     <Compile Include="Models\ThirdPartyApplication.cs" />
-    <Compile Include="Models\InstallationReport.cs" />
     <Compile Include="Models\SessionDetail.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserAppTrack.cs" />

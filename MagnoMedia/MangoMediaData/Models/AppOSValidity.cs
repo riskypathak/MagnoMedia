@@ -5,7 +5,7 @@ namespace MagnoMedia.Data.Models
    public class AppOSValidity: DBEntity
     {
         [References(typeof(ThirdPartyApplication))]
-        public int ThirdPartyApplicationId { get; set; }
+        public int ApplicationId { get; set; }
 
         [Reference]
         public ThirdPartyApplication Application { get; set; }

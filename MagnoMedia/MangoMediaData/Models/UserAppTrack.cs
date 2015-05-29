@@ -1,5 +1,6 @@
 ﻿
 using ServiceStack.DataAnnotations;
+using System;
 namespace MagnoMedia.Data.Models
 {
     public class UserAppTrack : DBEntity
@@ -18,9 +19,8 @@ namespace MagnoMedia.Data.Models
 
         public AppInstallState State { get; set; }
 
-        public string OtherDetails { get; set; }
+        public string Message { get; set; }
 
-        public string ErrorMessage { get; set; }
-
+        public DateTime UpdatedDate { get; set; }
     }
 }

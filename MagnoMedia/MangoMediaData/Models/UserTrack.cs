@@ -24,5 +24,7 @@ namespace MagnoMedia.Data.Models
         public UserTrackState State { get; set; }
 
         public DateTime UpdatedDate { get; set; }
+
+        public string Message { get; set; }
     }
 }

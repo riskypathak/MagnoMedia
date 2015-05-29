@@ -2,10 +2,11 @@
 {
     public enum AppInstallState
     {
+        NotInstalledDueToOverLimit,
+        AlreadyExist,
+        DownloadStart,
+        InstallStart,
         Success,
         Failure,
-        Partial,
-        AlreadyExist,
-        Started
     }
 }
