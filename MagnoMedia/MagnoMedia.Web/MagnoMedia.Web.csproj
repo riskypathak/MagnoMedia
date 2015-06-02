@@ -144,17 +144,15 @@
     <Compile Include="Controllers\MetricAndEfficencyController.cs" />
     <Compile Include="Controllers\RevenueController.cs" />
     <Compile Include="Controllers\SoftwareController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\ThirdPartyApplicationController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\VidSoomController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DownloadData.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserInstallRequest.cs" />
-    <Compile Include="Models\VidSoomHome.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\DbHelper.cs" />
     <Compile Include="Utilities\ServerHelper.cs" />
@@ -180,6 +178,7 @@
     <Content Include="App_Data\Application\vidsoom.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\DevServer.pubxml" />
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -202,21 +201,21 @@
     <Content Include="Views\Web.config" />
     <Content Include="Scripts\jquery-1.9.0.min.map" />
     <Content Include="Views\User\Login.cshtml" />
-    <Content Include="Views\VidSoom\Index.cshtml" />
     <Content Include="Views\ThirdPartyApplication\Add.cshtml" />
     <Content Include="Views\ThirdPartyApplication\Edit.cshtml" />
     <Content Include="Views\ThirdPartyApplication\Index.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Revenue\Add.cshtml" />
     <Content Include="Views\Revenue\Edit.cshtml" />
     <Content Include="Views\Revenue\Index.cshtml" />
-    <Content Include="Views\Test\ReportInstall.cshtml" />
+    <Content Include="Views\Report\Installer.cshtml" />
+    <Content Include="Views\Report\App.cshtml" />
+    <Content Include="Views\MetricAndEfficency\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

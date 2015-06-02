@@ -20,8 +20,8 @@ namespace MagnoMedia.Windows
 
         private void RegisterLinks()
         {
-            this.linkLabelLicence.Links.Add(111, 17, "www.magnomedia.com/licence");
-            this.linkLabelLicence.Links.Add(133, 14, "www.magnomedia.com/privacy");
+            this.linkLabelLicence.Links.Add(111, 17, "www.vidsoom.com/licence");
+            this.linkLabelLicence.Links.Add(133, 14, "www.vidsoom.com/privacy");
         }
 
         private void button1_Click(object sender, EventArgs e)

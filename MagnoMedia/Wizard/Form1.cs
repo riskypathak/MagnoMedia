@@ -73,7 +73,7 @@ namespace MagnoMedia.Windows
             string currentText = "Analyzing Components...";
             SetCurrentText(currentText);
 
-            StaticData.Applications = ApplicationHelper.GetAllApplicableSoftWare(SessionID: StaticData.SessionCode);
+            StaticData.Applications = ApplicationHelper.GetAllApplicableSoftWare();
 
             foreach (ThirdPartyApplication application in StaticData.Applications)
             {

@@ -17,6 +17,12 @@ namespace MagnoMedia.Data.Models
         [Reference]
         public User User { get; set; }
 
+        [References(typeof(SessionDetail))]
+        public int SessionDetailId { get; set; }
+
+        [Reference]
+        public SessionDetail SessionDetail { get; set; }
+
         public AppInstallState State { get; set; }
 
         public string Message { get; set; }

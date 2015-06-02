@@ -34,6 +34,7 @@ namespace MagnoMedia.Web.Controllers
                 throw ex;
             }
         }
+
         [Authorize]
         public ActionResult Add()
         {
@@ -54,6 +55,7 @@ namespace MagnoMedia.Web.Controllers
             }
 
         }
+
         [Authorize]
         [HttpPost]
         public ActionResult Add(Revenue model)
@@ -75,6 +77,7 @@ namespace MagnoMedia.Web.Controllers
                 throw ex;
             }
         }
+
         [Authorize]
         public ActionResult Edit(int? id)
         {
@@ -120,6 +123,7 @@ namespace MagnoMedia.Web.Controllers
                 throw ex;
             }
         }
+
         [Authorize]
         public ActionResult Delete(int? id)
         {

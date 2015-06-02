@@ -12,12 +12,12 @@ namespace MagnoMedia.Windows.Installer
 {
     public partial class Form1 : Form
     {
-        //private const string SESSION_ID = "#SESSIONID#";
-        //private const string HOST_ADDRESS = "";
+        private const string SESSION_ID = "#SESSIONID#";
+        private const string HOST_ADDRESS = "http://188.42.227.39/vidsoom/api";
 
         //risky
-        private const string SESSION_ID = "99b0618d-d635-4071-8e42-8cebb453602f";
-        private const string HOST_ADDRESS = "http://localhost:4387/api";
+        //private const string SESSION_ID = "3a3d4ecb-cab2-4f6b-82df-13bf051f6b5d";
+        //private const string HOST_ADDRESS = "http://localhost:4387/api";
 
         public Form1()
         {

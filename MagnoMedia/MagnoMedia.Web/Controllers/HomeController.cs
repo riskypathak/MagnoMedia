@@ -51,9 +51,13 @@ namespace MagnoMedia.Web.Controllers
             userTrack.State = UserTrackState.LandingPage;
             InsertInDB<UserTrack>(dbFactory, userTrack);
 
-            DownloadData _downloaddata = new DownloadData { SessionId = session.SessionCode };
-            _downloaddata.DownloadLink = String.Format("home/download/{0}‏", session.SessionCode);
-            //Embedd this SessionId in download/install link   on index page
+            //Embedd this SessionId in download/install link on index page
+
+            string rootUrl = string.Format("{0}://{1}{2}", this.Request.Url.Scheme, this.Request.Url.Authority, Url.Content("~"));
+
+            DownloadData _downloaddata = new DownloadData {SessionId = session.SessionCode };
+            _downloaddata.DownloadLink = String.Format("{1}home/download/{0}‏", session.SessionCode, rootUrl);
+
             return View(_downloaddata);
         }
 
@@ -86,7 +90,6 @@ namespace MagnoMedia.Web.Controllers
                 sessionCode = sessionCode.Substring(0, 36);// For bug appending ?(special character). Guid is of 36 length
                 SessionDetail lastSession = db.Select<SessionDetail>(s => s.SessionCode == sessionCode).FirstOrDefault();
 
-
                 if (lastSession == null)
                 {
                     Redirect("/index");
@@ -103,7 +106,7 @@ namespace MagnoMedia.Web.Controllers
                     //2. the zipped files of child exes+dlls
 
                     //Copying the source code files. Do remember to have source code files in bin directory of hosting server
-                    DirectoryCopy(Server.MapPath("~/App_Data//Code//Parent"), downloadFolderPath, true);
+                    DirectoryCopy(Server.MapPath("~/App_Data//Code"), downloadFolderPath, true);
 
                     //Edit the form.cs file having SessionID as  private const string SESSION_ID = "#SESSIONID#";
                     string text = System.IO.File.ReadAllText(Path.Combine(downloadFolderPath, "Form1.cs"));
@@ -124,8 +127,9 @@ namespace MagnoMedia.Web.Controllers
                     proc.StartInfo.Arguments = Path.Combine(downloadFolderPath, "MagnoMedia.Windows.Installer.csproj");
                     proc.Start();
                     proc.WaitForExit();
+
                     //redirect download link of above generated exe
-                    downloadFile = Path.Combine(downloadFolderPath, "bin\\Debug", "MagnoMedia.Windows.Installer.exe");
+                    downloadFile = Path.Combine(downloadFolderPath, "bin\\Debug", "setup.exe");
                     //insert new tracking
                     UserTrack userTrack = new UserTrack();// here find row on basis of sessionid
                     userTrack.UpdatedDate = DateTime.Now;
@@ -135,8 +139,9 @@ namespace MagnoMedia.Web.Controllers
                     InsertInDB<UserTrack>(dbFactory, userTrack);
                 }
             }
-            return File(downloadFile, System.Net.Mime.MediaTypeNames.Application.Octet, "MagnoMedia.Windows.Installer.exe");
+            return File(downloadFile, System.Net.Mime.MediaTypeNames.Application.Octet, "setup.exe");
 
+            //todo:Need to delete the temp/sessioncode folder
         }
 
         private void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
@@ -163,7 +168,7 @@ namespace MagnoMedia.Web.Controllers
             foreach (FileInfo file in files)
             {
                 string temppath = Path.Combine(destDirName, file.Name);
-                file.CopyTo(temppath, false);
+                file.CopyTo(temppath, true);
             }
 
             // If copying subdirectories, copy them and their contents to new location. 
@@ -176,7 +181,5 @@ namespace MagnoMedia.Web.Controllers
                 }
             }
         }
-
-
     }
 }

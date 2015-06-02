@@ -18,7 +18,7 @@ namespace MagnoMedia.Web.Api.Controllers
     {
 
         [HttpPost(), Route("SaveInstallerState")]
-        public bool SaveInstallerState([FromUri] string SessionCode, UserAppTrack appTrack)
+        public bool SaveInstallerState([FromUri] string SessionCode, [FromUri] string UserCode, UserAppTrack appTrack)
         {
 
             IDbConnectionFactory dbFactory =
@@ -27,7 +27,9 @@ namespace MagnoMedia.Web.Api.Controllers
             using (IDbConnection db = dbFactory.Open())
             {
                 int sessionDetailID = db.Single<SessionDetail>(r => r.SessionCode == SessionCode).Id;
-                appTrack.UserId = db.Single<User>(r => r.SessionDetailId == sessionDetailID).Id;
+
+                appTrack.UserId = db.Single<User>(r => r.SessionDetailId == sessionDetailID && r.FingerPrint == UserCode).Id;
+                appTrack.SessionDetailId = sessionDetailID;
 
                 appTrack.UpdatedDate = DateTime.Now;
                 db.Insert<UserAppTrack>(appTrack);
@@ -37,7 +39,7 @@ namespace MagnoMedia.Web.Api.Controllers
         }
 
         [HttpPost(), Route("SaveState")]
-        public bool SaveInstallerState([FromUri] string SessionCode, UserTrack userTrack)
+        public bool SaveInstallerState([FromUri] string SessionCode, [FromUri] string UserCode, UserTrack userTrack)
         {
             IDbConnectionFactory dbFactory =
               new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
@@ -45,7 +47,7 @@ namespace MagnoMedia.Web.Api.Controllers
             using (IDbConnection db = dbFactory.Open())
             {
                 int sessionDetailID = db.Single<SessionDetail>(r => r.SessionCode == SessionCode).Id;
-                userTrack.UserId = db.Single<User>(r => r.SessionDetailId == sessionDetailID).Id;
+                userTrack.UserId = db.Single<User>(r => r.SessionDetailId == sessionDetailID && r.FingerPrint == UserCode).Id;
 
                 userTrack.SessionDetailId = sessionDetailID;
 

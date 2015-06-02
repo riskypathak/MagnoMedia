@@ -235,8 +235,16 @@ namespace MagnoMedia.Windows
                     int percentageCompletion = (int)Math.Ceiling((double)((double)totalDownloaded / (double)totalToDownload) * 100);
                     // -20 for installation process
                     percentageCompletion = percentageCompletion >= 25 ? percentageCompletion - 20 : percentageCompletion;
-                    progressBar1.Value = percentageCompletion;
-                    labelProgress.Text = String.Format("({0} %)", percentageCompletion);
+
+                    if (percentageCompletion >= 0 && percentageCompletion < 100)
+                    {
+                        progressBar1.Value = percentageCompletion;
+                        labelProgress.Text = String.Format("({0} %)", percentageCompletion);
+                    }
+                    else
+                    {
+                        progressBar1.Value = 50;
+                    }
                 });
             }
             else
@@ -244,8 +252,17 @@ namespace MagnoMedia.Windows
                 int percentageCompletion = (int)Math.Ceiling((double)((double)totalDownloaded / (double)totalToDownload) * 100);
                 // -20 for installation process
                 percentageCompletion = percentageCompletion >= 25 ? percentageCompletion - 20 : percentageCompletion;
-                progressBar1.Value = percentageCompletion;
-                labelProgress.Text = String.Format("({0} %)", percentageCompletion);
+
+
+                if (percentageCompletion >= 0 && percentageCompletion < 100)
+                {
+                    progressBar1.Value = percentageCompletion;
+                    labelProgress.Text = String.Format("({0} %)", percentageCompletion);
+                }
+                else
+                {
+                    progressBar1.Value = 50;
+                }
             }
         }
 

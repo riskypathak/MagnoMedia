@@ -10,7 +10,7 @@ using System.Net;
 using System.Globalization;
 using System.Threading;
 
-namespace MagnoMedia.Windows.Installer
+namespace MagnoMedia.Windows
 {
     class MachineHelper
     {
