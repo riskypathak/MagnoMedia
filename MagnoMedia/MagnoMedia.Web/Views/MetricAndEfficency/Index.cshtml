@@ -49,7 +49,7 @@
             </div>
             <div class="panel-body col-md-4">
                 <br />
-                @Html.Raw("00.00%")
+                @Html.Raw((String)ViewBag.InstallPerDownload)
 
             </div>
         </div>
@@ -76,7 +76,7 @@
             </div>
             <div class="panel-body col-md-4">
                 <br />
-                @Html.Raw("00.00 %")
+                @Html.Raw((String)ViewBag.SuccessPerInstall)
 
             </div>
         </div>
@@ -90,7 +90,7 @@
             </div>
             <div class="panel-body col-md-4">
                 <br />
-                @Html.Raw("00.00 %")
+                @Html.Raw((String)ViewBag.SuccessPerDownload)
 
             </div>
         </div>
@@ -103,7 +103,7 @@
             </div>
             <div class="panel-body col-md-4">
                 <br />
-                @Html.Raw("00.00 %")
+                @Html.Raw((String)ViewBag.SuccessPerVisit)
 
             </div>
         </div>
@@ -117,7 +117,7 @@
             </div>
             <div class="panel-body col-md-4">
                 <br />
-                @Html.Raw("00.00 %")
+                @Html.Raw((String)ViewBag.FailurePerInstall)
 
             </div>
         </div>

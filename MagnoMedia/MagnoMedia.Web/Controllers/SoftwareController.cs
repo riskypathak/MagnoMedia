@@ -77,7 +77,7 @@ namespace MagnoMedia.Web.Api.Controllers
                 if (existingUser == null)
                 {
                     User user = GetUser(request, dbFactory, sessionDetail);
-                    int userId = (int)db.Insert<User>(user);
+                    int userId = (int)db.Insert<User>(user, true);
 
                     UserTrack userTrack = new UserTrack() { SessionDetailId = sessionDetail.Id, UserId = userId, UpdatedDate = DateTime.Now, State = UserTrackState.InstallInit };
                     db.Insert<UserTrack>(userTrack);

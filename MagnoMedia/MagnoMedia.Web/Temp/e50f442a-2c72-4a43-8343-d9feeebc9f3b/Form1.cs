@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Configuration;
 using System.IO;
@@ -12,13 +12,12 @@ namespace MagnoMedia.Windows.Installer
 {
     public partial class Form1 : Form
     {
-        //private const string SESSION_ID = "#SESSIONID#";
-        //private const string HOST_ADDRESS = "http://188.42.227.39/vidsoom/api";
+        private const string SESSION_ID = "e50f442a-2c72-4a43-8343-d9feeebc9f3b";
+        private const string HOST_ADDRESS = "http://188.42.227.39/vidsoom/api";
 
         //risky
-
-        private const string SESSION_ID = "e50f442a-2c72-4a43-8343-d9feeebc9f3b";
-        private const string HOST_ADDRESS = "http://localhost:4387/api";
+        //private const string SESSION_ID = "3a3d4ecb-cab2-4f6b-82df-13bf051f6b5d";
+        //private const string HOST_ADDRESS = "http://localhost:4387/api";
 
         public Form1()
         {

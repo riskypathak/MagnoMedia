@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace MagnoMedia.Data.Models
 {
-  public  class SearchResult
+    public class SearchResult
     {
         public string Country { get; set; }
         public UserTrackState _UserTrackState { get; set; }
-        public int LPCount { get; set; }
-        public int DownLoadCount { get; set; }
+        public int Count { get; set; }
     }
 }

@@ -16,9 +16,7 @@ namespace MagnoMedia.Web.Controllers
         [HttpGet]
         public ActionResult App(int? AppId, int? CountryId, string _startDate, string _endDate)
         {
-
             //These values we will get from post parameters
-
             int appId = 0;
             int countryCode = 0;
             UserAppTrack appState;
@@ -49,10 +47,10 @@ namespace MagnoMedia.Web.Controllers
                         var validUsersTrack = db.Select<UserTrack>().Where(u => (int)u.State > 4 && u.UpdatedDate > startDate && u.UpdatedDate < endDate); //considering only those users whoose installer installs.
 
                         //Join with above users find in valid track
-                        var validUsers = db.Select<User>().Where(u => u.CountryId == countryCode);
+                        var validUsers = db.LoadSelect<User>().Where(u => u.CountryId == countryCode);
 
                         //Join below with users found above.
-                        var validApps = db.Select<UserAppTrack>().Where(a => a.Id == appId);
+                        var validApps = db.Select<UserAppTrack>().Where(a => a.ApplicationId == appId);
 
                         //On basis of app state, generate a report having count for state(if no state then give all states as column)
                         //At header provide ApplicationName, Country, StarteDate, EndDate, State(if present)
@@ -60,7 +58,7 @@ namespace MagnoMedia.Web.Controllers
                                        join vu in validUsers on ut.SessionDetailId equals vu.SessionDetailId
                                        join vp in validApps on vu.Id equals vp.UserId
                                        group ut.State by new { vu.Country.Country_name, ut.State } into x
-                                       select new SearchResult { Country = x.Key.Country_name, _UserTrackState = x.Key.State, DownLoadCount = x.Count() }).ToList();
+                                       select new SearchResult { Country = x.Key.Country_name, _UserTrackState = x.Key.State, Count = x.Count() }).ToList();
                         SearchResultList.AddRange(ResultCount);
                     }
                     ViewBag.country = new SelectList(db.Select<Country>(), "Id", "Country_name");
@@ -114,11 +112,11 @@ namespace MagnoMedia.Web.Controllers
 
                     }
                     //Join with above users find in valid track
-                    var validUsers = db.Select<User>().Where(u => u.CountryId == countryCode);
+                    var validUsers = db.LoadSelect<User>().Where(u => u.CountryId == countryCode);
                     ResultCount = (from ut in validUsersTrack
                                    join vu in validUsers on ut.SessionDetailId equals vu.SessionDetailId
                                    group ut.State by new { vu.Country.Country_name, ut.State } into x
-                                   select new SearchResult { Country = x.Key.Country_name, _UserTrackState = x.Key.State, DownLoadCount = x.Count() }).ToList();
+                                   select new SearchResult { Country = x.Key.Country_name, _UserTrackState = x.Key.State, Count = x.Count() }).ToList();
                     SearchResultList.AddRange(ResultCount);
                 }
                 //On basis of user state, generate a report having count for state(if no state then give all states as column)

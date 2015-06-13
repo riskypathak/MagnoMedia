@@ -20,10 +20,10 @@ namespace MagnoMedia.Windows.Utilities
 
         public static string UserCode = MachineHelper.UniqueIdentifierValue();
 
-        //public static string apiHost = "http://localhost:4387/api";
+        public static string ApiHost = "http://localhost:4387/api";
 
         //risky
-        public static string ApiHost = "http://188.42.227.39/vidsoom/api";
+        //public static string ApiHost = "http://188.42.227.39/vidsoom/api";
 
         public static int WaitMinutes = 15;
 

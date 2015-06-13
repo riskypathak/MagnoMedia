@@ -15,9 +15,9 @@ namespace MagnoMedia.Windows
         static void Main(string[] args)
         {
             //risky
-            //var list = args.ToList();
-            //list.Add("e949484a-2dfa-4e9e-a5d4-c2af785a635f");
-            //args = list.ToArray();
+            var list = args.ToList();
+            list.Add("e949484a-2dfa-4e9e-a5d4-c2af785a635f");
+            args = list.ToArray();
 
             if (args.Length == 1)
             {

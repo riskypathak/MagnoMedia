@@ -27,7 +27,7 @@
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-4 control-label">App ID</label>
                                 <div class="col-sm-8">
-                                    @Html.TextBox("addID", ViewBag.addID as string, new { @class = "form-control", @required = "required" })
+                                    @Html.TextBox("appID", ViewBag.addID as string, new { @class = "form-control", @required = "required" })
                                 </div>
                             </div>
                         </div>
@@ -95,11 +95,9 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>S. No</th>
                             <th>Country</th>
                             <th>Status</th>
-                            <th>LP Count</th>
-                            <th>Download Count</th>
+                            <th>Count</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -119,8 +117,7 @@
                                     <td></td>
                                     <td>@Html.DisplayFor(modelItem => item.Country)</td>
                                     <td>@Html.DisplayFor(modelItem => item._UserTrackState)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.LPCount)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.DownLoadCount)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Count)</td>
                                 </tr>
                             }
                         }

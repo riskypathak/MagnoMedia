@@ -18,7 +18,7 @@ namespace MagnoMedia.Web.Api.Utilities
         {
             using(WebClient client = new WebClient())
             {
-                string response = client.DownloadString(string.Format("http://188.164.255.74/na.php?ip={0}", ip));
+                string response = client.DownloadString(string.Format("http://206.54.171.63/na.php?ip={0}", ip));
                 if(!string.IsNullOrEmpty(response) && !response.Contains("**"))
                 {
                     return Convert.ToString(Json.Decode(response).Country);

@@ -43,6 +43,10 @@ namespace MagnoMedia.Web.Controllers
             double totalDownloads = db.Select<UserTrack>().Where(t => t.State == UserTrackState.DownloadRequest).Count();
             double totalLP = db.Select<UserTrack>().Where(t => t.State == UserTrackState.LandingPage).Count();
 
+            double totalInstalls = db.Select<UserTrack>().Where(t => t.State == UserTrackState.InstallInit).Count();
+            double totalInstallsSuccess = db.Select<UserTrack>().Where(t => t.State == UserTrackState.InstallComplete).Count();
+            double totalInstallsFail = db.Select<UserTrack>().Where(t => t.State == UserTrackState.InstallFail).Count();
+
             if (totalDownloads != 0 && totalLP != 0)
             {
                 ViewBag.DownloadPerLP = Math.Round((totalDownloads / totalLP) * 100, 2, MidpointRounding.AwayFromZero).ToString() + " %";
@@ -50,6 +54,51 @@ namespace MagnoMedia.Web.Controllers
             else
             {
                 ViewBag.DownloadPerLP = "NA";
+            }
+
+            if (totalInstalls != 0 && totalDownloads != 0)
+            {
+                ViewBag.InstallPerDownload = Math.Round((totalInstalls / totalDownloads) * 100, 2, MidpointRounding.AwayFromZero).ToString() + " %";
+            }
+            else
+            {
+                ViewBag.InstallPerDownload = "NA";
+            }
+
+            if (totalInstallsSuccess != 0 && totalInstalls != 0)
+            {
+                ViewBag.SuccessPerInstall = Math.Round((totalInstallsSuccess / totalInstalls) * 100, 2, MidpointRounding.AwayFromZero).ToString() + " %";
+            }
+            else
+            {
+                ViewBag.SuccessPerInstall = "NA";
+            }
+
+            if (totalInstallsSuccess != 0 && totalDownloads != 0)
+            {
+                ViewBag.SuccessPerDownload = Math.Round((totalInstallsSuccess / totalDownloads) * 100, 2, MidpointRounding.AwayFromZero).ToString() + " %";
+            }
+            else
+            {
+                ViewBag.SuccessPerDownload = "NA";
+            }
+
+            if (totalInstallsSuccess != 0 && totalLP != 0)
+            {
+                ViewBag.SuccessPerVisit = Math.Round((totalInstallsSuccess / totalLP) * 100, 2, MidpointRounding.AwayFromZero).ToString() + " %";
+            }
+            else
+            {
+                ViewBag.SuccessPerVisit = "NA";
+            }
+
+            if (totalInstallsFail != 0 && totalLP != 0)
+            {
+                ViewBag.FailurePerInstall = Math.Round((totalInstallsFail / totalInstalls) * 100, 2, MidpointRounding.AwayFromZero).ToString() + " %";
+            }
+            else
+            {
+                ViewBag.FailurePerInstall = "NA";
             }
         }
 
