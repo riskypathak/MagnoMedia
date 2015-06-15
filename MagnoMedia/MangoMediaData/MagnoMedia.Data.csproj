@@ -61,13 +61,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AppOSValidity.cs" />
+    <Compile Include="Models\AppReferValidity.cs" />
     <Compile Include="Models\Revenue.cs" />
     <Compile Include="Models\Referer.cs" />
     <Compile Include="Models\Browser.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\AppBrowserValidity.cs" />
     <Compile Include="Models\AppCountryValidity.cs" />
-    <Compile Include="Models\AppOSValidity.cs" />
     <Compile Include="Models\DBEntity.cs" />
     <Compile Include="Models\enum\UserTrackState.cs" />
     <Compile Include="Models\OperatingSystem.cs" />

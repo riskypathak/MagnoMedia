@@ -24,6 +24,7 @@ namespace MagnoMedia.Web.Controllers
                 {
 
                     ViewBag.CountryList = new SelectList(db.Select<Country>(), "Id", "Country_name");
+                    ViewBag.Refer = new SelectList(db.Select<Referer>(), "Id", "Name");
 
 
 

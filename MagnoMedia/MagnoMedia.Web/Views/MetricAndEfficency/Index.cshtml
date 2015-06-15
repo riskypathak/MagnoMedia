@@ -11,10 +11,14 @@
                 <div class="form-group">
                     @Html.TextBox("txtDate", "", new { @class = "form-control input-md datePickercontrol", @required = "required", placeholder = "--Select Date--" })
                     <br />
-                    @Html.DropDownList("ddlCountry", (SelectList)ViewBag.CountryList, new { @class = "form-control input-md", @required = "required" })
+                    @Html.DropDownList("ddlCountry", (SelectList)ViewBag.CountryList, new { @class = "form-control", @required = "required" })
+                    <br />
+                    @Html.DropDownList("ddlRefer", (SelectList)ViewBag.Refer , new { @class = "form-control", @required = "required" })
                 </div>
             </div>
             <div class="panel-body col-md-4">
+                <br />
+                <br />
                 <br />
                 <input type="submit" name="name" value="Calculate" class="btn btn-primary" />
 
@@ -25,8 +29,8 @@
         <div class="panel panel-default col-md-5">
             <div class="panel-body col-md-8">
                 @Html.Label("Install Efficiency", new { @class = "form-control input-md" })
-                <br />
-                @Html.Label("Evaluates the install efficiency of installer on a particular day in a country.", new { @class = "form-control input-md" })
+               
+                @Html.Label("Evaluates the install efficiency of installer on a particular day in a country", new { @class = "form-control smtext", style="height:45px" })
             </div>
             <div class="panel-body col-md-4">
                 <br />
@@ -44,8 +48,8 @@
         <div class="panel panel-default col-md-5">
             <div class="panel-body col-md-8">
                 @Html.Label("Install Per Download", new { @class = "form-control input-md" })
-                <br />
-                @Html.Label("(Install/Download)*100", new { @class = "form-control input-md" })
+                
+                @Html.Label("(Install/Download)*100", new { @class = "form-control smtext" })
             </div>
             <div class="panel-body col-md-4">
                 <br />
@@ -58,8 +62,8 @@
         <div class="panel panel-default col-md-5">
             <div class="panel-body col-md-8">
                 @Html.Label("Install Per Visit", new { @class = "form-control input-md" })
-                <br />
-                @Html.Label("(Install/LandingPage)*100", new { @class = "form-control input-md" })
+               
+                @Html.Label("(Install/LandingPage)*100", new { @class = "form-control smtext" })
             </div>
             <div class="panel-body col-md-4">
                 <br />
@@ -71,8 +75,8 @@
         <div class="panel panel-default col-md-5">
             <div class="panel-body col-md-8">
                 @Html.Label("Success Per Install", new { @class = "form-control input-md" })
-                <br />
-                @Html.Label("(InstallSucess/InstallStart)*100", new { @class = "form-control input-md" })
+                
+                @Html.Label("(InstallSucess/InstallStart)*100", new { @class = "form-control smtext" })
             </div>
             <div class="panel-body col-md-4">
                 <br />
@@ -85,8 +89,8 @@
         <div class="panel panel-default col-md-5">
             <div class="panel-body col-md-8">
                 @Html.Label("Success Per Download", new { @class = "form-control input-md" })
-                <br />
-                @Html.Label("(InstallSucess/Download)*100", new { @class = "form-control input-md" })
+               
+                @Html.Label("(InstallSucess/Download)*100", new { @class = "form-control smtext" })
             </div>
             <div class="panel-body col-md-4">
                 <br />
@@ -98,8 +102,8 @@
         <div class="panel panel-default col-md-5">
             <div class="panel-body col-md-8">
                 @Html.Label("Sucess Per Visit", new { @class = "form-control input-md" })
-                <br />
-                @Html.Label("(InstallSuccess/LP)*100", new { @class = "form-control input-md" })
+               
+                @Html.Label("(InstallSuccess/LP)*100", new { @class = "form-control smtext" })
             </div>
             <div class="panel-body col-md-4">
                 <br />
@@ -112,8 +116,8 @@
         <div class="panel panel-default col-md-5">
             <div class="panel-body col-md-8">
                 @Html.Label("Failure Per Install", new { @class = "form-control input-md" })
-                <br />
-                @Html.Label("(InstallFail/Install)*100", new { @class = "form-control input-md" })
+               
+                @Html.Label("(InstallFail/Install)*100", new { @class = "form-control smtext" })
             </div>
             <div class="panel-body col-md-4">
                 <br />
@@ -127,5 +131,10 @@
 <style>
     .right-lable {
         text-align: right;
+    }
+
+    .smtext {
+        font-size: 12px;
+        font-style: italic;
     }
 </style>

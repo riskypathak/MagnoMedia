@@ -63,8 +63,11 @@ namespace MagnoMedia.Web.Controllers
                     }
                     ViewBag.country = new SelectList(db.Select<Country>(), "Id", "Country_name");
 
-                    var statuses = from UserTrackState s in Enum.GetValues(typeof(UserTrackState))
-                                   select new { ID = (int)s, Name = s.ToString() };
+                    ViewBag.Refer = new SelectList(db.Select<Referer>(), "Id", "Name");
+                    ViewBag.Application = new SelectList(db.Select<ThirdPartyApplication>(), "Id", "Name");
+
+                    var statuses = from AppInstallState s in Enum.GetValues(typeof(AppInstallState))
+                                   select new { ID = s, Name = s.ToString() };
                     ViewBag.status = new SelectList(statuses, "ID", "Name");
                 }
             }
@@ -127,9 +130,8 @@ namespace MagnoMedia.Web.Controllers
                 var statuses = from UserTrackState s in Enum.GetValues(typeof(UserTrackState))
                                select new { ID = (int)s, Name = s.ToString() };
                 ViewBag.status = new SelectList(statuses, "ID", "Name");
+                ViewBag.Refer = new SelectList(db.Select<Referer>(), "Id", "Name");
             }
-
-
             return View(SearchResultList);
         }
     }

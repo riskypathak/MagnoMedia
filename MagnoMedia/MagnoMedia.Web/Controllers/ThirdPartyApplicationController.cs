@@ -13,11 +13,12 @@ namespace MagnoMedia.Web.Controllers
         [Authorize]
         public ActionResult Index()
         {
+           
             try
             {
                 IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
 
-                List<ThirdPartyApplication> tpa = new List<ThirdPartyApplication>() { new ThirdPartyApplication(){ Arguments="asd",DownloadUrl="" } };
+                List<ThirdPartyApplication> tpa = new List<ThirdPartyApplication>() { new ThirdPartyApplication() { Arguments = "asd", DownloadUrl = "" } };
                 using (IDbConnection db = dbFactory.Open())
                 {
                     tpa = db.Select<ThirdPartyApplication>();
@@ -42,6 +43,8 @@ namespace MagnoMedia.Web.Controllers
                 {
                     ViewBag.country = new MultiSelectList(db.Select<Country>(), "Id", "Country_name");
                     ViewBag.browser = new MultiSelectList(db.Select<Browser>(), "Id", "BrowserName");
+                    ViewBag.operatingSystem = new MultiSelectList(db.Select<MagnoMedia.Data.Models.OperatingSystem>(), "Id", "OSName");
+                    ViewBag.Refer = new MultiSelectList(db.Select<Referer>(), "Id", "Name");
                 }
                 return View();
             }
@@ -55,7 +58,7 @@ namespace MagnoMedia.Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult Add(ThirdPartyApplication tpa, int[] CountryId, int[] BrowserId)
+        public ActionResult Add(ThirdPartyApplication tpa, int[] CountryId, int[] BrowserId, int[] RefererId, int[] OSId)
         {
             try
             {
@@ -64,9 +67,11 @@ namespace MagnoMedia.Web.Controllers
                 using (IDbConnection db = dbFactory.Open())
                 {
                     db.Insert<ThirdPartyApplication>(tpa);
-                    var id =(int) db.LastInsertId();
-                    AddApplicationCountryValidity(db, CountryId, id);
-                    AddBrowserCountryValidity(db, BrowserId, id);
+                    var appId = (int)db.LastInsertId();
+                    AddApplicationCountryValidity(db, CountryId, appId);
+                    AddBrowserCountryValidity(db, BrowserId, appId);
+                    AddReferValidity(db, RefererId, appId);
+                    AddOSValidity(db, OSId, appId);
                 }
                 return RedirectToAction("Index");
             }
@@ -76,6 +81,89 @@ namespace MagnoMedia.Web.Controllers
                 throw ex;
             }
 
+        }
+
+        [Authorize]
+        public ActionResult Edit(int? id)
+        {
+            try
+            {
+                ThirdPartyApplication tpa = null;
+
+                IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+
+                using (IDbConnection db = dbFactory.Open())
+                {
+                    List<int> countryIds = new List<int>();
+                    List<int> browserIds = new List<int>();
+                    List<int> referIds = new List<int>();
+                    List<int> osIds = new List<int>();
+                    tpa = db.SingleById<ThirdPartyApplication>(id.Value);
+
+                    var country = db.Where<AppCountryValidity>("ApplicationId", id);
+                    country.ForEach(x =>
+                    {
+                        countryIds.Add(x.CountryId);
+                    });
+                    var browser = db.Where<AppBrowserValidity>("ApplicationId", id);
+                    browser.ForEach(x =>
+                    {
+                        browserIds.Add(x.BrowserId);
+                    });
+
+
+                    var referer = db.Where<AppReferValidity>("ApplicationId", id);
+                    referer.ForEach(x =>
+                    {
+                        referIds.Add(x.ReferId);
+                    });
+
+
+                    var os = db.Where<AppOSValidity>("ApplicationId", id);
+                    os.ForEach(x =>
+                    {
+                        osIds.Add(x.OSId);
+                    });
+
+                    ViewBag.country = new MultiSelectList(db.Select<Country>(), "Id", "Country_name", countryIds);
+                    ViewBag.browser = new MultiSelectList(db.Select<Browser>(), "Id", "BrowserName", browserIds);
+                    ViewBag.operatingSystem = new MultiSelectList(db.Select<MagnoMedia.Data.Models.OperatingSystem>(), "Id", "OSName", osIds);
+                    ViewBag.Refer = new MultiSelectList(db.Select<Referer>(), "Id", "Name", referIds);
+                }
+
+                return View(tpa);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Edit(ThirdPartyApplication tpa, int[] CountryId, int[] BrowserId, int[] RefererId, int[] OSId)
+        {
+            try
+            {
+                IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+
+                using (IDbConnection db = dbFactory.Open())
+                {
+                    db.Update<ThirdPartyApplication>(tpa);
+                    AddApplicationCountryValidity(db, CountryId, tpa.Id);
+                    AddBrowserCountryValidity(db, BrowserId, tpa.Id);
+                    AddReferValidity(db, RefererId, tpa.Id);
+                    AddOSValidity(db, OSId, tpa.Id);
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         void AddApplicationCountryValidity(IDbConnection db, int[] CountryId, int ThirdPartyApplicationId)
@@ -88,7 +176,7 @@ namespace MagnoMedia.Web.Controllers
                 countryrecords.ForEach(x =>
                 {
                     db.DeleteById<AppCountryValidity>(x.Id);
-                    
+
                 });
                 foreach (int item in CountryId)
                 {
@@ -141,37 +229,27 @@ namespace MagnoMedia.Web.Controllers
 
         }
 
-        [Authorize]
-        public ActionResult Edit(int? id)
+        void AddReferValidity(IDbConnection db, int[] RefererId, int ThirdPartyApplicationId)
         {
             try
             {
-                ThirdPartyApplication tpa = null;
-
-                IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
-
-                using (IDbConnection db = dbFactory.Open())
+                var referRecords = db.Where<AppReferValidity>("ApplicationId", ThirdPartyApplicationId);
+                referRecords.ForEach(x =>
                 {
-                    List<int> countryIds = new List<int>();
-                    List<int> browserIds = new List<int>();
-                    tpa = db.SingleById<ThirdPartyApplication>(id.Value);
+                    db.DeleteById<AppReferValidity>(x.ApplicationId);
 
-                    var country = db.Where<AppCountryValidity>("ApplicationId", id);
-                    country.ForEach(x =>
-                    {
-                        countryIds.Add(x.CountryId);
-                    });
-                    var browser = db.Where<AppBrowserValidity>("ApplicationId", id);
-                    browser.ForEach(x =>
-                    {
-                        browserIds.Add(x.BrowserId);
-                    });
+                });
 
-                    ViewBag.country = new MultiSelectList(db.Select<Country>(), "Id", "Country_name", countryIds);
-                    ViewBag.browser = new MultiSelectList(db.Select<Browser>(), "Id", "BrowserName", browserIds);
+                int order = 1;
+                foreach (int item in RefererId)
+                {
+                    AppReferValidity arv = new AppReferValidity();
+                    arv.ReferId = item;
+                    arv.Order = order;
+                    arv.ApplicationId = ThirdPartyApplicationId;
+                    db.Insert<AppReferValidity>(arv);
+                    order++;
                 }
-
-                return View(tpa);
             }
             catch (Exception)
             {
@@ -182,27 +260,36 @@ namespace MagnoMedia.Web.Controllers
 
         }
 
-        [Authorize]
-        [HttpPost]
-        public ActionResult Edit(ThirdPartyApplication tpa, int[] CountryId, int[] BrowserId)
+        void AddOSValidity(IDbConnection db, int[] OSId, int ThirdPartyApplicationId)
         {
             try
             {
-                IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
-
-                using (IDbConnection db = dbFactory.Open())
+                var OsRecords = db.Where<AppOSValidity>("ApplicationId", ThirdPartyApplicationId);
+                OsRecords.ForEach(x =>
                 {
-                    db.Update<ThirdPartyApplication>(tpa);
-                    AddApplicationCountryValidity(db, CountryId, tpa.Id);
-                    AddBrowserCountryValidity(db, BrowserId, tpa.Id);
-                    return RedirectToAction("Index");
+                    db.DeleteById<AppOSValidity>(x.ApplicationId);
+
+                });
+                int order = 1;
+                foreach (int item in OSId)
+                {
+                    AppOSValidity aov = new AppOSValidity();
+                    aov.OSId = item;
+                    aov.Order = order;
+                    aov.ApplicationId = ThirdPartyApplicationId;
+                    db.Insert<AppOSValidity>(aov);
+                    order++;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+
+                throw;
             }
+
+
         }
+
 
         [Authorize]
         public ActionResult Delete(int? id)

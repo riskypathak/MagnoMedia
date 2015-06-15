@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MagnoMedia.Data.Models.SearchResult>
+﻿@model IEnumerable< MagnoMedia.Data.Models.SearchResult>
     @{
         ViewBag.Title = "Third Party Application Report";
         Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,9 +9,13 @@
             padding-right: 0;
             padding-left: 0;
         }
+        .col-center {
+        float: none;
+       margin: 0 auto;
+        }
     </style>
 
-    @using (Html.BeginForm("App", "Report", FormMethod.Get, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("App", "Report", FormMethod.Get, new { @class = "form-horizontal" }))
     {
         <div class="container">
             <div class="panel panel-primary">
@@ -23,11 +27,11 @@
 
                     <div class="row no-gutter ">
 
-                        <div class="col-xs-2">
+                        <div class="col-xs-4">
                             <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-4 control-label">App ID</label>
+                                <label class="col-sm-4 control-label">Application</label>
                                 <div class="col-sm-8">
-                                    @Html.TextBox("appID", ViewBag.addID as string, new { @class = "form-control", @required = "required" })
+                                    @Html.DropDownList("appId", (SelectList)ViewBag.Application, new { @class = "form-control" })
                                 </div>
                             </div>
                         </div>
@@ -39,6 +43,29 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 control-label">State</label>
+                                <div class="col-sm-8">
+                                    @Html.DropDownList("Status", (SelectList)ViewBag.status, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-4 control-label">
+                                    Referer
+                                </label>
+                                <div class="col-sm-8">
+                                    @Html.DropDownList("ReferId", (SelectList)ViewBag.Refer, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
+
+
                         <div class="col-xs-3">
                             <label for="inputEmail3" class="col-sm-6 control-label">Start Date</label>
                             <div class="col-sm-6 no-gutter">
@@ -59,7 +86,7 @@
                                 </script>
                             </div>
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-xs-4">
                             <label for="inputEmail3" class="col-sm-6 control-label">End Date</label>
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -78,8 +105,8 @@
                                 </script>
                             </div>
                         </div>
-                        <div class="col-xs-1">
-                            <button type="submit" class="btn btn-default">Search</button>
+                        <div class="col-xs-2 col-center ">
+                            <button type="submit" class="btn btn-primary">Search</button>
                         </div>
                     </div>
                 </div>
@@ -104,7 +131,7 @@
                         @if (Model == null || Model.Count() == 0)
                         {
                             <tr>
-                                <td colspan="5"> No Records Found</td>
+                                <td colspan="5">No Records Found</td>
                             </tr>
                         }
                         else
@@ -119,10 +146,10 @@
                                     <td>@Html.DisplayFor(modelItem => item._UserTrackState)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Count)</td>
                                 </tr>
-                            }
+                        }
                         }
                     </tbody>
                 </table>
             </div>
         </div>
-    }
+}
