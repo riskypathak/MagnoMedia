@@ -111,6 +111,7 @@ namespace MagnoMedia.Windows
                 {
                     try
                     {
+                        if( mo[wmiProperty]!=null)
                         result = mo[wmiProperty].ToString();
                         break;
                     }

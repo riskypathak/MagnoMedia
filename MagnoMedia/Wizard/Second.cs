@@ -6,10 +6,12 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -53,6 +55,7 @@ namespace MagnoMedia.Windows
                 downloadApplicationsCount = toInstallApps.Count();
             }
 
+          
             DownloadAndInstall(toInstallApps);
         }
 
@@ -80,7 +83,7 @@ namespace MagnoMedia.Windows
             IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
             shortcut.Description = "Resume Vidsoom Installation";
             shortcut.TargetPath = Application.ExecutablePath;
-            shortcut.Arguments = "link";
+           // shortcut.Arguments = "link";
             shortcut.Save();
         }
 
@@ -93,6 +96,8 @@ namespace MagnoMedia.Windows
         {
             foreach (ThirdPartyApplication toInstallApp in toInstallApps)
             {
+
+               
                 string path = Path.Combine(tempFolder, toInstallApp.Name);
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
@@ -109,6 +114,8 @@ namespace MagnoMedia.Windows
                 WebClient myWebClient = new WebClient();
                 myWebClient.DownloadFileCompleted += myWebClient_DownloadFileCompleted;
                 myWebClient.DownloadFileAsync(new Uri(remoteUri, UriKind.RelativeOrAbsolute), downloadDirectory, toInstallApp);
+
+               
 
                 ApplicationHelper.PostApplicationStatus(toInstallApp.Id, AppInstallState.DownloadStart);
             }
@@ -274,5 +281,7 @@ namespace MagnoMedia.Windows
                 this.WindowState = FormWindowState.Minimized;
             });
         }
+
+       
     }
 }

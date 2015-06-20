@@ -191,5 +191,26 @@ namespace MagnoMedia.Web.Api.Controllers
 
             return DbHelper.SaveInDB<Country>(dbFactory, country, x => x.Iso.ToLower().Equals(country.Iso.ToLower()));
         }
+
+        [HttpPost(), Route("SaveAppState")]
+        public bool SaveAppState([FromUri] string SessionCode, [FromUri] string UserCode, UserAppTrack appTrack)
+        {
+
+            IDbConnectionFactory dbFactory =
+              new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+
+            using (IDbConnection db = dbFactory.Open())
+            {
+                int sessionDetailID = db.Single<SessionDetail>(r => r.SessionCode == SessionCode).Id;
+
+                appTrack.UserId = db.Single<User>(r => r.SessionDetailId == sessionDetailID && r.FingerPrint == UserCode).Id;
+                appTrack.SessionDetailId = sessionDetailID;
+
+                appTrack.UpdatedDate = DateTime.Now;
+                db.Insert<UserAppTrack>(appTrack);
+
+                return true;
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MagnoMedia.Windows.Utilities;
+using System.IO;
+using IWshRuntimeLibrary;
 
 namespace MagnoMedia.Windows
 {
@@ -59,6 +63,34 @@ namespace MagnoMedia.Windows
         private void pictureBox3_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            SaveState();
+            SaveAppShortCut();
+            base.OnClosed(e);
+        }
+
+        private void SaveState()
+        {
+
+            string applicationDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string jsonconfigFile = Path.Combine(applicationDataFolder, "vidsoomConfig.json");
+            string json = JsonConvert.SerializeObject(StaticData.ApplicationStates, Formatting.Indented);
+            System.IO.File.WriteAllText(jsonconfigFile, json);
+        }
+
+        private void SaveAppShortCut()
+        {
+            string desktopDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            WshShell shell = new WshShell();
+            string shortcutAddress = desktopDirectory + @"\Vidsoom.lnk";
+            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
+            shortcut.Description = "Resume Vidsoom Installation";
+            shortcut.TargetPath = Application.ExecutablePath;
+            shortcut.Arguments = " link";
+            shortcut.Save();
         }
     }
 }

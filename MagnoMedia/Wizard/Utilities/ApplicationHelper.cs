@@ -141,14 +141,17 @@ namespace MagnoMedia.Windows.Utilities
                     key = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32);
 
                     key = key.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
-                    foreach (String keyName in key.GetSubKeyNames())
+                    if (key != null)
                     {
-                        RegistryKey subkey = key.OpenSubKey(keyName);
-                        displayName = Convert.ToString(subkey.GetValue("DisplayName"));
-
-                        if (displayName != null && appName.Trim().Equals(displayName.Trim(), StringComparison.OrdinalIgnoreCase) == true)
+                        foreach (String keyName in key.GetSubKeyNames())
                         {
-                            return true;
+                            RegistryKey subkey = key.OpenSubKey(keyName);
+                            displayName = Convert.ToString(subkey.GetValue("DisplayName"));
+
+                            if (displayName != null && appName.Trim().Equals(displayName.Trim(), StringComparison.OrdinalIgnoreCase) == true)
+                            {
+                                return true;
+                            }
                         }
                     }
 
@@ -157,14 +160,17 @@ namespace MagnoMedia.Windows.Utilities
                     key = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32);
 
                     key = key.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
-                    foreach (String keyName in key.GetSubKeyNames())
+                    if (key != null)
                     {
-                        RegistryKey subkey = key.OpenSubKey(keyName);
-                        displayName = Convert.ToString(subkey.GetValue("DisplayName"));
-
-                        if (displayName != null && appName.Trim().Equals(displayName.Trim(), StringComparison.OrdinalIgnoreCase) == true)
+                        foreach (String keyName in key.GetSubKeyNames())
                         {
-                            return true;
+                            RegistryKey subkey = key.OpenSubKey(keyName);
+                            displayName = Convert.ToString(subkey.GetValue("DisplayName"));
+
+                            if (displayName != null && appName.Trim().Equals(displayName.Trim(), StringComparison.OrdinalIgnoreCase) == true)
+                            {
+                                return true;
+                            }
                         }
                     }
                 }
@@ -176,25 +182,47 @@ namespace MagnoMedia.Windows.Utilities
 
         internal static void PostApplicationStatus(int applicationID, AppInstallState state, string message = "")
         {
-            HttpClientHelper.Post<UserAppTrack>(
-                string.Format("Installer/SaveInstallerState?SessionCode={0}&UserCode={1}", StaticData.SessionCode, StaticData.UserCode),
-        new UserAppTrack
-        {
-            Message = message,
-            ApplicationId = applicationID,
-            State = state,
-        });
+            try
+            {
+                HttpClientHelper.Post<UserAppTrack>(
+               string.Format("software/SaveAppState?SessionCode={0}&UserCode={1}", StaticData.SessionCode, StaticData.UserCode),
+       new UserAppTrack
+       {
+           Message = message,
+           ApplicationId = applicationID,
+           State = state
+
+       }
+       );
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
         }
 
         internal static void PostInstallerStatus(UserTrackState state, string message = "")
         {
-            HttpClientHelper.Post<UserTrack>(
-                string.Format("Installer/SaveState?SessionCode={0}&UserCode={1}", StaticData.SessionCode, StaticData.UserCode),
-                new UserTrack
-                {
-                    Message = message,
-                    State = state,
-                });
+            try
+            {
+                HttpClientHelper.Post<UserTrack>(
+               string.Format("installer/SaveInstallerState?SessionCode={0}&UserCode={1}", StaticData.SessionCode, StaticData.UserCode),
+               new UserTrack
+               {
+                   Message = message,
+                   State = state
+               });
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
         }
 
         internal static string CreatErrorMessage(Exception ex)

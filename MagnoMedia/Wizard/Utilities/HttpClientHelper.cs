@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -35,11 +36,13 @@ namespace MagnoMedia.Windows.Utilities
 
             try
             {
+
                 using (var client = new System.Net.Http.HttpClient())
                 {
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    response = client.PostAsJsonAsync<T>(string.Format("{0}/{1}", StaticData.ApiHost, url), data).Result;
+                    string fullurl = string.Format("{0}/{1}", StaticData.ApiHost, url);
+                    response = client.PostAsJsonAsync<T>(fullurl, data).Result;
                 }
             }
             catch (Exception ex)

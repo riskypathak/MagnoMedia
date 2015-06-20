@@ -8,14 +8,18 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Web.Mvc;
-
+using System.Net.Http;
+using System.Net.Http.Headers;
 namespace MagnoMedia.Web.Controllers
 {
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
+
+        
             //Insert into SessionDetails
             SessionDetail session = new SessionDetail();
             session.SessionCode = Guid.NewGuid().ToString();
@@ -55,7 +59,7 @@ namespace MagnoMedia.Web.Controllers
 
             string rootUrl = string.Format("{0}://{1}{2}", this.Request.Url.Scheme, this.Request.Url.Authority, Url.Content("~"));
 
-            DownloadData _downloaddata = new DownloadData {SessionId = session.SessionCode };
+            DownloadData _downloaddata = new DownloadData { SessionId = session.SessionCode };
             _downloaddata.DownloadLink = String.Format("{1}home/download/{0}‏", session.SessionCode, rootUrl);
 
             return View(_downloaddata);

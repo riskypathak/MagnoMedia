@@ -17,28 +17,7 @@ namespace MagnoMedia.Web.Api.Controllers
     public class InstallerController : ApiController
     {
 
-        [HttpPost(), Route("SaveInstallerState")]
-        public bool SaveInstallerState([FromUri] string SessionCode, [FromUri] string UserCode, UserAppTrack appTrack)
-        {
-
-            IDbConnectionFactory dbFactory =
-              new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
-
-            using (IDbConnection db = dbFactory.Open())
-            {
-                int sessionDetailID = db.Single<SessionDetail>(r => r.SessionCode == SessionCode).Id;
-
-                appTrack.UserId = db.Single<User>(r => r.SessionDetailId == sessionDetailID && r.FingerPrint == UserCode).Id;
-                appTrack.SessionDetailId = sessionDetailID;
-
-                appTrack.UpdatedDate = DateTime.Now;
-                db.Insert<UserAppTrack>(appTrack);
-
-                return true;
-            }
-        }
-
-        [HttpPost(), Route("SaveState")]
+        [HttpPost(), Route("api/SaveInstallerState")]
         public bool SaveInstallerState([FromUri] string SessionCode, [FromUri] string UserCode, UserTrack userTrack)
         {
             IDbConnectionFactory dbFactory =
