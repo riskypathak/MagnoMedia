@@ -19,13 +19,14 @@ namespace MagnoMedia.Windows.Utilities
         public static string SessionCode { get; set; }
 
         public static string UserCode = MachineHelper.UniqueIdentifierValue();
+
 #if DEBUG
         public static string ApiHost = "http://localhost:4387/api";
 #else
         //risky
         public static string ApiHost = "http://188.42.227.39/vidsoom/api";
 #endif
-      //  public static string ApiHost = "http://188.42.227.39/vidsoom/api";
+
         public static int WaitMinutes = 15;
 
         public static int RetryInMilliSeconds = 15;

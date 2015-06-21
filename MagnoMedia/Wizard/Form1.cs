@@ -16,45 +16,12 @@ namespace MagnoMedia.Windows
 {
     public partial class Form1 : Form
     {
-        private bool IsResume;
-
         public Form1()
         {
             InitializeComponent();
-
-            StaticData.IsResume = true;
-            bool stateReadSuccessFlag = false;
-            try
-            {
-                //string applicationDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                //string jsonconfigFile = Path.Combine(applicationDataFolder, "vidsoomConfig.json");
-                //string jsonContent = File.ReadAllText(jsonconfigFile);
-                //InstallerHelper.ThirdPartyApplicationStates = JsonConvert.DeserializeObject<List<ThirdPartyApplicationState>>(jsonContent);
-                //if (InstallerHelper.ThirdPartyApplicationStates != null)
-                //{
-                //    IsResume = stateReadSuccessFlag = true;
-                //}
-            }
-            catch
-            {
-                stateReadSuccessFlag = false;
-
-            }
-            finally
-            {
-                if (!stateReadSuccessFlag)
-                {
-                    GetApplicationDetails();
-                }
-            }
+            GetApplicationDetails();
         }
 
-        protected override void OnShown(EventArgs e)
-        {
-            if (IsResume)
-                LoadScreen();
-            base.OnShown(e);
-        }
         private void LoadScreen()
         {
             Second step2 = new Second();
@@ -70,37 +37,45 @@ namespace MagnoMedia.Windows
 
         private void LoadSoftwareList()
         {
-            string currentText = "Analyzing Components...";
-            SetCurrentText(currentText);
+            if (!StaticData.IsResume)
+            {
+                SetCurrentText("Analyzing Components...");
+            }
+            else
+            {
+                SetCurrentText("Resuming Vidsoom Installation...");
+            }
 
             StaticData.Applications = ApplicationHelper.GetAllApplicableSoftWare();
 
-            foreach (ThirdPartyApplication application in StaticData.Applications)
+            // this will be only done if no states already are there
+            if (!StaticData.IsResume)
             {
-                if (StaticData.ApplicationStates.Count() >= 8)
+                foreach (ThirdPartyApplication application in StaticData.Applications)
                 {
-                    ApplicationHelper.PostApplicationStatus(application.Id, AppInstallState.NotInstalledDueToOverLimit);
-                }
-
-                //check Registry if already exist in m/c
-                if (!ApplicationHelper.IsAlreadyExist(application))
-                {
-                    ApplicationState applicationState = new ApplicationState
+                    if (StaticData.ApplicationStates.Count() >= 8)
                     {
-                        ApplicationId = application.Id
-                    };
+                        ApplicationHelper.PostApplicationStatus(application.Id, AppInstallState.NotInstalledDueToOverLimit);
+                    }
 
-                    StaticData.ApplicationStates.Add(applicationState);
+                    //check Registry if already exist in m/c
+                    if (!ApplicationHelper.IsAlreadyExist(application))
+                    {
+                        ApplicationState applicationState = new ApplicationState
+                        {
+                            ApplicationId = application.Id
+                        };
+
+                        StaticData.ApplicationStates.Add(applicationState);
+                    }
+                    else
+                    {
+                        ApplicationHelper.PostApplicationStatus(application.Id, AppInstallState.AlreadyExist);
+                    }
                 }
-                else
-                {
-                    ApplicationHelper.PostApplicationStatus(application.Id, AppInstallState.AlreadyExist);
-                }
+                SetCurrentText("Initializing Setup Wizard");
+                GotoHomeScreen();
             }
-
-            currentText = "Initializing Setup Wizard";
-            SetCurrentText(currentText);
-            GotoHomeScreen();
         }
 
         private void SetCurrentText(string currentText)

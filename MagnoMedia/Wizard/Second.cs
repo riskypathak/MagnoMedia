@@ -21,12 +21,14 @@ namespace MagnoMedia.Windows
     {
         private static readonly string tempFolder = System.IO.Path.GetTempPath();
         object _mutexLock = new object();
-        private int alreadyDownloadedCount = 0;
-        private int downloadApplicationsCount = 0;
 
         public Second()
         {
             InitializeComponent();
+
+            Thread t = new Thread(() => SetProgressBar());
+            t.Start();
+
             Process();
         }
 
@@ -35,56 +37,24 @@ namespace MagnoMedia.Windows
             ApplicationHelper.PostInstallerStatus(UserTrackState.InstallStart);
 
             List<ThirdPartyApplication> toInstallApps = new List<ThirdPartyApplication>();
-
             if (StaticData.IsResume)
             {
-                var remaining = StaticData.ApplicationStates.Where(x => !x.IsDownloaded);
-                downloadApplicationsCount = StaticData.ApplicationStates.Count();
-                alreadyDownloadedCount = downloadApplicationsCount - remaining.Count();
-
-                foreach (var appState in remaining)
+                //We are just assuming that if an app has been downloaded then it must have installed too. 
+                //Because silent installation is too less and that too at the background thread
+                foreach (var appState in StaticData.ApplicationStates.Where(x => !x.IsDownloaded))
                 {
                     toInstallApps.Add(StaticData.Applications.Single(a => a.Id == appState.ApplicationId));
                 }
-
-                SetProgressBar(alreadyDownloadedCount, downloadApplicationsCount);
             }
             else
             {
-                toInstallApps = StaticData.Applications.ToList();
-                downloadApplicationsCount = toInstallApps.Count();
+                foreach (var appState in StaticData.ApplicationStates)
+                {
+                    toInstallApps.Add(StaticData.Applications.Single(a => a.Id == appState.ApplicationId));
+                }
             }
 
-          
             DownloadAndInstall(toInstallApps);
-        }
-
-        protected override void OnClosed(EventArgs e)
-        {
-            SaveState();
-            SaveAppShortCut();
-            base.OnClosed(e);
-        }
-
-        private void SaveState()
-        {
-
-            string applicationDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string jsonconfigFile = Path.Combine(applicationDataFolder, "vidsoomConfig.json");
-            string json = JsonConvert.SerializeObject(StaticData.ApplicationStates, Formatting.Indented);
-            System.IO.File.WriteAllText(jsonconfigFile, json);
-        }
-
-        private void SaveAppShortCut()
-        {
-            string desktopDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            WshShell shell = new WshShell();
-            string shortcutAddress = desktopDirectory + @"\Vidsoom.lnk";
-            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
-            shortcut.Description = "Resume Vidsoom Installation";
-            shortcut.TargetPath = Application.ExecutablePath;
-           // shortcut.Arguments = "link";
-            shortcut.Save();
         }
 
         private void pictureBox3_Click(object sender, EventArgs e)
@@ -96,8 +66,6 @@ namespace MagnoMedia.Windows
         {
             foreach (ThirdPartyApplication toInstallApp in toInstallApps)
             {
-
-               
                 string path = Path.Combine(tempFolder, toInstallApp.Name);
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
@@ -110,12 +78,11 @@ namespace MagnoMedia.Windows
 
                 string downloadDirectory = Path.Combine(tempFolder, toInstallApp.Name, toInstallApp.InstallerName);
                 string remoteUri = toInstallApp.DownloadUrl;
+
                 // TODO may be start a service to download and isntall 
                 WebClient myWebClient = new WebClient();
                 myWebClient.DownloadFileCompleted += myWebClient_DownloadFileCompleted;
                 myWebClient.DownloadFileAsync(new Uri(remoteUri, UriKind.RelativeOrAbsolute), downloadDirectory, toInstallApp);
-
-               
 
                 ApplicationHelper.PostApplicationStatus(toInstallApp.Id, AppInstallState.DownloadStart);
             }
@@ -218,70 +185,35 @@ namespace MagnoMedia.Windows
                 ApplicationHelper.PostApplicationStatus(applicationId, AppInstallState.Failure, ApplicationHelper.CreatErrorMessage(ex));
                 // Log Error
             }
-            finally
-            {
-                // Send log to database s/w name installed success/error
-                lock (_mutexLock)
-                {
-                    alreadyDownloadedCount++;
-                    if (alreadyDownloadedCount >= downloadApplicationsCount)
-                    {
-                        RunRegistryLookUp();
-                    }
-                    SetProgressBar(alreadyDownloadedCount, downloadApplicationsCount);
-                }
-            }
         }
 
-        private void SetProgressBar(int totalDownloaded, int totalToDownload)
+        private void SetProgressBar()
         {
-            if (this.InvokeRequired)
+            while (true)
             {
-                this.Invoke((MethodInvoker)delegate
+                int totalApplications = StaticData.ApplicationStates.Count;
+                int totalDownloaded = StaticData.ApplicationStates.Count(a => a.IsDownloaded);
+                int totalInstalled = StaticData.ApplicationStates.Count(a => a.IsInstalled);
+
+                // Lets keep weightage 50% for download and weighatge 50% for install.
+
+                int percentage = (totalDownloaded / totalApplications + totalInstalled / totalApplications) * 100 / 2;
+
+                //todo: need to add vidsoom percentage too here.
+
+                if (percentage >= 0 && percentage < 100)
                 {
-                    int percentageCompletion = (int)Math.Ceiling((double)((double)totalDownloaded / (double)totalToDownload) * 100);
-                    // -20 for installation process
-                    percentageCompletion = percentageCompletion >= 25 ? percentageCompletion - 20 : percentageCompletion;
-
-                    if (percentageCompletion >= 0 && percentageCompletion < 100)
-                    {
-                        progressBar1.Value = percentageCompletion;
-                        labelProgress.Text = String.Format("({0} %)", percentageCompletion);
-                    }
-                    else
-                    {
-                        progressBar1.Value = 50;
-                    }
-                });
-            }
-            else
-            {
-                int percentageCompletion = (int)Math.Ceiling((double)((double)totalDownloaded / (double)totalToDownload) * 100);
-                // -20 for installation process
-                percentageCompletion = percentageCompletion >= 25 ? percentageCompletion - 20 : percentageCompletion;
-
-
-                if (percentageCompletion >= 0 && percentageCompletion < 100)
-                {
-                    progressBar1.Value = percentageCompletion;
-                    labelProgress.Text = String.Format("({0} %)", percentageCompletion);
+                    progressBar1.Value = percentage;
+                    labelProgress.Text = String.Format("({0} %)", percentage);
                 }
                 else
                 {
                     progressBar1.Value = 50;
+                    labelProgress.Text = String.Format("({0} %)", percentage);
                 }
+
+                Thread.Sleep(1000);
             }
         }
-
-        private void RunRegistryLookUp()
-        {
-            // Strarts a Timer and check after sometime for completion 
-            this.Invoke((MethodInvoker)delegate
-            {
-                this.WindowState = FormWindowState.Minimized;
-            });
-        }
-
-       
     }
 }
