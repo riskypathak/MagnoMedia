@@ -56,7 +56,7 @@
             this.label1.Font = new System.Drawing.Font("Trebuchet MS", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(134, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(282, 37);
+            this.label1.Size = new System.Drawing.Size(283, 37);
             this.label1.TabIndex = 1;
             this.label1.Text = "Installation Progress";
             // 
