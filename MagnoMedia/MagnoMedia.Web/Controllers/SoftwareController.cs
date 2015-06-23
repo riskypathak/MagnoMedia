@@ -212,5 +212,18 @@ namespace MagnoMedia.Web.Api.Controllers
                 return true;
             }
         }
+        [HttpGet(), Route("GetVidsoomApp")]
+        public HttpResponseMessage GetVidsoomApp()
+        {
+            string vidsoomPath = HttpContext.Current.Server.MapPath("~/App_Data\\Application\\vidsoom_setup.exe");
+
+            var stream = new FileStream(vidsoomPath, FileMode.Open);
+            var content = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StreamContent(stream)
+            };
+            content.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            return content;
+        }
     }
 }

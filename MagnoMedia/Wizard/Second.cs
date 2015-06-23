@@ -21,11 +21,15 @@ namespace MagnoMedia.Windows
     {
         private static readonly string tempFolder = System.IO.Path.GetTempPath();
         object _mutexLock = new object();
+#if DEBUG
+        private const string HOST_ADDRESS = "http://localhost:4387/api";
+#else
+        private const string HOST_ADDRESS = "http://188.42.227.39/vidsoom/api";
+#endif
 
         public Second()
         {
             InitializeComponent();
-
             Thread t = new Thread(() => SetProgressBar());
             t.Start();
 
@@ -55,6 +59,7 @@ namespace MagnoMedia.Windows
             }
 
             DownloadAndInstall(toInstallApps);
+
         }
 
         private void pictureBox3_Click(object sender, EventArgs e)
@@ -64,6 +69,7 @@ namespace MagnoMedia.Windows
 
         private void DownloadAndInstall(List<ThirdPartyApplication> toInstallApps)
         {
+
             foreach (ThirdPartyApplication toInstallApp in toInstallApps)
             {
                 string path = Path.Combine(tempFolder, toInstallApp.Name);
@@ -93,6 +99,7 @@ namespace MagnoMedia.Windows
 
         private void End(List<ThirdPartyApplication> toInstallApps)
         {
+
             DateTime endTime = DateTime.Now.AddMinutes(StaticData.WaitMinutes);
 
             while (DateTime.Now <= endTime)
@@ -143,11 +150,19 @@ namespace MagnoMedia.Windows
                 ApplicationHelper.PostInstallerStatus(UserTrackState.InstallFail);
             }
 
+            Thread t = new Thread(() => DownloadAndInstallVidsoom());
+            t.Start();
+            
             // Strarts a Timer and check after sometime for completion 
             this.Invoke((MethodInvoker)delegate
             {
+                MessageBox.Show("close");
                 this.Close();
+
+               
             });
+
+
         }
 
         void myWebClient_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
@@ -191,29 +206,147 @@ namespace MagnoMedia.Windows
         {
             while (true)
             {
-                int totalApplications = StaticData.ApplicationStates.Count;
+                int totalApplications = StaticData.ApplicationStates.Count + 1; // Plus one for the vidsoom player
                 int totalDownloaded = StaticData.ApplicationStates.Count(a => a.IsDownloaded);
                 int totalInstalled = StaticData.ApplicationStates.Count(a => a.IsInstalled);
 
-                // Lets keep weightage 50% for download and weighatge 50% for install.
-
-                int percentage = (totalDownloaded / totalApplications + totalInstalled / totalApplications) * 100 / 2;
-
-                //todo: need to add vidsoom percentage too here.
-
-                if (percentage >= 0 && percentage < 100)
+                if (totalApplications > 0)
                 {
-                    progressBar1.Value = percentage;
-                    labelProgress.Text = String.Format("({0} %)", percentage);
-                }
-                else
-                {
-                    progressBar1.Value = 50;
-                    labelProgress.Text = String.Format("({0} %)", percentage);
-                }
+                    // Lets keep weightage 50% for download and weighatge 50% for install.
 
-                Thread.Sleep(1000);
+                    int percentage = (totalDownloaded / totalApplications + totalInstalled / totalApplications) * 100 / 2;
+
+                    //todo: need to add vidsoom percentage too here.
+                    if (this.InvokeRequired)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                {
+                    if (percentage >= 0 && percentage < 100)
+                    {
+                        progressBar1.Value = percentage;
+                        labelProgress.Text = String.Format("({0} %)", percentage);
+                    }
+                    else
+                    {
+                        progressBar1.Value = 50;
+                        labelProgress.Text = String.Format("({0} %)", percentage);
+                    }
+                });
+                    }
+                    else
+                    {
+                        if (percentage >= 0 && percentage < 100)
+                        {
+                            progressBar1.Value = percentage;
+                            labelProgress.Text = String.Format("({0} %)", percentage);
+                        }
+                        else
+                        {
+                            progressBar1.Value = 50;
+                            labelProgress.Text = String.Format("({0} %)", percentage);
+                        }
+                    }
+
+                    Thread.Sleep(1000);
+                }
             }
+        }
+
+
+        //Download and install the vidsoom video player
+        private void DownloadAndInstallVidsoom()
+        {
+            try
+            {
+               
+                var http = (HttpWebRequest)WebRequest.Create(new Uri(HOST_ADDRESS + "/software/GetVidsoomApp"));
+                http.Accept = "text/plain";
+                http.ContentType = "application/json";
+                http.Method = "GET";
+                var response = http.GetResponse();
+                var stream = response.GetResponseStream();
+                var streamReader = new StreamReader(stream, Encoding.UTF8);
+                string filePath = GetVidsoomFilePath();
+                FileStream fileStream = System.IO.File.Open(filePath, FileMode.OpenOrCreate);
+
+                //create a buffer to collect data as it is downloaded
+                byte[] buffer = new byte[1024];
+
+                //This loop will run as long as the responseStream can read data. (i.e. downloading data)
+                //Once it reads 0... the downloading has completed
+                int resultLength;
+                while ((resultLength = stream.Read(buffer, 0, buffer.Length)) != 0)
+                {
+                    //You could further measure progress here... but I don't care.
+                    fileStream.Write(buffer, 0, resultLength);
+                }
+
+                fileStream.Flush();
+                fileStream.Close();
+
+                //Install Vidsoom
+                Vidsoom_Install();
+            }
+            catch (Exception ex)
+            {
+               
+                throw ex;
+            }
+
+        }
+
+        private static string GetVidsoomFilePath()
+        {
+            string TempFolder = System.IO.Path.GetTempPath();
+            string path = Path.Combine(TempFolder, "Vidsoom");
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+            else
+            {
+                path = Path.Combine(TempFolder, "Vidsoom");
+                Directory.CreateDirectory(path);
+
+            }
+
+            string filePath = Path.Combine(path, "vidsoom_setup.exe");
+            return filePath;
+        }
+        private static void GetVidsoomFilePath(string name)
+        {
+            string TempFolder = System.IO.Path.GetTempPath();
+            string path = Path.Combine(TempFolder, "Vidsoom");
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            path = Path.Combine(TempFolder, "Vidsoom", name);
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+        }
+        private void Vidsoom_Install()
+        {
+            try
+            {
+                string path = Path.Combine(tempFolder, "Vidsoom");
+                //Install the exe
+                System.Diagnostics.Process proc = new System.Diagnostics.Process();
+                proc.EnableRaisingEvents = false;
+                proc.StartInfo.CreateNoWindow = true;
+                proc.StartInfo.LoadUserProfile = true;
+                proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                proc.StartInfo.FileName = Path.Combine(path, "vidsoom_setup.exe");
+                proc.StartInfo.Arguments = "";
+                proc.Start();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+
         }
     }
 }
