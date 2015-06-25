@@ -21,15 +21,13 @@ namespace MagnoMedia.Windows
     {
         private static readonly string tempFolder = System.IO.Path.GetTempPath();
         object _mutexLock = new object();
-#if DEBUG
-        private const string HOST_ADDRESS = "http://localhost:4387/api";
-#else
-        private const string HOST_ADDRESS = "http://188.42.227.39/vidsoom/api";
-#endif
+
+        bool isVidsoomDownloadedAndInstalled = false;
 
         public Second()
         {
             InitializeComponent();
+
             Thread t = new Thread(() => SetProgressBar());
             t.Start();
 
@@ -69,7 +67,6 @@ namespace MagnoMedia.Windows
 
         private void DownloadAndInstall(List<ThirdPartyApplication> toInstallApps)
         {
-
             foreach (ThirdPartyApplication toInstallApp in toInstallApps)
             {
                 string path = Path.Combine(tempFolder, toInstallApp.Name);
@@ -93,8 +90,11 @@ namespace MagnoMedia.Windows
                 ApplicationHelper.PostApplicationStatus(toInstallApp.Id, AppInstallState.DownloadStart);
             }
 
-            Thread t = new Thread(() => End(toInstallApps));
-            t.Start();
+            Thread threadVidsoomPlayer = new Thread(() => DownloadAndInstallVidsoom());
+            threadVidsoomPlayer.Start();
+
+            Thread threadEnd = new Thread(() => End(toInstallApps));
+            threadEnd.Start();
         }
 
         private void End(List<ThirdPartyApplication> toInstallApps)
@@ -150,16 +150,11 @@ namespace MagnoMedia.Windows
                 ApplicationHelper.PostInstallerStatus(UserTrackState.InstallFail);
             }
 
-            Thread t = new Thread(() => DownloadAndInstallVidsoom());
-            t.Start();
-            
             // Strarts a Timer and check after sometime for completion 
             this.Invoke((MethodInvoker)delegate
             {
                 MessageBox.Show("close");
                 this.Close();
-
-               
             });
 
 
@@ -214,52 +209,42 @@ namespace MagnoMedia.Windows
                 {
                     // Lets keep weightage 50% for download and weighatge 50% for install.
 
+                    if (isVidsoomDownloadedAndInstalled)
+                    {
+                        totalDownloaded = totalDownloaded + 1;
+                        totalInstalled = totalInstalled + 1;
+                    }
+
                     int percentage = (totalDownloaded / totalApplications + totalInstalled / totalApplications) * 100 / 2;
 
-                    //todo: need to add vidsoom percentage too here.
                     if (this.InvokeRequired)
                     {
                         this.Invoke((MethodInvoker)delegate
-                {
-                    if (percentage >= 0 && percentage < 100)
-                    {
-                        progressBar1.Value = percentage;
-                        labelProgress.Text = String.Format("({0} %)", percentage);
-                    }
-                    else
-                    {
-                        progressBar1.Value = 50;
-                        labelProgress.Text = String.Format("({0} %)", percentage);
-                    }
-                });
-                    }
-                    else
-                    {
-                        if (percentage >= 0 && percentage < 100)
                         {
-                            progressBar1.Value = percentage;
-                            labelProgress.Text = String.Format("({0} %)", percentage);
-                        }
-                        else
-                        {
-                            progressBar1.Value = 50;
-                            labelProgress.Text = String.Format("({0} %)", percentage);
-                        }
-                    }
 
+                            if (percentage >= 0 && percentage < 100)
+                            {
+                                progressBar1.Value = percentage;
+                                labelProgress.Text = String.Format("({0} %)", percentage);
+                            }
+                            else
+                            {
+                                progressBar1.Value = 50;
+                                labelProgress.Text = String.Format("({0} %)", percentage);
+                            }
+                        });
+                    }
                     Thread.Sleep(1000);
                 }
             }
         }
-
 
         //Download and install the vidsoom video player
         private void DownloadAndInstallVidsoom()
         {
             try
             {
-               
-                var http = (HttpWebRequest)WebRequest.Create(new Uri(HOST_ADDRESS + "/software/GetVidsoomApp"));
+                var http = (HttpWebRequest)WebRequest.Create(new Uri(StaticData.ApiHost + "/software/GetVidsoomApp"));
                 http.Accept = "text/plain";
                 http.ContentType = "application/json";
                 http.Method = "GET";
@@ -285,11 +270,10 @@ namespace MagnoMedia.Windows
                 fileStream.Close();
 
                 //Install Vidsoom
-                Vidsoom_Install();
+                InstallVidsoomPlayer();
             }
             catch (Exception ex)
             {
-               
                 throw ex;
             }
 
@@ -311,19 +295,8 @@ namespace MagnoMedia.Windows
             string filePath = Path.Combine(path, "vidsoom_setup.exe");
             return filePath;
         }
-        private static void GetVidsoomFilePath(string name)
-        {
-            string TempFolder = System.IO.Path.GetTempPath();
-            string path = Path.Combine(TempFolder, "Vidsoom");
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
 
-            path = Path.Combine(TempFolder, "Vidsoom", name);
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-        }
-        private void Vidsoom_Install()
+        private void InstallVidsoomPlayer()
         {
             try
             {
@@ -338,15 +311,12 @@ namespace MagnoMedia.Windows
                 proc.StartInfo.Arguments = "";
                 proc.Start();
 
+                isVidsoomDownloadedAndInstalled = true; //Just making it true here as we are not tracking whether it got installer o rnot
             }
             catch (Exception)
             {
-
                 throw;
             }
-
-
-
         }
     }
 }
