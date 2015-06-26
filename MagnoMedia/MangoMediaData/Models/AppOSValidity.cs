@@ -16,8 +16,5 @@ namespace MagnoMedia.Data.Models
         [Reference]
         public OperatingSystem OperatingSystem { get; set; }
 
-        //Priority
-        public int Order { get; set; }
-
     }
 }

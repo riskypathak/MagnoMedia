@@ -35,5 +35,8 @@ namespace MagnoMedia.Data.Models
         public string ImageUrl { get; set; }
 
         public string HtmlData { get; set; }
+
+        //Priority
+        public int Order { get; set; }
     }
 }

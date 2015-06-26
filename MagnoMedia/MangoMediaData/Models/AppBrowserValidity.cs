@@ -16,8 +16,5 @@ namespace MagnoMedia.Data.Models
         [Reference]
         public Browser Browser { get; set; }
 
-        //Priority
-        public int Order { get; set; }
-
     }
 }

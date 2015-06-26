@@ -16,8 +16,5 @@ namespace MagnoMedia.Data.Models
         [Reference]
         public Country Country { get; set; }
 
-        //Priority
-        public int Order { get; set; }
-
     }
 }

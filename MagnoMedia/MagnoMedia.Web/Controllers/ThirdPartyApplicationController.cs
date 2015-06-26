@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Web.Mvc;
+using System.Linq;
 namespace MagnoMedia.Web.Controllers
 {
     public class ThirdPartyApplicationController : Controller
@@ -13,7 +14,7 @@ namespace MagnoMedia.Web.Controllers
         [Authorize]
         public ActionResult Index()
         {
-           
+
             try
             {
                 IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
@@ -31,6 +32,35 @@ namespace MagnoMedia.Web.Controllers
             {
                 throw ex;
             }
+        }
+
+        [Authorize]
+        public ActionResult AppPriority()
+        {
+            try
+            {
+                IDbConnectionFactory dbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["db"].ConnectionString, MySqlDialect.Provider);
+
+                List<ThirdPartyApplication> tpa = null;
+                using (IDbConnection db = dbFactory.Open())
+                {
+                    tpa = db.Select<ThirdPartyApplication>();
+                }
+
+                ///have to send apps in order of their priority..
+                /////order1 means high priority and so on priority lessens
+
+                tpa = tpa.OrderBy(t => t.Order).ToList();
+
+                return View(tpa);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View();
         }
 
         [Authorize]
@@ -170,8 +200,6 @@ namespace MagnoMedia.Web.Controllers
         {
             try
             {
-                int order = 1;
-
                 var countryrecords = db.Where<AppCountryValidity>("ApplicationId", ThirdPartyApplicationId);
                 countryrecords.ForEach(x =>
                 {
@@ -182,10 +210,8 @@ namespace MagnoMedia.Web.Controllers
                 {
                     AppCountryValidity acv = new AppCountryValidity();
                     acv.CountryId = item;
-                    acv.Order = order;
                     acv.ApplicationId = ThirdPartyApplicationId;
                     db.Insert<AppCountryValidity>(acv);
-                    order++;
                 }
 
             }
@@ -209,24 +235,18 @@ namespace MagnoMedia.Web.Controllers
 
                 });
 
-                int order = 1;
                 foreach (int item in BrowserId)
                 {
                     AppBrowserValidity abv = new AppBrowserValidity();
                     abv.BrowserId = item;
-                    abv.Order = order;
                     abv.ApplicationId = ThirdPartyApplicationId;
                     db.Insert<AppBrowserValidity>(abv);
-                    order++;
                 }
             }
             catch (Exception)
             {
-
                 throw;
             }
-
-
         }
 
         void AddReferValidity(IDbConnection db, int[] RefererId, int ThirdPartyApplicationId)
@@ -270,15 +290,13 @@ namespace MagnoMedia.Web.Controllers
                     db.DeleteById<AppOSValidity>(x.ApplicationId);
 
                 });
-                int order = 1;
+
                 foreach (int item in OSId)
                 {
                     AppOSValidity aov = new AppOSValidity();
                     aov.OSId = item;
-                    aov.Order = order;
                     aov.ApplicationId = ThirdPartyApplicationId;
                     db.Insert<AppOSValidity>(aov);
-                    order++;
                 }
             }
             catch (Exception)
