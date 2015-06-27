@@ -1,0 +1,146 @@
+﻿@model MagnoMedia.Web.Models.Efficiency
+@{
+    ViewBag.Title = "Efficiency";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("Efficiency", "MetricAndEfficency", FormMethod.Post))
+{
+    <div class="bs-example" id="noti" style="display:none">
+        <div class="alert alert-danger  fade in">
+            <a href="#" class="close" data-dismiss="alert">&times;</a>
+            <strong>Note!</strong> Revenue not available.Please add revenue in revenue page.
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">Installer Efficency</div>
+        <div class="panel-body">
+
+
+            <div class="form-group col-md-4">
+                <label class="col-md-5 control-label">Efficency Date</label>
+                <div class="col-md-7">
+                    @Html.TextBoxFor(x => x.UpdatedDate, "", new { @class = "form-control datePickercontrol", @required = "required", placeholder = "--Select Date--" })
+                </div>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="col-md-3 control-label">Country</label>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(x => x.Country, Model.CountryList, new { @class = "form-control", @required = "required" })
+                </div>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="col-md-3 control-label">Referer</label>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(x => x.Referer, Model.ReferList, new { @class = "form-control", @required = "required" })
+                </div>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="col-md-5 control-label">Application</label>
+                <div class="col-md-7">
+                    @Html.DropDownListFor(x => x.Application, Model.ApplicationList, new { @class = "form-control", @required = "required" })
+                </div>
+            </div>
+            <div class="form-group col-md-4">
+
+                <input type="button" name="name" onclick="CalculateEfficency()" value="Calculate" class="btn btn-primary" />
+
+            </div>
+
+
+
+
+
+            @*</div>*@
+            @*<div class="col-md-2">
+                </div>*@
+            @*<div class="panel panel-default col-md-5">
+                    <div class="panel-body col-md-8">
+                        @Html.Label("Install Efficiency", new { @class = "form-control input-md" })
+
+                        @Html.Label("Evaluates the install efficiency of installer on a particular day in a country", new { @class = "form-control smtext", style = "height:45px" })
+                    </div>
+                    <div class="panel-body col-md-4">
+                        <br />
+                        @Html.Raw((String)ViewBag.InstallEfficiency)
+
+                    </div>
+                </div>*@
+
+        </div>
+
+    </div>
+}
+
+<div class="panel panel-primary">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        Report Details
+        <div class="clearfix"></div>
+    </div>
+    <table id="reportData" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                @*<td>Referer</td>
+                    <td>Country</td>
+                    <td>Application</td>*@
+                <td>Installer eCPM</td>
+                <td>Application eCPM</td>
+                <td>Install Efficiency</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="6">
+                    No Records Found
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function CalculateEfficency() {
+
+        var data = {
+            Referer: $("#Referer").val(),
+            Country: $("#Country").val(),
+            Application: $("#Application").val(),
+            UpdatedDate: $("#UpdatedDate").val()
+        };
+        var model = JSON.stringify(data);
+        $.ajax({
+            url: "../MetricAndEfficency/Efficiency",
+            type: 'POST',
+            data: { model1: model },
+            dataType: 'json',
+            success: function myfunction(result) {
+                var returnData = JSON.parse(result);
+                ShowReport(returnData);
+            },
+            error: function myfunction(error) {
+                alert(error.responseText);
+            }
+        });
+
+    }
+
+    function ShowReport(Model) {
+        $("#reportData tbody").html('');
+        var innerHtml = '<tr>';
+        //innerHtml += '<td>' + $("#Referer option:selected").text() + '</td>';
+        //innerHtml += '<td>' + $("#Country option:selected").text() + '</td>';
+        //innerHtml += '<td>' + $("#Application option:selected").text() + '</td>';
+        innerHtml += '<td>' + Model.InstallerECPM + '</td>';
+        innerHtml += '<td>' + Model.ApplicationECPM + '</td>';
+        innerHtml += '<td>' + Model.InstallEfficiency + '</td>'
+        innerHtml += '</tr>';
+        $("#reportData tbody ").append(innerHtml);
+        if (Model.InstallEfficiency==0) {
+            $("#noti").show();
+            window.setTimeout(function () { $("#noti").hide('slow'); }, 10000);
+        }
+
+    }
+    
+</script>

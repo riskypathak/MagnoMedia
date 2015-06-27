@@ -153,7 +153,6 @@ namespace MagnoMedia.Windows
             // Strarts a Timer and check after sometime for completion 
             this.Invoke((MethodInvoker)delegate
             {
-                MessageBox.Show("close");
                 this.Close();
             });
 

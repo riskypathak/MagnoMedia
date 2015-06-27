@@ -3,45 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="panel panel-default">
-    <div class="panel-heading">Installer Efficency</div>
-    <div class="panel-body">
-        <div class="panel panel-default col-md-5">
-            <div class="panel-body col-md-8">
-                <div class="form-group">
-                    @Html.TextBox("txtDate", "", new { @class = "form-control input-md datePickercontrol", @required = "required", placeholder = "--Select Date--" })
-                    <br />
-                    @Html.DropDownList("ddlCountry", (SelectList)ViewBag.CountryList, new { @class = "form-control", @required = "required" })
-                    <br />
-                    @Html.DropDownList("ddlRefer", (SelectList)ViewBag.Refer , new { @class = "form-control", @required = "required" })
-                </div>
-            </div>
-            <div class="panel-body col-md-4">
-                <br />
-                <br />
-                <br />
-                <input type="submit" name="name" value="Calculate" class="btn btn-primary" />
 
-            </div>
-        </div>
-        <div class="col-md-2">
-        </div>
-        <div class="panel panel-default col-md-5">
-            <div class="panel-body col-md-8">
-                @Html.Label("Install Efficiency", new { @class = "form-control input-md" })
-               
-                @Html.Label("Evaluates the install efficiency of installer on a particular day in a country", new { @class = "form-control smtext", style="height:45px" })
-            </div>
-            <div class="panel-body col-md-4">
-                <br />
-                @Html.Raw((String)ViewBag.InstallEfficiency)
-
-            </div>
-        </div>
-
-    </div>
-
-</div>
 <div class="panel panel-default">
     <div class="panel-heading">Metrics</div>
     <div class="panel-body">

@@ -23,7 +23,8 @@ namespace MagnoMedia.Windows
 
 #if DEBUG
             var list = args.ToList();
-            list.Add("e50f442a-2c72-4a43-8343-d9feeebc9f3b");
+
+            list.Add("03251b23-13e2-49ad-a3e2-2df807b85b49");
             //list.Add("resume");
             args = list.ToArray();
 #endif
