@@ -1,152 +1,163 @@
-﻿@model IEnumerable<MagnoMedia.Data.Models.ThirdPartyApplication>
+﻿@model IEnumerable< MagnoMedia.Data.Models.ThirdPartyApplication>
 
-    @{
-        ViewBag.Title = "App Priority";
-        Layout = "~/Views/Shared/_Layout.cshtml";
+@{ ViewBag.Title = "App Priority"; Layout = "~/Views/Shared/_Layout.cshtml";  }
 
+<style>
+    #listApp > li {
+        margin: 5px;
+        background-color: #fcf8e3 !important;
+        width: 30%;
     }
-    <style>
-        #listApp li {
-            border: 1px solid #DADADA;
-            background-color: #EFEFEF;
-            padding: 3px 5px;
-            margin-bottom: 3px;
-            margin-top: 3px;
-            width: 100px;
-            list-style-type: circle;
-            font-family: Arial, Helvetica, sans-serif;
-            color: #666666;
-            font-size: 0.8em;
+</style>
+<div class="bs-example" id="Successnoti" style="display:none">
+    <div class="alert alert-success  fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>Success!</strong> Order updated successfully.
+    </div>
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading">Third Party Application Priority</div>
+    <div class="panel-body">
+
+        <div class="alert alert-info">
+            <strong>Info!</strong>Top in list: Highest Priority. Bottom in list: Lowest Priority
+        </div>
+        <div class="well label"></div>
+        <div class="panel panel-info">
+            <div class="panel-heading">Drag and drop items</div>
+            <div class="panel-body">
+                <ul id="listApp" class="list-group">
+                    @foreach (var item in Model)
+                    {
+
+                        <li class="list-group-item" id="@item.Id">@item.Name</li>
+                    }
+                </ul>
+                <button onclick="savePriority();" class="button btn-primary">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-1.2.6.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery-ui-1.5.1.packed.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.cookie.js" type="text/javascript"></script>
+<script type="text/javascript">
+    /////////////////////////////////////////////////////////////////
+    /////  EDIT THE FOLLOWING VARIABLE VALUES  //////////////////////
+    /////////////////////////////////////////////////////////////////
+
+    // set the list selector
+    var setSelector = "#listApp";
+    // set the cookie name
+    var setCookieName = "listOrder";
+    // set the cookie expiry time (days):
+    var setCookieExpiry = 7;
+
+    /////////////////////////////////////////////////////////////////
+    /////  YOU PROBABLY WON'T NEED TO EDIT BELOW  ///////////////////
+    /////////////////////////////////////////////////////////////////
+
+    // function that writes the list order to a cookie
+    function getOrder() {
+        // save custom order to cookie
+        $.cookie(setCookieName, $(setSelector).sortable("toArray"), { expires: setCookieExpiry, path: "/" });
+    }
+
+    // function that restores the list order from a cookie
+    function restoreOrder() {
+        var list = $(setSelector);
+        if (list == null) return
+
+        // fetch the cookie value (saved order)
+        var cookie = $.cookie(setCookieName);
+        if (!cookie) return;
+
+        // make array from saved order
+        var IDs = cookie.split(",");
+
+        // fetch current order
+        var items = list.sortable("toArray");
+
+        // make array from current order
+        var rebuild = new Array();
+        for (var v = 0, len = items.length; v < len; v++) {
+            rebuild[items[v]] = items[v];
         }
 
-            #listApp li:hover {
-                background-color: #FFF;
-                cursor: move;
-            }
-    </style>
+        for (var i = 0, n = IDs.length; i < n; i++) {
 
-    <h2>Third Party Application Priority</h2>
-    <br /><br />
-    <small>Top in list: Highest Priority</small><br />
-    <small>Bottom in list: Lowest Priority</small>
+            // item id from saved order
+            var itemID = IDs[i];
 
-    <br />
-    <br />
-    <ul id="listApp">
-        @foreach (var item in Model)
-        {
+            if (itemID in rebuild) {
 
-            <li id="@item.Id">@item.Name</li>
-        }
-    </ul>
-    <br /><br />
-    <button onclick="savePriority();">Save</button>
+                // select item id from current order
+                var item = rebuild[itemID];
 
-    <script src="~/Scripts/jquery-1.2.6.min.js" type="text/javascript"></script>
-    <script src="~/Scripts/jquery-ui-1.5.1.packed.js" type="text/javascript"></script>
-    <script src="~/Scripts/jquery.cookie.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        /////////////////////////////////////////////////////////////////
-        /////  EDIT THE FOLLOWING VARIABLE VALUES  //////////////////////
-        /////////////////////////////////////////////////////////////////
+                // select the item according to current order
+                var child = $("ul.ui-sortable").children("#" + item);
 
-        // set the list selector
-        var setSelector = "#listApp";
-        // set the cookie name
-        var setCookieName = "listOrder";
-        // set the cookie expiry time (days):
-        var setCookieExpiry = 7;
+                // select the item according to the saved order
+                var savedOrd = $("ul.ui-sortable").children("#" + itemID);
 
-        /////////////////////////////////////////////////////////////////
-        /////  YOU PROBABLY WON'T NEED TO EDIT BELOW  ///////////////////
-        /////////////////////////////////////////////////////////////////
+                // remove all the items
+                child.remove();
 
-        // function that writes the list order to a cookie
-        function getOrder() {
-            // save custom order to cookie
-            $.cookie(setCookieName, $(setSelector).sortable("toArray"), { expires: setCookieExpiry, path: "/" });
-        }
-
-        // function that restores the list order from a cookie
-        function restoreOrder() {
-            var list = $(setSelector);
-            if (list == null) return
-
-            // fetch the cookie value (saved order)
-            var cookie = $.cookie(setCookieName);
-            if (!cookie) return;
-
-            // make array from saved order
-            var IDs = cookie.split(",");
-
-            // fetch current order
-            var items = list.sortable("toArray");
-
-            // make array from current order
-            var rebuild = new Array();
-            for (var v = 0, len = items.length; v < len; v++) {
-                rebuild[items[v]] = items[v];
-            }
-
-            for (var i = 0, n = IDs.length; i < n; i++) {
-
-                // item id from saved order
-                var itemID = IDs[i];
-
-                if (itemID in rebuild) {
-
-                    // select item id from current order
-                    var item = rebuild[itemID];
-
-                    // select the item according to current order
-                    var child = $("ul.ui-sortable").children("#" + item);
-
-                    // select the item according to the saved order
-                    var savedOrd = $("ul.ui-sortable").children("#" + itemID);
-
-                    // remove all the items
-                    child.remove();
-
-                    // add the items in turn according to saved order
-                    // we need to filter here since the "ui-sortable"
-                    // class is applied to all ul elements and we
-                    // only want the very first!  You can modify this
-                    // to support multiple lists - not tested!
-                    $("ul.ui-sortable").filter(":first").append(savedOrd);
-                }
+                // add the items in turn according to saved order
+                // we need to filter here since the "ui-sortable"
+                // class is applied to all ul elements and we
+                // only want the very first!  You can modify this
+                // to support multiple lists - not tested!
+                $("ul.ui-sortable").filter(":first").append(savedOrd);
             }
         }
+    }
 
-        // code executed when the document loads
-        $(function () {
-            // here, we allow the user to sort the items
-            $(setSelector).sortable({
-                axis: "y",
-                cursor: "move",
-                update: function () { getOrder(); }
-            });
-
-            // here, we reload the saved order
-            restoreOrder();
+    // code executed when the document loads
+    $(function () {
+        // here, we allow the user to sort the items
+        $(setSelector).sortable({
+            axis: "y",
+            cursor: "move",
+            update: function () { getOrder(); }
         });
-    </script>
-    <script type="text/javascript">
-        function savePriority() {
-            var list = $(setSelector);
-            if (list == null) return
 
-            // fetch current order
-            var items = list.sortable("toArray");
+        // here, we reload the saved order
+        restoreOrder();
+    });
+</script>
+<script type="text/javascript">
+    function savePriority() {
+
+        var list = $(setSelector);
+        if (list == null) return
+
+        // fetch current order
+        var items = list.sortable("toArray");
 
 
-            var priorityString = '';
+        var priorityString = '';
 
-            for (var v = 0, len = items.length; v < len; v++) {
-                priorityString = priorityString + items[v] + '|';
-            }
-
-            alert(priorityString);
-
-            //send this string to a link via quesrysting, extract their order and update list of applications
+        for (var v = 0, len = items.length; v < len; v++) {
+            priorityString = priorityString + items[v] + '|';
         }
-    </script>
+        priorityString = priorityString.substring(0, priorityString.length - 1)
+        //send this string to a link via quesrysting, extract their order and update list of applications
+
+        var data = JSON.stringify(priorityString);
+        $.ajax({
+            url: "../ThirdPartyApplication/AppPriority",
+            type: 'POST',
+            data: { priorityOrder: data },
+            dataType: 'json',
+            success: function myfunction(result) {
+                $("#Successnoti").show('slow');
+                window.setTimeout(function () { $("#Successnoti").hide('slow'); }, 5000);
+            },
+            error: function myfunction(error) {
+                alert(error.responseText);
+            }
+        });
+    }
+</script>
